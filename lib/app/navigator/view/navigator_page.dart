@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_pocket_saver/app/analytics/widget/analytics_page.dart';
 import 'package:flutter_pocket_saver/app/config/view/config_page.dart';
-import 'package:flutter_pocket_saver/app/global/widget/custom_botton_navigation.dart';
+import 'package:flutter_pocket_saver/app/global/widget/custom_fab_widget.dart';
+import 'package:flutter_pocket_saver/app/global/widget/custom_tab_bar_widget.dart';
 import 'package:flutter_pocket_saver/app/home/widget/home_page.dart';
 import 'package:flutter_pocket_saver/app/payments/view/payments_page.dart';
 
@@ -30,48 +32,22 @@ class _NavigatorPageState extends State<NavigatorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.black54,
-            Colors.black87,
-            Colors.black,
-            Colors.black,
-          ],
+    return DefaultTabController(
+      length: _screens.length,
+      initialIndex: _currentIndex,
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: SafeArea(
+            child: TabBarView(
+          clipBehavior: Clip.antiAlias,
+          children: _screens,
         )),
-        child: SafeArea(
-          child: IndexedStack(
-            index: _currentIndex,
-            children: _screens,
-          ),
+        bottomNavigationBar: CustomTabBarWidget(
+          currentIndex: _currentIndex,
+          onTap: _onTap,
         ),
-      ),
-      bottomNavigationBar: CustomBottonNavigation(
-        currentIndex: _currentIndex,
-        onTap: _onTap,
-      ),
-      floatingActionButton: FloatingActionButton.small(
-        onPressed: () => _addCount(),
-        backgroundColor: Colors.lime,
-        child: const Icon(
-          Icons.add,
-          color: Colors.black,
-        ),
-      ),
-      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-  }
-
-  void _addCount() {
-    showDialog(
-      context: context,
-      builder: (context) => const AlertDialog(
-        title: Text("Testee"),
+        floatingActionButton: const CustomFabWidget(),
+        floatingActionButtonLocation: ExpandableFab.location,
       ),
     );
   }

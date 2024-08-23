@@ -14,23 +14,13 @@ class _ContainerBudgetWidgetState extends State<ContainerBudgetWidget> {
     return Container(
       margin: const EdgeInsets.only(left: 10, right: 10),
       width: size.width,
-      height: size.height * 0.5,
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.black12,
-              Colors.black26,
-              Colors.black38,
-              Colors.black45,
-              Colors.black,
-              Colors.black,
-            ],
-          ),
-          borderRadius: BorderRadius.all(
+      height: size.height * 0.4,
+      decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.2),
+          borderRadius: const BorderRadius.all(
             Radius.circular(10),
           )),
+      child: const Text("data"),
     );
   }
 }

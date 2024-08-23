@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_pocket_saver/app/home/components/balance_widget.dart';
 import 'package:flutter_pocket_saver/app/home/components/cards_widget.dart';
 import 'package:flutter_pocket_saver/app/home/components/container_budget_widget.dart';
 import 'package:flutter_pocket_saver/app/home/components/user_widget.dart';
@@ -18,7 +19,8 @@ class _HomePageState extends State<HomePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         UserWidget(),
-        SizedBox(height: 10),
+        SizedBox(height: 20),
+        BalanceWidget(),
         CardWidget(),
         ContainerBudgetWidget()
       ],
