@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/constant/app_routes.dart';
 import 'package:flutter_pocket_saver/app/constant/app_theme.dart';
 import 'package:flutter_pocket_saver/app/navigator/view/navigator_page.dart';
+import 'package:flutter_pocket_saver/di/di.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  configureDependencies();
   runApp(const MyApp());
 }
 

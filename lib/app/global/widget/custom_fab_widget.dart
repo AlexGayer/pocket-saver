@@ -17,6 +17,7 @@ class _CustomFabWidgetState extends State<CustomFabWidget> {
     return ExpandableFab(
       key: _key,
       type: ExpandableFabType.fan,
+      distance: 60.0,
       pos: ExpandableFabPos.center,
       childrenAnimation: ExpandableFabAnimation.rotate,
       overlayStyle: const ExpandableFabOverlayStyle(blur: 2),
@@ -36,12 +37,14 @@ class _CustomFabWidgetState extends State<CustomFabWidget> {
         FloatingActionButton(
           backgroundColor: Colors.transparent,
           onPressed: () {},
+          heroTag: null,
           child: Icon(
             MdiIcons.cashPlus,
             color: Colors.green,
           ),
         ),
         FloatingActionButton(
+          heroTag: null,
           backgroundColor: Colors.transparent,
           onPressed: () {},
           child: Icon(MdiIcons.cashMinus, color: Colors.red),

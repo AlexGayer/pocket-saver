@@ -5,7 +5,7 @@ import 'package:flutter_pocket_saver/app/config/view/config_page.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_fab_widget.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_tab_bar_widget.dart';
 import 'package:flutter_pocket_saver/app/home/widget/home_page.dart';
-import 'package:flutter_pocket_saver/app/payments/view/payments_page.dart';
+import 'package:flutter_pocket_saver/app/transactions/view/transactions_page.dart';
 
 class NavigatorPage extends StatefulWidget {
   const NavigatorPage({super.key});
@@ -19,7 +19,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
 
   final List<Widget> _screens = [
     const HomePage(),
-    const PaymentsPage(),
+    const TransactionsPage(),
     const AnalyticsPage(),
     const ConfigPage(),
   ];
@@ -36,7 +36,6 @@ class _NavigatorPageState extends State<NavigatorPage> {
       length: _screens.length,
       initialIndex: _currentIndex,
       child: Scaffold(
-        backgroundColor: Colors.black,
         body: SafeArea(
             child: TabBarView(
           clipBehavior: Clip.antiAlias,
@@ -47,6 +46,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
           onTap: _onTap,
         ),
         floatingActionButton: const CustomFabWidget(),
+        persistentFooterAlignment: AlignmentDirectional.bottomCenter,
         floatingActionButtonLocation: ExpandableFab.location,
       ),
     );

@@ -5,21 +5,31 @@ final ThemeData appThemeLight = ThemeData(
   fontFamily: "PT_Sans-Narrow-Web",
   brightness: Brightness.light,
   primaryColor: Colors.black,
+  appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.black,
+      iconTheme: IconThemeData(color: Colors.white)),
+  scaffoldBackgroundColor: Colors.black,
+  iconTheme: const IconThemeData(color: Colors.white),
   textTheme: const TextTheme(
     titleLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-    titleMedium: TextStyle(color: Colors.white),
-    titleSmall: TextStyle(color: Colors.white),
+    titleMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+    titleSmall: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
   ),
 );
 
 final ThemeData appThemeDark = ThemeData(
   useMaterial3: true,
   fontFamily: "PT_Sans-Narrow-Web",
-  brightness: Brightness.light,
+  brightness: Brightness.dark,
   primaryColor: Colors.black,
+  appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.black,
+      iconTheme: IconThemeData(color: Colors.white)),
+  scaffoldBackgroundColor: Colors.black,
+  iconTheme: const IconThemeData(color: Colors.white),
   textTheme: const TextTheme(
     titleLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-    titleMedium: TextStyle(color: Colors.white),
-    titleSmall: TextStyle(color: Colors.white),
+    titleMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+    titleSmall: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
   ),
 );
