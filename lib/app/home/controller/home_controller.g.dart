@@ -25,12 +25,53 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  late final _$pressedAttentionIndexAtom =
+      Atom(name: '_HomeControllerBase.pressedAttentionIndex', context: context);
+
+  @override
+  int get pressedAttentionIndex {
+    _$pressedAttentionIndexAtom.reportRead();
+    return super.pressedAttentionIndex;
+  }
+
+  @override
+  set pressedAttentionIndex(int value) {
+    _$pressedAttentionIndexAtom.reportWrite(value, super.pressedAttentionIndex,
+        () {
+      super.pressedAttentionIndex = value;
+    });
+  }
+
+  late final _$colorAtom =
+      Atom(name: '_HomeControllerBase.color', context: context);
+
+  @override
+  Color? get color {
+    _$colorAtom.reportRead();
+    return super.color;
+  }
+
+  @override
+  set color(Color? value) {
+    _$colorAtom.reportWrite(value, super.color, () {
+      super.color = value;
+    });
+  }
+
   late final _$initStateAsyncAction =
       AsyncAction('_HomeControllerBase.initState', context: context);
 
   @override
   Future initState() {
     return _$initStateAsyncAction.run(() => super.initState());
+  }
+
+  late final _$datePickerAsyncAction =
+      AsyncAction('_HomeControllerBase.datePicker', context: context);
+
+  @override
+  Future<dynamic> datePicker(BuildContext context, String? day) {
+    return _$datePickerAsyncAction.run(() => super.datePicker(context, day));
   }
 
   late final _$_HomeControllerBaseActionController =
@@ -48,9 +89,44 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   @override
+  dynamic toggleSelect(int index) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.toggleSelect');
+    try {
+      return super.toggleSelect(index);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeColor(String tipo) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.changeColor');
+    try {
+      return super.changeColor(tipo);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic toBRDt(DateTime? date) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.toBRDt');
+    try {
+      return super.toBRDt(date);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-showCurrency: ${showCurrency}
+showCurrency: ${showCurrency},
+pressedAttentionIndex: ${pressedAttentionIndex},
+color: ${color}
     ''';
   }
 }

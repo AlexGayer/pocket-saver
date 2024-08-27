@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:flutter_pocket_saver/app/global/widget/custom_bills_dialog_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CustomFabWidget extends StatefulWidget {
@@ -36,7 +37,11 @@ class _CustomFabWidgetState extends State<CustomFabWidget> {
       children: [
         FloatingActionButton(
           backgroundColor: Colors.transparent,
-          onPressed: () {},
+          onPressed: () => showGeneralDialog(
+              context: context,
+              barrierDismissible: false,
+              pageBuilder: (context, anim1, amin2) =>
+                  const CustomBillsDialogWidget(tipo: "Receita")),
           heroTag: null,
           child: Icon(
             MdiIcons.cashPlus,
@@ -46,7 +51,11 @@ class _CustomFabWidgetState extends State<CustomFabWidget> {
         FloatingActionButton(
           heroTag: null,
           backgroundColor: Colors.transparent,
-          onPressed: () {},
+          onPressed: () => showGeneralDialog(
+              context: context,
+              barrierDismissible: false,
+              pageBuilder: (context, anim1, amin2) =>
+                  const CustomBillsDialogWidget(tipo: "Despesa")),
           child: Icon(MdiIcons.cashMinus, color: Colors.red),
         ),
       ],
