@@ -61,6 +61,7 @@ class _CustomBillsDialogWidgetState
                 ],
               ),
               CustomTextFieldContainer(
+                controller: controller.edtValor,
                 prefixIcon: MdiIcons.currencyBrl,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
@@ -71,10 +72,12 @@ class _CustomBillsDialogWidgetState
               ),
               const SizedBox(height: 10),
               CustomButtonFieldContainer(
+                  edtController: controller.edtData,
                   tipo: widget.tipo,
                   prefixIcon: MdiIcons.calendar,
                   controller: controller),
               CustomTextFieldContainer(
+                controller: controller.edtDescr,
                 prefixIcon: MdiIcons.pencil,
                 keyboardType: TextInputType.text,
               ),
@@ -91,8 +94,15 @@ class _CustomBillsDialogWidgetState
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: () {},
-                  child: const Text("Salvar"),
+                  onPressed: () async {
+                    if (widget.tipo == "Receita") {
+                      await controller.adicionaReceita(widget.tipo);
+                    } else {
+                      await controller.adicionaDespesa(widget.tipo);
+                    }
+                  },
+                  child: Text("Salvar",
+                      style: Theme.of(context).textTheme.titleSmall),
                 ),
               )
             ],

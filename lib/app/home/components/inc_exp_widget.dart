@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pocket_saver/app/global/widget/stateful_widget.dart';
+import 'package:flutter_pocket_saver/app/home/controller/home_controller.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class IncExpWidget extends StatelessWidget {
+class IncExpWidget extends StatefulWidget {
   const IncExpWidget({
     super.key,
   });
 
+  @override
+  State<IncExpWidget> createState() => _IncExpWidgetState();
+}
+
+class _IncExpWidgetState extends WidgetStateful<IncExpWidget, HomeController> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(

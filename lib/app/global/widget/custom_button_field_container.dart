@@ -7,13 +7,15 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class CustomButtonFieldContainer extends StatefulWidget {
   final IconData prefixIcon;
   final String tipo;
+  final TextEditingController edtController;
   HomeController controller;
 
   CustomButtonFieldContainer(
       {super.key,
       required this.prefixIcon,
       required this.controller,
-      required this.tipo});
+      required this.tipo,
+      required this.edtController});
 
   @override
   State<CustomButtonFieldContainer> createState() =>

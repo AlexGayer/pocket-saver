@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "801854125479",
+    "project_id": "pocket-saver-fb1a9",
+    "storage_bucket": "pocket-saver-fb1a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801854125479:android:e103a8e2a135c8171f3282",
+        "android_client_info": {
+          "package_name": "com.alexgayer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPAfsHYWMj8qvkBI4mAFtrPP5cs-hrgeA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -9,6 +9,21 @@ part of 'home_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$HomeController on _HomeControllerBase, Store {
+  Computed<List<Receita>>? _$receitaComputed;
+
+  @override
+  List<Receita> get receita =>
+      (_$receitaComputed ??= Computed<List<Receita>>(() => super.receita,
+              name: '_HomeControllerBase.receita'))
+          .value;
+  Computed<List<Despesa>>? _$despesaComputed;
+
+  @override
+  List<Despesa> get despesa =>
+      (_$despesaComputed ??= Computed<List<Despesa>>(() => super.despesa,
+              name: '_HomeControllerBase.despesa'))
+          .value;
+
   late final _$showCurrencyAtom =
       Atom(name: '_HomeControllerBase.showCurrency', context: context);
 
@@ -58,12 +73,78 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  late final _$_receitaAtom =
+      Atom(name: '_HomeControllerBase._receita', context: context);
+
+  @override
+  List<Receita> get _receita {
+    _$_receitaAtom.reportRead();
+    return super._receita;
+  }
+
+  @override
+  set _receita(List<Receita> value) {
+    _$_receitaAtom.reportWrite(value, super._receita, () {
+      super._receita = value;
+    });
+  }
+
+  late final _$_despesaAtom =
+      Atom(name: '_HomeControllerBase._despesa', context: context);
+
+  @override
+  List<Despesa> get _despesa {
+    _$_despesaAtom.reportRead();
+    return super._despesa;
+  }
+
+  @override
+  set _despesa(List<Despesa> value) {
+    _$_despesaAtom.reportWrite(value, super._despesa, () {
+      super._despesa = value;
+    });
+  }
+
   late final _$initStateAsyncAction =
       AsyncAction('_HomeControllerBase.initState', context: context);
 
   @override
   Future initState() {
     return _$initStateAsyncAction.run(() => super.initState());
+  }
+
+  late final _$adicionaReceitaAsyncAction =
+      AsyncAction('_HomeControllerBase.adicionaReceita', context: context);
+
+  @override
+  Future<void> adicionaReceita(String tipo) {
+    return _$adicionaReceitaAsyncAction.run(() => super.adicionaReceita(tipo));
+  }
+
+  late final _$atualizarReceitaAsyncAction =
+      AsyncAction('_HomeControllerBase.atualizarReceita', context: context);
+
+  @override
+  Future<void> atualizarReceita(Receita receita) {
+    return _$atualizarReceitaAsyncAction
+        .run(() => super.atualizarReceita(receita));
+  }
+
+  late final _$adicionaDespesaAsyncAction =
+      AsyncAction('_HomeControllerBase.adicionaDespesa', context: context);
+
+  @override
+  Future<void> adicionaDespesa(String tipo) {
+    return _$adicionaDespesaAsyncAction.run(() => super.adicionaDespesa(tipo));
+  }
+
+  late final _$atualizarDespesaAsyncAction =
+      AsyncAction('_HomeControllerBase.atualizarDespesa', context: context);
+
+  @override
+  Future<void> atualizarDespesa(Despesa despesa) {
+    return _$atualizarDespesaAsyncAction
+        .run(() => super.atualizarDespesa(despesa));
   }
 
   late final _$datePickerAsyncAction =
@@ -122,11 +203,24 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   @override
+  DateTime? parseData(String data) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.parseData');
+    try {
+      return super.parseData(data);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 showCurrency: ${showCurrency},
 pressedAttentionIndex: ${pressedAttentionIndex},
-color: ${color}
+color: ${color},
+receita: ${receita},
+despesa: ${despesa}
     ''';
   }
 }

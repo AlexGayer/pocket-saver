@@ -30,34 +30,42 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  animated_bottom_navigation_bar: ^1.3.3
-  material_design_icons_flutter: ^7.0.7296
-  flutter_expandable_fab: ^2.2.0
+  animated_bottom_navigation_bar:
+  material_design_icons_flutter: 
+  flutter_expandable_fab: 
   flutter_mobx: 
   mobx: 
   injectable:
   get_it:
   mobx_codegen:
-  mask_text_input_formatter: ^2.9.0
-  intl: ^0.19.0
-  brasil_fields: ^1.15.0
+  mask_text_input_formatter: 
+  intl:
+  brasil_fields: 
+  json_annotation:
+  firebase_core: 
+  firebase_auth: 
+  firebase_storage: 
+  cloud_firestore:
+  uuid:
+
  
   
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.6
+  cupertino_icons: 
   
 
 dev_dependencies:
   injectable_generator:
   build_runner:
+  json_serializable:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: 
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
