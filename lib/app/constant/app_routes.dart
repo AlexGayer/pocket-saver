@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/analytics/widget/analytics_page.dart';
 import 'package:flutter_pocket_saver/app/config/view/config_page.dart';
 import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
-import 'package:flutter_pocket_saver/app/despesa/view/expenses_page.dart';
+import 'package:flutter_pocket_saver/app/contas/view/expenses_page.dart';
 import 'package:flutter_pocket_saver/app/home/widget/home_page.dart';
 import 'package:flutter_pocket_saver/app/receita/view/incomes_page.dart';
 import 'package:flutter_pocket_saver/app/index/page/index_page.dart';

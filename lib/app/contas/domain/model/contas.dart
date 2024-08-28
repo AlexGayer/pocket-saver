@@ -1,13 +1,13 @@
 import 'package:intl/intl.dart';
 
-class Despesa {
+class Contas {
   final int id;
   final String tipo;
   final String descricao;
   final DateTime vencimento;
   final double valor;
 
-  Despesa({
+  Contas({
     required this.id,
     required this.tipo,
     required this.descricao,
@@ -15,7 +15,7 @@ class Despesa {
     required this.valor,
   });
 
-  factory Despesa.fromJson(Map<String, dynamic> json) => Despesa(
+  factory Contas.fromJson(Map<String, dynamic> json) => Contas(
         id: json['id'],
         tipo: json['tipo'],
         descricao: json['descricao'],

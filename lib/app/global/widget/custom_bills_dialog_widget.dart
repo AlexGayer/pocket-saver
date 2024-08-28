@@ -95,11 +95,8 @@ class _CustomBillsDialogWidgetState
                     ),
                   ),
                   onPressed: () async {
-                    if (widget.tipo == "Receita") {
-                      await controller.adicionaReceita(widget.tipo);
-                    } else {
-                      await controller.adicionaDespesa(widget.tipo);
-                    }
+                    Navigator.of(context).pop();
+                    await controller.adicionaContas(widget.tipo);
                   },
                   child: Text("Salvar",
                       style: Theme.of(context).textTheme.titleSmall),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pocket_saver/app/despesa/domain/model/despesa.dart';
-import 'package:flutter_pocket_saver/app/despesa/domain/usecase/busca_despesa_usecase.dart';
-import 'package:flutter_pocket_saver/app/receita/domain/model/receita.dart';
-import 'package:flutter_pocket_saver/app/receita/domain/usecase/busca_receita_usecase.dart';
+import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
+import 'package:flutter_pocket_saver/app/contas/domain/model/contas.dart';
+import 'package:flutter_pocket_saver/app/contas/domain/usecase/busca_contas_usecase.dart';
+import 'package:flutter_pocket_saver/app/global/widget/custom_dialog_widget.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
@@ -12,21 +12,21 @@ part 'home_controller.g.dart';
 class HomeController = _HomeControllerBase with _$HomeController;
 
 abstract class _HomeControllerBase with Store {
-  final BuscaDespesaUsecase _buscaDespesaUsecase;
-  final BuscaReceitaUsecase _buscaReceitaUsecase;
+  final BuscaContasUsecase _buscaContasUsecase;
 
   final currency = TextEditingController();
   final edtValor = TextEditingController();
   final edtData = TextEditingController();
   final edtDescr = TextEditingController();
   final billsNode = FocusNode();
+  final mHandler = CustomDialogWidget();
 
   TimeOfDay timeOfDay = TimeOfDay.now();
   DateTime selectedDate = DateTime.now();
   DateTime firstDate = DateTime(2024);
   DateTime lastDate = DateTime(2999);
 
-  _HomeControllerBase(this._buscaDespesaUsecase, this._buscaReceitaUsecase);
+  _HomeControllerBase(this._buscaContasUsecase);
 
   @observable
   bool showCurrency = false;
@@ -38,76 +38,19 @@ abstract class _HomeControllerBase with Store {
   Color? color;
 
   @observable
-  List<Receita> _receita = <Receita>[];
-
-  @observable
-  List<Despesa> _despesa = <Despesa>[];
+  List<Contas> _contas = <Contas>[];
 
   @computed
-  List<Receita> get receita => _receita;
-
-  @computed
-  List<Despesa> get despesa => _despesa;
+  List<Contas> get contas => _contas;
 
   @action
   initState() async {
     try {
       currency.text = "R\$ 10.000,00";
       edtValor.text = "0,00";
-      _receita = await _buscaReceitaUsecase.fetchReceitas();
-      _despesa = await _buscaDespesaUsecase.fetchDespesas();
+      _contas = await _buscaContasUsecase.fetchContas();
     } catch (e) {
       e;
-    }
-  }
-
-  // receitas
-  // @action
-  // Future<void> buscaReceita() async {
-  //   try {
-  //     final receitas = await _buscaReceitaUsecase.fetchReceitas();
-  //   } catch (e) {
-  //     e;
-  //   }
-  // }
-
-  @action
-  Future<void> adicionaReceita(String tipo) async {
-    final id = DateTime.now().millisecondsSinceEpoch;
-    final formatData = parseData(edtData.text);
-    final formaValor = double.parse(edtValor.text.replaceAll(",", "."));
-
-    final addReceita = Receita(
-      id: id,
-      tipo: tipo,
-      descricao: edtDescr.text,
-      vencimento: formatData!,
-      valor: formaValor,
-    );
-
-    try {
-      await _buscaReceitaUsecase.addReceita(addReceita);
-    } catch (e) {
-      e;
-    }
-  }
-
-  Future<void> deleteReceita(int id) async {
-    try {
-      await _buscaReceitaUsecase.deleteReceita(id);
-      // Atualize a UI após a exclusão
-    } catch (e) {
-      // Trate o erro
-    }
-  }
-
-  @action
-  Future<void> atualizarReceita(Receita receita) async {
-    try {
-      await _buscaReceitaUsecase.updateReceita(receita);
-      // Atualize a UI após a atualização
-    } catch (e) {
-      // Trate o erro
     }
   }
 
@@ -124,12 +67,12 @@ abstract class _HomeControllerBase with Store {
   // }
 
   @action
-  Future<void> adicionaDespesa(String tipo) async {
+  Future<void> adicionaContas(String tipo) async {
     final id = DateTime.now().millisecondsSinceEpoch;
     final formatData = parseData(edtData.text);
-    final formaValor = double.parse(edtValor.text.replaceAll(",", "."));
+    final formaValor = parseDouble(edtValor.text);
 
-    final addDespesa = Despesa(
+    final addContas = Contas(
       id: id,
       tipo: tipo,
       descricao: edtDescr.text,
@@ -137,16 +80,39 @@ abstract class _HomeControllerBase with Store {
       valor: formaValor,
     );
 
+    // Mostra o Snackbar de carregamento
+    ScaffoldMessenger.of(ctx).showSnackBar(
+      const SnackBar(
+        content: Text("Adicionando receita... Aguarde"),
+        duration: Duration(seconds: 2), // Ajuste o tempo conforme necessário
+      ),
+    );
+
     try {
-      await _buscaDespesaUsecase.addDespesa(addDespesa);
+      // Adiciona a receita
+      await _buscaContasUsecase.addContas(addContas);
+
+      // Mostra o Snackbar de sucesso
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        const SnackBar(
+          content: Text("Receita gravada com sucesso!"),
+          duration: Duration(seconds: 2),
+        ),
+      );
     } catch (e) {
-      e;
+      // Mostra o Snackbar de erro
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text("Ocorreu um erro ao gravar a receita: $e"),
+          duration: const Duration(seconds: 3),
+        ),
+      );
     }
   }
 
-  Future<void> deleteDespesa(int id) async {
+  Future<void> deleteContas(int id) async {
     try {
-      await _buscaDespesaUsecase.deleteDespesa(id);
+      await _buscaContasUsecase.deleteContas(id);
       // Atualize a UI após a exclusão
     } catch (e) {
       // Trate o erro
@@ -154,9 +120,9 @@ abstract class _HomeControllerBase with Store {
   }
 
   @action
-  Future<void> atualizarDespesa(Despesa despesa) async {
+  Future<void> atualizarContas(Contas contas) async {
     try {
-      await _buscaDespesaUsecase.updateDespesa(despesa);
+      await _buscaContasUsecase.updateContas(contas);
     } catch (e) {
       e;
     }
@@ -221,6 +187,26 @@ abstract class _HomeControllerBase with Store {
     } catch (e) {
       print('Invalid date format: $e');
       return null;
+    }
+  }
+
+  @action
+  double parseDouble(String input) {
+    try {
+      // Remove espaços em branco
+      String value = input.trim();
+
+      // Substitui vírgulas por pontos
+      value = value.replaceAll(",", ".");
+
+      // Remove pontos de milhar
+      value = value.replaceAll(RegExp(r'(?<=\d)\.(?=\d{3})'), '');
+
+      // Converte para double
+      return double.parse(value);
+    } catch (e) {
+      // Lida com erros de formato
+      throw FormatException('Formato inválido para número: $input');
     }
   }
 }

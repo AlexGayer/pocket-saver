@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
 import 'package:flutter_pocket_saver/app/constant/app_routes.dart';
 import 'package:flutter_pocket_saver/app/constant/app_theme.dart';
 import 'package:flutter_pocket_saver/app/navigator/view/navigator_page.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       darkTheme: appThemeDark,
       themeMode: ThemeMode.system,
       home: const NavigatorPage(),
+      navigatorKey: navigatorKey,
       onGenerateRoute: Routes.generateRoute,
     );
   }

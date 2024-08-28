@@ -21,7 +21,6 @@ class _CustomFabWidgetState extends State<CustomFabWidget> {
       distance: 60.0,
       pos: ExpandableFabPos.center,
       childrenAnimation: ExpandableFabAnimation.rotate,
-      overlayStyle: const ExpandableFabOverlayStyle(blur: 2),
       closeButtonBuilder: RotateFloatingActionButtonBuilder(
         child: const Icon(
           Icons.add,
