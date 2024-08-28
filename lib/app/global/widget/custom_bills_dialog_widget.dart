@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pocket_saver/app/controller/pocket_controller.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_button_field_container.dart';
+import 'package:flutter_pocket_saver/app/global/widget/custom_drop_down_field_container.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_text_field_container.dart';
 import 'package:flutter_pocket_saver/app/global/widget/stateful_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -25,6 +26,13 @@ class _CustomBillsDialogWidgetState
     controller.changeColor(widget.tipo);
     super.initState();
   }
+
+  final List itens = [
+    "teste 1",
+    "teste 2",
+    "teste 3",
+    "teste 4",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +86,7 @@ class _CustomBillsDialogWidgetState
                   tipo: widget.tipo,
                   prefixIcon: MdiIcons.calendar,
                   controller: controller),
-              CustomTextFieldContainer(
-                controller: controller.edtCateg,
+              CustomDropDownFieldContainer(
                 prefixIcon: MdiIcons.book,
                 keyboardType: TextInputType.none,
               ),
