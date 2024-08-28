@@ -1,24 +1,26 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
-import 'package:flutter_pocket_saver/app/contas/domain/model/contas.dart';
-import 'package:flutter_pocket_saver/app/contas/domain/usecase/busca_contas_usecase.dart';
+import 'package:flutter_pocket_saver/app/domain/model/contas.dart';
+import 'package:flutter_pocket_saver/app/domain/usecase/busca_contas_usecase.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_dialog_widget.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
-part 'home_controller.g.dart';
+part 'pocket_controller.g.dart';
 
 @injectable
-class HomeController = _HomeControllerBase with _$HomeController;
+class PocketController = _PocketControllerBase with _$PocketController;
 
-abstract class _HomeControllerBase with Store {
+abstract class _PocketControllerBase with Store {
   final BuscaContasUsecase _buscaContasUsecase;
 
   final currency = TextEditingController();
   final edtValor = TextEditingController();
   final edtData = TextEditingController();
   final edtDescr = TextEditingController();
-  final billsNode = FocusNode();
+  final edtCateg = TextEditingController();
   final mHandler = CustomDialogWidget();
 
   TimeOfDay timeOfDay = TimeOfDay.now();
@@ -26,7 +28,7 @@ abstract class _HomeControllerBase with Store {
   DateTime firstDate = DateTime(2024);
   DateTime lastDate = DateTime(2999);
 
-  _HomeControllerBase(this._buscaContasUsecase);
+  _PocketControllerBase(this._buscaContasUsecase);
 
   @observable
   bool showCurrency = false;
@@ -38,33 +40,27 @@ abstract class _HomeControllerBase with Store {
   Color? color;
 
   @observable
-  List<Contas> _contas = <Contas>[];
-
-  @computed
-  List<Contas> get contas => _contas;
+  List<Contas> contas = [];
 
   @action
   initState() async {
     try {
       currency.text = "R\$ 10.000,00";
       edtValor.text = "0,00";
-      _contas = await _buscaContasUsecase.fetchContas();
     } catch (e) {
       e;
     }
   }
 
-  // despesas
-
-  // @action
-  // Future<void> buscaDespesas() async {
-  //   try {
-  //     final despesas = await _buscaDespesaUsecase.fetchDespesas();
-  //     // Faça algo com as receitas, como atualizá-las na UI
-  //   } catch (e) {
-  //     // Trate o erro
-  //   }
-  // }
+  @action
+  Future<void> fetchContasByTipo(String tipo) async {
+    try {
+      List<Contas> allContas = await _buscaContasUsecase.fetchContas(tipo);
+      contas = allContas;
+    } catch (e) {
+      print('Erro ao buscar contas por tipo: $e');
+    }
+  }
 
   @action
   Future<void> adicionaContas(String tipo) async {
@@ -76,46 +72,27 @@ abstract class _HomeControllerBase with Store {
       id: id,
       tipo: tipo,
       descricao: edtDescr.text,
+      categoria: edtCateg.text,
       vencimento: formatData!,
       valor: formaValor,
     );
 
-    // Mostra o Snackbar de carregamento
-    ScaffoldMessenger.of(ctx).showSnackBar(
-      const SnackBar(
-        content: Text("Adicionando receita... Aguarde"),
-        duration: Duration(seconds: 2), // Ajuste o tempo conforme necessário
-      ),
-    );
+    showCustomSnackBar(ctx, "Adicionando $tipo... Aguarde");
 
     try {
-      // Adiciona a receita
       await _buscaContasUsecase.addContas(addContas);
 
-      // Mostra o Snackbar de sucesso
-      ScaffoldMessenger.of(ctx).showSnackBar(
-        const SnackBar(
-          content: Text("Receita gravada com sucesso!"),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      showCustomSnackBar(ctx, "$tipo gravada com sucesso!");
     } catch (e) {
-      // Mostra o Snackbar de erro
-      ScaffoldMessenger.of(ctx).showSnackBar(
-        SnackBar(
-          content: Text("Ocorreu um erro ao gravar a receita: $e"),
-          duration: const Duration(seconds: 3),
-        ),
-      );
+      showCustomSnackBar(ctx, "Ocorreu um erro ao gravar a $tipo: $e");
     }
   }
 
   Future<void> deleteContas(int id) async {
     try {
       await _buscaContasUsecase.deleteContas(id);
-      // Atualize a UI após a exclusão
     } catch (e) {
-      // Trate o erro
+      e;
     }
   }
 
@@ -185,7 +162,6 @@ abstract class _HomeControllerBase with Store {
       final inputFormat = DateFormat('dd/MM/yyyy');
       return inputFormat.parse(data);
     } catch (e) {
-      print('Invalid date format: $e');
       return null;
     }
   }
@@ -193,20 +169,26 @@ abstract class _HomeControllerBase with Store {
   @action
   double parseDouble(String input) {
     try {
-      // Remove espaços em branco
       String value = input.trim();
 
-      // Substitui vírgulas por pontos
       value = value.replaceAll(",", ".");
 
-      // Remove pontos de milhar
       value = value.replaceAll(RegExp(r'(?<=\d)\.(?=\d{3})'), '');
 
-      // Converte para double
       return double.parse(value);
     } catch (e) {
-      // Lida com erros de formato
       throw FormatException('Formato inválido para número: $input');
     }
+  }
+
+  @action
+  void showCustomSnackBar(BuildContext context, String message,
+      {Duration duration = const Duration(seconds: 3)}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: duration,
+      ),
+    );
   }
 }

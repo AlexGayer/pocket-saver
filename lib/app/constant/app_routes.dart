@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pocket_saver/app/analytics/widget/analytics_page.dart';
-import 'package:flutter_pocket_saver/app/config/view/config_page.dart';
+import 'package:flutter_pocket_saver/app/pages/analytics_page.dart';
+import 'package:flutter_pocket_saver/app/pages/config_page.dart';
 import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
-import 'package:flutter_pocket_saver/app/contas/view/expenses_page.dart';
-import 'package:flutter_pocket_saver/app/home/widget/home_page.dart';
-import 'package:flutter_pocket_saver/app/receita/view/incomes_page.dart';
-import 'package:flutter_pocket_saver/app/index/page/index_page.dart';
-import 'package:flutter_pocket_saver/app/transactions/view/transactions_page.dart';
+import 'package:flutter_pocket_saver/app/pages/despesas_page.dart';
+import 'package:flutter_pocket_saver/app/pages/receitas_page.dart';
+import 'package:flutter_pocket_saver/app/pages/home_page.dart';
+import 'package:flutter_pocket_saver/app/pages/index_page.dart';
+import 'package:flutter_pocket_saver/app/pages/transactions_page.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -17,10 +17,10 @@ class Routes {
         return SlideRightRoute(widget: const HomePage());
       case transactionsRoute:
         return SlideRightRoute(widget: const TransactionsPage());
-      case incomesRoute:
-        return SlideRightRoute(widget: const IncomesPage());
-      case expensesRoute:
-        return SlideRightRoute(widget: const ExpensesPage());
+      case despesasRoute:
+        return SlideRightRoute(widget: const DespesasPage());
+      case receitasRoute:
+        return SlideRightRoute(widget: const ReceitasPage());
       case analyticsRoute:
         return SlideRightRoute(widget: const AnalyticsPage());
       case configRoute:

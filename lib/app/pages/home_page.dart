@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_pocket_saver/app/global/widget/stateful_widget.dart';
-import 'package:flutter_pocket_saver/app/home/components/balance_widget.dart';
-import 'package:flutter_pocket_saver/app/home/components/inc_exp_widget.dart';
-import 'package:flutter_pocket_saver/app/home/components/container_budget_widget.dart';
-import 'package:flutter_pocket_saver/app/home/components/user_widget.dart';
-import 'package:flutter_pocket_saver/app/home/controller/home_controller.dart';
+import 'package:flutter_pocket_saver/app/widgets/balance_widget.dart';
+import 'package:flutter_pocket_saver/app/widgets/inc_exp_widget.dart';
+import 'package:flutter_pocket_saver/app/widgets/container_budget_widget.dart';
+import 'package:flutter_pocket_saver/app/widgets/user_widget.dart';
+import 'package:flutter_pocket_saver/app/controller/pocket_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends WidgetStateful<HomePage, HomeController> {
+class _HomePageState extends WidgetStateful<HomePage, PocketController> {
   @override
   void initState() {
     controller.initState();

@@ -1,10 +1,10 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_pocket_saver/app/controller/pocket_controller.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_button_field_container.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_text_field_container.dart';
 import 'package:flutter_pocket_saver/app/global/widget/stateful_widget.dart';
-import 'package:flutter_pocket_saver/app/home/controller/home_controller.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CustomBillsDialogWidget extends StatefulWidget {
@@ -18,7 +18,7 @@ class CustomBillsDialogWidget extends StatefulWidget {
 }
 
 class _CustomBillsDialogWidgetState
-    extends WidgetStateful<CustomBillsDialogWidget, HomeController> {
+    extends WidgetStateful<CustomBillsDialogWidget, PocketController> {
   @override
   void initState() {
     controller.initState();
@@ -55,7 +55,9 @@ class _CustomBillsDialogWidgetState
                     ),
                   ),
                   IconButton(
-                    onPressed: () => Navigator.of(context).pop(mounted),
+                    onPressed: () {
+                      Navigator.of(context).pop(mounted);
+                    },
                     icon: Icon(MdiIcons.close),
                   ),
                 ],
@@ -77,13 +79,14 @@ class _CustomBillsDialogWidgetState
                   prefixIcon: MdiIcons.calendar,
                   controller: controller),
               CustomTextFieldContainer(
+                controller: controller.edtCateg,
+                prefixIcon: MdiIcons.book,
+                keyboardType: TextInputType.none,
+              ),
+              CustomTextFieldContainer(
                 controller: controller.edtDescr,
                 prefixIcon: MdiIcons.pencil,
                 keyboardType: TextInputType.text,
-              ),
-              CustomTextFieldContainer(
-                prefixIcon: MdiIcons.book,
-                keyboardType: TextInputType.none,
               ),
               SizedBox(
                 width: double.infinity,

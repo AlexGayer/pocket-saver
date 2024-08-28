@@ -4,7 +4,8 @@ import 'package:flutter_pocket_saver/app/global/widget/custom_bills_dialog_widge
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CustomFabWidget extends StatefulWidget {
-  const CustomFabWidget({super.key});
+  final Function? onDialogClose;
+  const CustomFabWidget({super.key, this.onDialogClose});
 
   @override
   State<CustomFabWidget> createState() => _CustomFabWidgetState();
@@ -12,6 +13,11 @@ class CustomFabWidget extends StatefulWidget {
 
 class _CustomFabWidgetState extends State<CustomFabWidget> {
   final _key = GlobalKey<ExpandableFabState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +42,14 @@ class _CustomFabWidgetState extends State<CustomFabWidget> {
       children: [
         FloatingActionButton(
           backgroundColor: Colors.transparent,
-          onPressed: () => showGeneralDialog(
-              context: context,
-              barrierDismissible: false,
-              pageBuilder: (context, anim1, amin2) =>
-                  const CustomBillsDialogWidget(tipo: "Receita")),
+          onPressed: () {
+            _key.currentState?.toggle();
+            showGeneralDialog(
+                context: context,
+                barrierDismissible: false,
+                pageBuilder: (context, anim1, amin2) =>
+                    const CustomBillsDialogWidget(tipo: "Receita"));
+          },
           heroTag: null,
           child: Icon(
             MdiIcons.cashPlus,
@@ -50,11 +59,14 @@ class _CustomFabWidgetState extends State<CustomFabWidget> {
         FloatingActionButton(
           heroTag: null,
           backgroundColor: Colors.transparent,
-          onPressed: () => showGeneralDialog(
-              context: context,
-              barrierDismissible: false,
-              pageBuilder: (context, anim1, amin2) =>
-                  const CustomBillsDialogWidget(tipo: "Despesa")),
+          onPressed: () {
+            _key.currentState?.toggle();
+            showGeneralDialog(
+                context: context,
+                barrierDismissible: false,
+                pageBuilder: (context, anim1, amin2) =>
+                    const CustomBillsDialogWidget(tipo: "Despesa"));
+          },
           child: Icon(MdiIcons.cashMinus, color: Colors.red),
         ),
       ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_text_button_widget.dart';
-import 'package:flutter_pocket_saver/app/home/controller/home_controller.dart';
+import 'package:flutter_pocket_saver/app/controller/pocket_controller.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 // ignore: must_be_immutable
@@ -8,7 +8,7 @@ class CustomButtonFieldContainer extends StatefulWidget {
   final IconData prefixIcon;
   final String tipo;
   final TextEditingController edtController;
-  HomeController controller;
+  PocketController controller;
 
   CustomButtonFieldContainer(
       {super.key,

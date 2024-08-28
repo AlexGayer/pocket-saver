@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/global/widget/stateful_widget.dart';
-import 'package:flutter_pocket_saver/app/home/controller/home_controller.dart';
+import 'package:flutter_pocket_saver/app/controller/pocket_controller.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class IncExpWidget extends StatefulWidget {
@@ -12,7 +12,8 @@ class IncExpWidget extends StatefulWidget {
   State<IncExpWidget> createState() => _IncExpWidgetState();
 }
 
-class _IncExpWidgetState extends WidgetStateful<IncExpWidget, HomeController> {
+class _IncExpWidgetState
+    extends WidgetStateful<IncExpWidget, PocketController> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -26,7 +27,7 @@ class _IncExpWidgetState extends WidgetStateful<IncExpWidget, HomeController> {
             children: [
               IconButton(
                 icon: Icon(MdiIcons.arrowUpCircle),
-                onPressed: () => Navigator.of(context).pushNamed("/incomes"),
+                onPressed: () => Navigator.of(context).pushNamed("/receitas"),
                 color: Colors.green,
                 iconSize: 30,
               ),
@@ -39,7 +40,7 @@ class _IncExpWidgetState extends WidgetStateful<IncExpWidget, HomeController> {
             children: [
               IconButton(
                 icon: Icon(MdiIcons.arrowDownCircle),
-                onPressed: () => Navigator.of(context).pushNamed("/expenses"),
+                onPressed: () => Navigator.of(context).pushNamed("/despesas"),
                 color: Colors.red,
                 iconSize: 30,
               ),

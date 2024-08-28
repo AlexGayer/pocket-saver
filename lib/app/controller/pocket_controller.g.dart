@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_controller.dart';
+part of 'pocket_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,17 +8,9 @@ part of 'home_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$HomeController on _HomeControllerBase, Store {
-  Computed<List<Contas>>? _$contasComputed;
-
-  @override
-  List<Contas> get contas =>
-      (_$contasComputed ??= Computed<List<Contas>>(() => super.contas,
-              name: '_HomeControllerBase.contas'))
-          .value;
-
+mixin _$PocketController on _PocketControllerBase, Store {
   late final _$showCurrencyAtom =
-      Atom(name: '_HomeControllerBase.showCurrency', context: context);
+      Atom(name: '_PocketControllerBase.showCurrency', context: context);
 
   @override
   bool get showCurrency {
@@ -33,8 +25,8 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
-  late final _$pressedAttentionIndexAtom =
-      Atom(name: '_HomeControllerBase.pressedAttentionIndex', context: context);
+  late final _$pressedAttentionIndexAtom = Atom(
+      name: '_PocketControllerBase.pressedAttentionIndex', context: context);
 
   @override
   int get pressedAttentionIndex {
@@ -51,7 +43,7 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   late final _$colorAtom =
-      Atom(name: '_HomeControllerBase.color', context: context);
+      Atom(name: '_PocketControllerBase.color', context: context);
 
   @override
   Color? get color {
@@ -66,32 +58,41 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
-  late final _$_contasAtom =
-      Atom(name: '_HomeControllerBase._contas', context: context);
+  late final _$contasAtom =
+      Atom(name: '_PocketControllerBase.contas', context: context);
 
   @override
-  List<Contas> get _contas {
-    _$_contasAtom.reportRead();
-    return super._contas;
+  List<Contas> get contas {
+    _$contasAtom.reportRead();
+    return super.contas;
   }
 
   @override
-  set _contas(List<Contas> value) {
-    _$_contasAtom.reportWrite(value, super._contas, () {
-      super._contas = value;
+  set contas(List<Contas> value) {
+    _$contasAtom.reportWrite(value, super.contas, () {
+      super.contas = value;
     });
   }
 
   late final _$initStateAsyncAction =
-      AsyncAction('_HomeControllerBase.initState', context: context);
+      AsyncAction('_PocketControllerBase.initState', context: context);
 
   @override
   Future initState() {
     return _$initStateAsyncAction.run(() => super.initState());
   }
 
+  late final _$fetchContasByTipoAsyncAction =
+      AsyncAction('_PocketControllerBase.fetchContasByTipo', context: context);
+
+  @override
+  Future<void> fetchContasByTipo(String tipo) {
+    return _$fetchContasByTipoAsyncAction
+        .run(() => super.fetchContasByTipo(tipo));
+  }
+
   late final _$adicionaContasAsyncAction =
-      AsyncAction('_HomeControllerBase.adicionaContas', context: context);
+      AsyncAction('_PocketControllerBase.adicionaContas', context: context);
 
   @override
   Future<void> adicionaContas(String tipo) {
@@ -99,7 +100,7 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   late final _$atualizarContasAsyncAction =
-      AsyncAction('_HomeControllerBase.atualizarContas', context: context);
+      AsyncAction('_PocketControllerBase.atualizarContas', context: context);
 
   @override
   Future<void> atualizarContas(Contas contas) {
@@ -108,79 +109,91 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   late final _$datePickerAsyncAction =
-      AsyncAction('_HomeControllerBase.datePicker', context: context);
+      AsyncAction('_PocketControllerBase.datePicker', context: context);
 
   @override
   Future<dynamic> datePicker(BuildContext context, String? day) {
     return _$datePickerAsyncAction.run(() => super.datePicker(context, day));
   }
 
-  late final _$_HomeControllerBaseActionController =
-      ActionController(name: '_HomeControllerBase', context: context);
+  late final _$_PocketControllerBaseActionController =
+      ActionController(name: '_PocketControllerBase', context: context);
 
   @override
   dynamic toogleCurrency() {
-    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
-        name: '_HomeControllerBase.toogleCurrency');
+    final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
+        name: '_PocketControllerBase.toogleCurrency');
     try {
       return super.toogleCurrency();
     } finally {
-      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+      _$_PocketControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic toggleSelect(int index) {
-    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
-        name: '_HomeControllerBase.toggleSelect');
+    final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
+        name: '_PocketControllerBase.toggleSelect');
     try {
       return super.toggleSelect(index);
     } finally {
-      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+      _$_PocketControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic changeColor(String tipo) {
-    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
-        name: '_HomeControllerBase.changeColor');
+    final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
+        name: '_PocketControllerBase.changeColor');
     try {
       return super.changeColor(tipo);
     } finally {
-      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+      _$_PocketControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic toBRDt(DateTime? date) {
-    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
-        name: '_HomeControllerBase.toBRDt');
+    final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
+        name: '_PocketControllerBase.toBRDt');
     try {
       return super.toBRDt(date);
     } finally {
-      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+      _$_PocketControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   DateTime? parseData(String data) {
-    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
-        name: '_HomeControllerBase.parseData');
+    final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
+        name: '_PocketControllerBase.parseData');
     try {
       return super.parseData(data);
     } finally {
-      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+      _$_PocketControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   double parseDouble(String input) {
-    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
-        name: '_HomeControllerBase.parseDouble');
+    final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
+        name: '_PocketControllerBase.parseDouble');
     try {
       return super.parseDouble(input);
     } finally {
-      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+      _$_PocketControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void showCustomSnackBar(BuildContext context, String message,
+      {Duration duration = const Duration(seconds: 3)}) {
+    final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
+        name: '_PocketControllerBase.showCustomSnackBar');
+    try {
+      return super.showCustomSnackBar(context, message, duration: duration);
+    } finally {
+      _$_PocketControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 

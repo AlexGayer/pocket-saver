@@ -1,9 +1,9 @@
-import 'package:flutter_pocket_saver/app/contas/data/repository/busca_contas_repository.dart';
-import 'package:flutter_pocket_saver/app/contas/domain/model/contas.dart';
+import 'package:flutter_pocket_saver/app/data/repository/busca_contas_repository.dart';
+import 'package:flutter_pocket_saver/app/domain/model/contas.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class BuscaContasUsecase {
-  Future<List<Contas>> fetchContas();
+  Future<List<Contas>> fetchContas(String tipo);
   Future<void> deleteContas(int id);
   Future<void> updateContas(Contas contas);
   Future<void> addContas(Contas contas);
@@ -16,9 +16,9 @@ class BuscaContasUsecaseImpl implements BuscaContasUsecase {
   BuscaContasUsecaseImpl({required this.buscaContasRepository});
 
   @override
-  Future<List<Contas>> fetchContas() async {
+  Future<List<Contas>> fetchContas(String tipo) async {
     try {
-      return await buscaContasRepository.fetchContas();
+      return await buscaContasRepository.fetchContas(tipo);
     } catch (e) {
       throw Exception('Erro ao buscar Contas: $e');
     }

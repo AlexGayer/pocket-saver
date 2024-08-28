@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:flutter_pocket_saver/app/analytics/widget/analytics_page.dart';
-import 'package:flutter_pocket_saver/app/config/view/config_page.dart';
+import 'package:flutter_pocket_saver/app/pages/analytics_page.dart';
+import 'package:flutter_pocket_saver/app/pages/config_page.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_fab_widget.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_tab_bar_widget.dart';
-import 'package:flutter_pocket_saver/app/home/widget/home_page.dart';
-import 'package:flutter_pocket_saver/app/transactions/view/transactions_page.dart';
+import 'package:flutter_pocket_saver/app/pages/home_page.dart';
+import 'package:flutter_pocket_saver/app/pages/transactions_page.dart';
 
 class NavigatorPage extends StatefulWidget {
   const NavigatorPage({super.key});
