@@ -132,6 +132,14 @@ mixin _$PocketController on _PocketControllerBase, Store {
         .run(() => super.adicionaContas(tipo, categoria));
   }
 
+  late final _$deleteContasAsyncAction =
+      AsyncAction('_PocketControllerBase.deleteContas', context: context);
+
+  @override
+  Future<void> deleteContas(int id, String tipo) {
+    return _$deleteContasAsyncAction.run(() => super.deleteContas(id, tipo));
+  }
+
   late final _$atualizarContasAsyncAction =
       AsyncAction('_PocketControllerBase.atualizarContas', context: context);
 
@@ -175,11 +183,11 @@ mixin _$PocketController on _PocketControllerBase, Store {
   }
 
   @override
-  dynamic changeColor(String tipo) {
+  dynamic setColor(String tipo) {
     final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
-        name: '_PocketControllerBase.changeColor');
+        name: '_PocketControllerBase.setColor');
     try {
-      return super.changeColor(tipo);
+      return super.setColor(tipo);
     } finally {
       _$_PocketControllerBaseActionController.endAction(_$actionInfo);
     }

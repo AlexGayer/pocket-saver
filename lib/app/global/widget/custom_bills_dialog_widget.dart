@@ -23,7 +23,7 @@ class _CustomBillsDialogWidgetState
   @override
   void initState() {
     controller.initState();
-    controller.changeColor(widget.tipo);
+    controller.setColor(widget.tipo);
     super.initState();
   }
 

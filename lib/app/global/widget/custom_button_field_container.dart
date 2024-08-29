@@ -28,7 +28,7 @@ class _CustomButtonFieldContainerState
 
   @override
   void initState() {
-    widget.controller.changeColor(widget.tipo);
+    widget.controller.setColor(widget.tipo);
     super.initState();
   }
 

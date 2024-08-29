@@ -11,12 +11,15 @@ class TextFieldContasWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final contas = controller.contas[index];
+
     Color getColor(String tipo) {
       return tipo == "Receita" ? Colors.green : Colors.red;
     }
 
     return Card(
-      color: Colors.white.withOpacity(0.3),
+      color: contas.tipo == "Receita"
+          ? Colors.green.withOpacity(0.3)
+          : Colors.red.withOpacity(0.3),
       child: Dismissible(
         key: Key("${contas.id}"),
         onDismissed: (direction) {
@@ -24,11 +27,19 @@ class TextFieldContasWidget extends StatelessWidget {
           controller.deleteContas(contas.id, contas.tipo);
         },
         background: Container(
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              color: Colors.red),
           height: 200,
-          color: Colors.red,
-          child: Icon(
-            MdiIcons.delete,
-            color: Colors.white,
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: Icon(
+                MdiIcons.delete,
+                color: Colors.white,
+              ),
+            ),
           ),
         ),
         child: ListTile(
@@ -48,7 +59,7 @@ class TextFieldContasWidget extends StatelessWidget {
             children: [
               Text(contas.categoria),
               Text(contas.descricao),
-              Text(controller.toBRDt(contas.vencimento)),
+              Text("Vencimento: ${controller.toBRDt(contas.vencimento)}"),
             ],
           ),
         ),

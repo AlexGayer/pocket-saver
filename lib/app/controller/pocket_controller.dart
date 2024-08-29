@@ -103,6 +103,7 @@ abstract class _PocketControllerBase with Store {
     }
   }
 
+  @action
   Future<void> deleteContas(int id, String tipo) async {
     try {
       await _buscaContasUsecase.deleteContas(id);
@@ -132,11 +133,6 @@ abstract class _PocketControllerBase with Store {
   }
 
   @action
-  changeColor(String tipo) {
-    tipo == "Receita" ? color = Colors.green : color = Colors.red;
-  }
-
-  @action
   Future datePicker(BuildContext context, String? day) async {
     if (day == "Hoje") {
       edtData.text = toBRDt(DateTime.now());
@@ -162,6 +158,11 @@ abstract class _PocketControllerBase with Store {
   }
 
   @action
+  setColor(String tipo) {
+    tipo == "Receita" ? color = Colors.green : color = Colors.red;
+  }
+
+  @action
   toBRDt(DateTime? date) {
     if (date != null) {
       final day = date.day.toString();
@@ -179,6 +180,15 @@ abstract class _PocketControllerBase with Store {
       return inputFormat.parse(data);
     } catch (e) {
       return null;
+    }
+  }
+
+  String formatDouble(double value, {String? locale, String? pattern}) {
+    try {
+      final format = NumberFormat(pattern ?? 'R\$ #,##0.##', locale ?? 'pt_BR');
+      return format.format(value);
+    } catch (e) {
+      return 'Invalid value';
     }
   }
 
