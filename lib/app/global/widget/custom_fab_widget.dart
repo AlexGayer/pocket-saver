@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:flutter_pocket_saver/app/controller/pocket_controller.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_bills_dialog_widget.dart';
+import 'package:flutter_pocket_saver/app/global/widget/stateful_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CustomFabWidget extends StatefulWidget {
@@ -11,11 +13,14 @@ class CustomFabWidget extends StatefulWidget {
   State<CustomFabWidget> createState() => _CustomFabWidgetState();
 }
 
-class _CustomFabWidgetState extends State<CustomFabWidget> {
+class _CustomFabWidgetState
+    extends WidgetStateful<CustomFabWidget, PocketController> {
   final _key = GlobalKey<ExpandableFabState>();
 
   @override
   void initState() {
+    controller.initState();
+
     super.initState();
   }
 

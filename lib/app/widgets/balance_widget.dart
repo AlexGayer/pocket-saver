@@ -29,7 +29,7 @@ class _BalanceWidgetState
         children: [
           const Text("Saldo Atual", style: TextStyle(color: Colors.white)),
           Observer(
-            builder: (context) => TextField(
+            builder: (_) => TextField(
               obscureText: controller.showCurrency ? false : true,
               style: Theme.of(context).textTheme.titleLarge,
               controller: controller.currency,

@@ -14,7 +14,6 @@ class CustomTabBarWidget extends StatefulWidget {
 final iconList = <IconData>[
   MdiIcons.home,
   MdiIcons.cash,
-  // MdiIcons.plus,
   MdiIcons.chartBar,
   MdiIcons.cog,
 ];

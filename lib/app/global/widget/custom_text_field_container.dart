@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomTextFieldContainer extends StatefulWidget {
-  final IconData prefixIcon;
-  final TextInputType keyboardType;
+  final IconData? prefixIcon;
+  final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
 
   const CustomTextFieldContainer(
       {super.key,
-      required this.prefixIcon,
-      required this.keyboardType,
+      this.prefixIcon,
+      this.keyboardType,
       this.inputFormatters,
       this.controller});
 

@@ -51,7 +51,7 @@ class TextFieldContasWidget extends StatelessWidget {
                       color: getColor(contas.tipo),
                       fontWeight: FontWeight.bold,
                       fontSize: 18)),
-              Text("R\$ ${contas.valor.toString().replaceAll(".", ",")}"),
+              Text(controller.formatDouble(contas.valor)),
             ],
           ),
           subtitle: Column(

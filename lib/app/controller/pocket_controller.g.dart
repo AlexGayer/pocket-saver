@@ -25,6 +25,54 @@ mixin _$PocketController on _PocketControllerBase, Store {
     });
   }
 
+  late final _$totalReceitasAtom =
+      Atom(name: '_PocketControllerBase.totalReceitas', context: context);
+
+  @override
+  double get totalReceitas {
+    _$totalReceitasAtom.reportRead();
+    return super.totalReceitas;
+  }
+
+  @override
+  set totalReceitas(double value) {
+    _$totalReceitasAtom.reportWrite(value, super.totalReceitas, () {
+      super.totalReceitas = value;
+    });
+  }
+
+  late final _$totalDespesasAtom =
+      Atom(name: '_PocketControllerBase.totalDespesas', context: context);
+
+  @override
+  double get totalDespesas {
+    _$totalDespesasAtom.reportRead();
+    return super.totalDespesas;
+  }
+
+  @override
+  set totalDespesas(double value) {
+    _$totalDespesasAtom.reportWrite(value, super.totalDespesas, () {
+      super.totalDespesas = value;
+    });
+  }
+
+  late final _$totalContasAtom =
+      Atom(name: '_PocketControllerBase.totalContas', context: context);
+
+  @override
+  double get totalContas {
+    _$totalContasAtom.reportRead();
+    return super.totalContas;
+  }
+
+  @override
+  set totalContas(double value) {
+    _$totalContasAtom.reportWrite(value, super.totalContas, () {
+      super.totalContas = value;
+    });
+  }
+
   late final _$pressedAttentionIndexAtom = Atom(
       name: '_PocketControllerBase.pressedAttentionIndex', context: context);
 
@@ -123,6 +171,16 @@ mixin _$PocketController on _PocketControllerBase, Store {
         .run(() => super.fetchContasByTipo(tipo));
   }
 
+  late final _$fetchAndCalculateTotalsAsyncAction = AsyncAction(
+      '_PocketControllerBase.fetchAndCalculateTotals',
+      context: context);
+
+  @override
+  Future<void> fetchAndCalculateTotals() {
+    return _$fetchAndCalculateTotalsAsyncAction
+        .run(() => super.fetchAndCalculateTotals());
+  }
+
   late final _$adicionaContasAsyncAction =
       AsyncAction('_PocketControllerBase.adicionaContas', context: context);
 
@@ -153,8 +211,8 @@ mixin _$PocketController on _PocketControllerBase, Store {
       AsyncAction('_PocketControllerBase.datePicker', context: context);
 
   @override
-  Future<dynamic> datePicker(BuildContext context, String? day) {
-    return _$datePickerAsyncAction.run(() => super.datePicker(context, day));
+  Future<dynamic> datePicker(BuildContext context, String? date) {
+    return _$datePickerAsyncAction.run(() => super.datePicker(context, date));
   }
 
   late final _$_PocketControllerBaseActionController =
@@ -227,6 +285,17 @@ mixin _$PocketController on _PocketControllerBase, Store {
   }
 
   @override
+  void _updateTotalContasController() {
+    final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
+        name: '_PocketControllerBase._updateTotalContasController');
+    try {
+      return super._updateTotalContasController();
+    } finally {
+      _$_PocketControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void showCustomSnackBar(BuildContext context, String message,
       {Duration duration = const Duration(seconds: 3)}) {
     final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
@@ -242,6 +311,9 @@ mixin _$PocketController on _PocketControllerBase, Store {
   String toString() {
     return '''
 showCurrency: ${showCurrency},
+totalReceitas: ${totalReceitas},
+totalDespesas: ${totalDespesas},
+totalContas: ${totalContas},
 pressedAttentionIndex: ${pressedAttentionIndex},
 color: ${color},
 edtCat: ${edtCat},

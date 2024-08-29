@@ -33,6 +33,15 @@ abstract class _PocketControllerBase with Store {
   bool showCurrency = false;
 
   @observable
+  double totalReceitas = 0.0;
+
+  @observable
+  double totalDespesas = 0.0;
+
+  @observable
+  double totalContas = 0.0;
+
+  @observable
   int pressedAttentionIndex = -1;
 
   @observable
@@ -60,7 +69,7 @@ abstract class _PocketControllerBase with Store {
   @action
   initState() async {
     try {
-      currency.text = "R\$ 10.000,00";
+      await fetchAndCalculateTotals();
       edtValor.text = "0,00";
     } catch (e) {
       e;
@@ -74,6 +83,31 @@ abstract class _PocketControllerBase with Store {
       contas = allContas;
     } catch (e) {
       print('Erro ao buscar contas por tipo: $e');
+    }
+  }
+
+  @action
+  Future<void> fetchAndCalculateTotals() async {
+    try {
+      final List<Contas> receitas =
+          await _buscaContasUsecase.fetchContas('Receita');
+      final List<Contas> despesas =
+          await _buscaContasUsecase.fetchContas('Despesa');
+
+      totalReceitas = receitas.fold(0, (sum, item) => sum + item.valor);
+      totalDespesas = despesas.fold(0, (sum, item) => sum + item.valor);
+
+      // Calcular o total geral
+      totalContas = totalReceitas - totalDespesas;
+
+      // Atualizar o TextEditingController
+      _updateTotalContasController();
+
+      print('Total Receitas: $totalReceitas');
+      print('Total Despesas: $totalDespesas');
+      print('Total Contas: $totalContas');
+    } catch (e) {
+      print('Erro ao calcular os totais: $e');
     }
   }
 
@@ -98,6 +132,7 @@ abstract class _PocketControllerBase with Store {
       await _buscaContasUsecase.addContas(addContas);
 
       showCustomSnackBar(ctx, "$tipo gravada com sucesso!");
+      await fetchAndCalculateTotals();
     } catch (e) {
       showCustomSnackBar(ctx, "Ocorreu um erro ao gravar a $tipo: $e");
     }
@@ -108,6 +143,7 @@ abstract class _PocketControllerBase with Store {
     try {
       await _buscaContasUsecase.deleteContas(id);
       showCustomSnackBar(ctx, "$tipo excluída com sucesso com sucesso!");
+      await fetchAndCalculateTotals();
     } catch (e) {
       showCustomSnackBar(ctx, "Ocorreu um erro ao excluir a $tipo: $e");
     }
@@ -133,10 +169,10 @@ abstract class _PocketControllerBase with Store {
   }
 
   @action
-  Future datePicker(BuildContext context, String? day) async {
-    if (day == "Hoje") {
+  Future datePicker(BuildContext context, String? date) async {
+    if (date == "Hoje") {
       edtData.text = toBRDt(DateTime.now());
-    } else if (day == "Amanhã") {
+    } else if (date == "Amanhã") {
       edtData.text = toBRDt(DateTime.now().add(const Duration(hours: 24)));
     } else {
       final DateTime? datePicked = await showDatePicker(
@@ -205,6 +241,16 @@ abstract class _PocketControllerBase with Store {
     } catch (e) {
       throw FormatException('Formato inválido para número: $input');
     }
+  }
+
+  @action
+  void _updateTotalContasController() {
+    currency.text = formatCurrency(totalContas);
+  }
+
+  String formatCurrency(double value) {
+    final format = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
+    return format.format(value);
   }
 
   @action

@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_text_button_widget.dart';
 import 'package:flutter_pocket_saver/app/controller/pocket_controller.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
-// ignore: must_be_immutable
 class CustomButtonFieldContainer extends StatefulWidget {
   final IconData prefixIcon;
   final String tipo;
   final TextEditingController edtController;
-  PocketController controller;
+  final PocketController controller;
 
-  CustomButtonFieldContainer(
-      {super.key,
-      required this.prefixIcon,
-      required this.controller,
-      required this.tipo,
-      required this.edtController});
+  const CustomButtonFieldContainer({
+    super.key,
+    required this.prefixIcon,
+    required this.controller,
+    required this.tipo,
+    required this.edtController,
+  });
 
   @override
   State<CustomButtonFieldContainer> createState() =>
@@ -51,18 +52,40 @@ class _CustomButtonFieldContainerState
             child: ListView.builder(
               itemCount: dates.length,
               scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) => CustomTextButtonWidget(
-                funct: () {
-                  setState(() {
-                    widget.controller.toggleSelect(index);
-                  });
+              itemBuilder: (context, index) => Observer(
+                builder: (_) {
+                  if (widget.controller.pressedAttentionIndex == index) {
+                    return Container(
+                      width: 100,
+                      margin: const EdgeInsets.only(left: 10),
+                      child: TextField(
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                        controller: widget.controller.edtData,
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: widget.tipo == "Receita"
+                                ? Colors.green
+                                : Colors.red),
+                      ),
+                    );
+                  } else {
+                    return CustomTextButtonWidget(
+                      funct: () {
+                        setState(() {
+                          widget.controller.toggleSelect(index);
+                        });
 
-                  return widget.controller.datePicker(context, dates[index]);
+                        return widget.controller
+                            .datePicker(context, dates[index]);
+                      },
+                      title: dates[index],
+                      color: Colors.grey,
+                    );
+                  }
                 },
-                title: dates[index],
-                color: widget.controller.pressedAttentionIndex == index
-                    ? widget.controller.color!
-                    : Colors.grey,
               ),
             ),
           ),

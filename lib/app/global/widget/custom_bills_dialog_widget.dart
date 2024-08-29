@@ -63,7 +63,9 @@ class _CustomBillsDialogWidgetState
                   ),
                   IconButton(
                     onPressed: () {
-                      Navigator.of(context).pop(mounted);
+                      setState(() {
+                        Navigator.of(context).pop(true);
+                      });
                     },
                     icon: Icon(MdiIcons.close),
                   ),
@@ -79,7 +81,6 @@ class _CustomBillsDialogWidgetState
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
               ),
-              const SizedBox(height: 10),
               CustomButtonFieldContainer(
                   edtController: controller.edtData,
                   tipo: widget.tipo,
@@ -105,9 +106,9 @@ class _CustomBillsDialogWidgetState
                     ),
                   ),
                   onPressed: () async {
-                    Navigator.of(context).pop();
-                    await controller.adicionaContas(
-                        widget.tipo, controller.edtCat);
+                    await controller
+                        .adicionaContas(widget.tipo, controller.edtCat)
+                        .then((value) => Navigator.of(context).pop(true));
                   },
                   child: Text("Salvar",
                       style: Theme.of(context).textTheme.titleSmall),
