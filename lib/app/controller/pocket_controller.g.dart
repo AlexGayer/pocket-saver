@@ -58,6 +58,22 @@ mixin _$PocketController on _PocketControllerBase, Store {
     });
   }
 
+  late final _$edtCatAtom =
+      Atom(name: '_PocketControllerBase.edtCat', context: context);
+
+  @override
+  String get edtCat {
+    _$edtCatAtom.reportRead();
+    return super.edtCat;
+  }
+
+  @override
+  set edtCat(String value) {
+    _$edtCatAtom.reportWrite(value, super.edtCat, () {
+      super.edtCat = value;
+    });
+  }
+
   late final _$contasAtom =
       Atom(name: '_PocketControllerBase.contas', context: context);
 
@@ -71,6 +87,22 @@ mixin _$PocketController on _PocketControllerBase, Store {
   set contas(List<Contas> value) {
     _$contasAtom.reportWrite(value, super.contas, () {
       super.contas = value;
+    });
+  }
+
+  late final _$categoriasAtom =
+      Atom(name: '_PocketControllerBase.categorias', context: context);
+
+  @override
+  List<String> get categorias {
+    _$categoriasAtom.reportRead();
+    return super.categorias;
+  }
+
+  @override
+  set categorias(List<String> value) {
+    _$categoriasAtom.reportWrite(value, super.categorias, () {
+      super.categorias = value;
     });
   }
 
@@ -95,8 +127,9 @@ mixin _$PocketController on _PocketControllerBase, Store {
       AsyncAction('_PocketControllerBase.adicionaContas', context: context);
 
   @override
-  Future<void> adicionaContas(String tipo) {
-    return _$adicionaContasAsyncAction.run(() => super.adicionaContas(tipo));
+  Future<void> adicionaContas(String tipo, String categoria) {
+    return _$adicionaContasAsyncAction
+        .run(() => super.adicionaContas(tipo, categoria));
   }
 
   late final _$atualizarContasAsyncAction =
@@ -203,7 +236,9 @@ mixin _$PocketController on _PocketControllerBase, Store {
 showCurrency: ${showCurrency},
 pressedAttentionIndex: ${pressedAttentionIndex},
 color: ${color},
-contas: ${contas}
+edtCat: ${edtCat},
+contas: ${contas},
+categorias: ${categorias}
     ''';
   }
 }

@@ -27,12 +27,11 @@ class _CustomBillsDialogWidgetState
     super.initState();
   }
 
-  final List itens = [
-    "teste 1",
-    "teste 2",
-    "teste 3",
-    "teste 4",
-  ];
+  void _onDropDownValueChanged(String? value) {
+    setState(() {
+      controller.edtCat = value!;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +88,7 @@ class _CustomBillsDialogWidgetState
               CustomDropDownFieldContainer(
                 prefixIcon: MdiIcons.book,
                 keyboardType: TextInputType.none,
+                onChanged: _onDropDownValueChanged,
               ),
               CustomTextFieldContainer(
                 controller: controller.edtDescr,
@@ -106,7 +106,8 @@ class _CustomBillsDialogWidgetState
                   ),
                   onPressed: () async {
                     Navigator.of(context).pop();
-                    await controller.adicionaContas(widget.tipo);
+                    await controller.adicionaContas(
+                        widget.tipo, controller.edtCat);
                   },
                   child: Text("Salvar",
                       style: Theme.of(context).textTheme.titleSmall),

@@ -20,7 +20,6 @@ abstract class _PocketControllerBase with Store {
   final edtValor = TextEditingController();
   final edtData = TextEditingController();
   final edtDescr = TextEditingController();
-  final edtCateg = TextEditingController();
   final mHandler = CustomDialogWidget();
 
   TimeOfDay timeOfDay = TimeOfDay.now();
@@ -40,7 +39,23 @@ abstract class _PocketControllerBase with Store {
   Color? color;
 
   @observable
+  String edtCat = "";
+
+  @observable
   List<Contas> contas = [];
+
+  @observable
+  List<String> categorias = [
+    "Casa",
+    "Educação",
+    "Alimentação",
+    "Lazer",
+    "Saúde",
+    "Transporte",
+    "Roupas",
+    "Entretenimento",
+    "Outros"
+  ];
 
   @action
   initState() async {
@@ -63,7 +78,7 @@ abstract class _PocketControllerBase with Store {
   }
 
   @action
-  Future<void> adicionaContas(String tipo) async {
+  Future<void> adicionaContas(String tipo, String categoria) async {
     final id = DateTime.now().millisecondsSinceEpoch;
     final formatData = parseData(edtData.text);
     final formaValor = parseDouble(edtValor.text);
@@ -72,7 +87,7 @@ abstract class _PocketControllerBase with Store {
       id: id,
       tipo: tipo,
       descricao: edtDescr.text,
-      categoria: edtCateg.text,
+      categoria: categoria,
       vencimento: formatData!,
       valor: formaValor,
     );
@@ -88,11 +103,12 @@ abstract class _PocketControllerBase with Store {
     }
   }
 
-  Future<void> deleteContas(int id) async {
+  Future<void> deleteContas(int id, String tipo) async {
     try {
       await _buscaContasUsecase.deleteContas(id);
+      showCustomSnackBar(ctx, "$tipo excluída com sucesso com sucesso!");
     } catch (e) {
-      e;
+      showCustomSnackBar(ctx, "Ocorreu um erro ao excluir a $tipo: $e");
     }
   }
 

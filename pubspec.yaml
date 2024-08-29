@@ -46,7 +46,7 @@ dependencies:
   firebase_auth: 
   firebase_storage: 
   cloud_firestore:
-  flutter_form_builder:
+  dropdown_button2:
 
 
  
