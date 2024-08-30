@@ -18,13 +18,6 @@ class _CustomFabWidgetState
   final _key = GlobalKey<ExpandableFabState>();
 
   @override
-  void initState() {
-    controller.initState();
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ExpandableFab(
       key: _key,

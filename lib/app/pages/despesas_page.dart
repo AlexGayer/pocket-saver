@@ -26,11 +26,14 @@ class _DespesasPageState
     return Scaffold(
       appBar: const CustomAppBarWidget(title: "Manutenção de Despesas"),
       body: Observer(
-        builder: (context) => ListView.builder(
-          itemCount: controller.contas.length,
-          shrinkWrap: true,
-          itemBuilder: (context, index) =>
-              TextFieldContasWidget(controller: controller, index: index),
+        builder: (_) => Container(
+          margin: const EdgeInsets.only(top: 20),
+          child: ListView.builder(
+            itemCount: controller.contas.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) =>
+                TextFieldContasWidget(controller: controller, index: index),
+          ),
         ),
       ),
     );

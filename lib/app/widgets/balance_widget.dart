@@ -15,6 +15,7 @@ class _BalanceWidgetState
   @override
   void initState() {
     controller.initState();
+    controller.fetchAndCalculateTotals();
     super.initState();
   }
 

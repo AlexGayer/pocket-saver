@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
@@ -31,6 +31,9 @@ abstract class _PocketControllerBase with Store {
 
   @observable
   bool showCurrency = false;
+
+  @observable
+  bool _loading = false;
 
   @observable
   double totalReceitas = 0.0;
@@ -66,12 +69,16 @@ abstract class _PocketControllerBase with Store {
     "Outros"
   ];
 
+  @computed
+  bool get loading => _loading;
+
   @action
   initState() async {
     try {
-      await fetchAndCalculateTotals();
       edtValor.text = "0,00";
+      _loading = false;
     } catch (e) {
+      _loading = false;
       e;
     }
   }
@@ -88,6 +95,7 @@ abstract class _PocketControllerBase with Store {
 
   @action
   Future<void> fetchAndCalculateTotals() async {
+    _loading = true;
     try {
       final List<Contas> receitas =
           await _buscaContasUsecase.fetchContas('Receita');
@@ -106,7 +114,9 @@ abstract class _PocketControllerBase with Store {
       print('Total Receitas: $totalReceitas');
       print('Total Despesas: $totalDespesas');
       print('Total Contas: $totalContas');
+      _loading = false;
     } catch (e) {
+      _loading = false;
       print('Erro ao calcular os totais: $e');
     }
   }

@@ -16,6 +16,13 @@ class IncExpWidget extends StatefulWidget {
 class _IncExpWidgetState
     extends WidgetStateful<IncExpWidget, PocketController> {
   @override
+  void initState() {
+    controller.initState();
+    controller.fetchAndCalculateTotals();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => SizedBox(
