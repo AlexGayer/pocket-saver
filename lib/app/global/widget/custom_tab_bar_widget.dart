@@ -15,7 +15,7 @@ final iconList = <IconData>[
   MdiIcons.home,
   MdiIcons.cash,
   MdiIcons.chartBar,
-  MdiIcons.cog,
+  MdiIcons.account,
 ];
 
 class _CustomTabBarWidgetState extends State<CustomTabBarWidget> {

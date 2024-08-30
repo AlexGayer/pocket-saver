@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_pocket_saver/app/widgets/balance_widget.dart';
 import 'package:flutter_pocket_saver/app/widgets/container_budget_widget.dart';
 import 'package:flutter_pocket_saver/app/widgets/inc_exp_widget.dart';
@@ -11,24 +10,22 @@ class ShimmerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) => Shimmer.fromColors(
-        baseColor: Colors.transparent,
-        enabled: true,
-        highlightColor: Colors.white,
-        child: const SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              UserWidget(),
-              BalanceWidget(),
-              IncExpWidget(),
-              ContainerBudgetWidget(title: ""),
-              ContainerBudgetWidget(title: ""),
-              ContainerBudgetWidget(title: ""),
-            ],
-          ),
+    return Shimmer.fromColors(
+      baseColor: Colors.transparent,
+      enabled: true,
+      highlightColor: Colors.white,
+      child: const SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            UserWidget(),
+            BalanceWidget(),
+            IncExpWidget(),
+            ContainerBudgetWidget(),
+            ContainerBudgetWidget(),
+            ContainerBudgetWidget(),
+          ],
         ),
       ),
     );

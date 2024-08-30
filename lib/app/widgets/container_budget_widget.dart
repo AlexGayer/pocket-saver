@@ -1,30 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_pocket_saver/app/controller/pocket_controller.dart';
+import 'package:flutter_pocket_saver/app/global/widget/stateful_widget.dart';
 
 class ContainerBudgetWidget extends StatefulWidget {
-  final String title;
-  const ContainerBudgetWidget({super.key, required this.title});
+  const ContainerBudgetWidget({super.key});
 
   @override
-  State<ContainerBudgetWidget> createState() => _ContainerBudgetWidgetState();
+  State<StatefulWidget> createState() => ContainerBudgetWidgetState();
 }
 
-class _ContainerBudgetWidgetState extends State<ContainerBudgetWidget> {
+class ContainerBudgetWidgetState
+    extends WidgetStateful<ContainerBudgetWidget, PocketController> {
+  @override
+  void initState() {
+    controller.fetchContas();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Container(
-      margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
-      width: size.width,
-      height: size.height * 0.2,
-      decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.1),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(10),
-          )),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(widget.title),
-      ),
-    );
+    return Observer(
+        builder: (_) => SizedBox(
+              width: double.infinity,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: controller.contas.length,
+                itemBuilder: (context, index) =>
+                    Text(controller.contas[index].tipo),
+              ),
+            ));
   }
 }

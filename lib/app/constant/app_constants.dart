@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 const String indexRoute = "/index";
 const String homeRoute = "/home";
-const String configRoute = "/config";
+const String userRoute = "/user";
 const String transactionsRoute = "/transactions";
 const String despesasRoute = "/despesas";
 const String receitasRoute = "/receitas";

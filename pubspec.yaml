@@ -48,6 +48,8 @@ dependencies:
   cloud_firestore:
   dropdown_button2:
   shimmer:
+  google_sign_in:
+  fl_chart:
 
 
  
@@ -55,6 +57,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: 
+ 
   
 
 dev_dependencies:

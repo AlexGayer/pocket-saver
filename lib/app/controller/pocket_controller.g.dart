@@ -194,6 +194,14 @@ mixin _$PocketController on _PocketControllerBase, Store {
         .run(() => super.fetchContasByTipo(tipo));
   }
 
+  late final _$fetchContasAsyncAction =
+      AsyncAction('_PocketControllerBase.fetchContas', context: context);
+
+  @override
+  Future<void> fetchContas() {
+    return _$fetchContasAsyncAction.run(() => super.fetchContas());
+  }
+
   late final _$fetchAndCalculateTotalsAsyncAction = AsyncAction(
       '_PocketControllerBase.fetchAndCalculateTotals',
       context: context);

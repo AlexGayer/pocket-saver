@@ -94,6 +94,19 @@ abstract class _PocketControllerBase with Store {
   }
 
   @action
+  Future<void> fetchContas() async {
+    try {
+      List<Contas> despesas = await _buscaContasUsecase.fetchContas('Despesa');
+
+      List<Contas> receitas = await _buscaContasUsecase.fetchContas('Receita');
+
+      contas = [...despesas, ...receitas];
+    } catch (e) {
+      print('Erro ao buscar contas: $e');
+    }
+  }
+
+  @action
   Future<void> fetchAndCalculateTotals() async {
     _loading = true;
     try {
@@ -111,9 +124,9 @@ abstract class _PocketControllerBase with Store {
       // Atualizar o TextEditingController
       _updateTotalContasController();
 
-      print('Total Receitas: $totalReceitas');
-      print('Total Despesas: $totalDespesas');
-      print('Total Contas: $totalContas');
+      // print('Total Receitas: $totalReceitas');
+      // print('Total Despesas: $totalDespesas');
+      // print('Total Contas: $totalContas');
       _loading = false;
     } catch (e) {
       _loading = false;

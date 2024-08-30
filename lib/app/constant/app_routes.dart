@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/pages/analytics_page.dart';
-import 'package:flutter_pocket_saver/app/pages/config_page.dart';
+import 'package:flutter_pocket_saver/app/pages/user_page.dart';
 import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
 import 'package:flutter_pocket_saver/app/pages/despesas_page.dart';
 import 'package:flutter_pocket_saver/app/pages/receitas_page.dart';
@@ -23,8 +23,8 @@ class Routes {
         return SlideRightRoute(widget: const ReceitasPage());
       case analyticsRoute:
         return SlideRightRoute(widget: const AnalyticsPage());
-      case configRoute:
-        return SlideRightRoute(widget: const ConfigPage());
+      case userRoute:
+        return SlideRightRoute(widget: const UserPage());
 
       default:
         return SlideRightRoute(widget: const IndexPage());
