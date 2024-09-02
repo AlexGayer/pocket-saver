@@ -6,12 +6,14 @@ class CustomTextFieldContainer extends StatefulWidget {
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
+  final String? hintText;
 
   const CustomTextFieldContainer(
       {super.key,
       this.prefixIcon,
       this.keyboardType,
       this.inputFormatters,
+      this.hintText,
       this.controller});
 
   @override
@@ -34,6 +36,7 @@ class _CustomTextFieldContainerState extends State<CustomTextFieldContainer> {
         keyboardType: widget.keyboardType,
         inputFormatters: widget.inputFormatters,
         decoration: InputDecoration(
+          helperText: widget.hintText,
           border: InputBorder.none,
           prefixIcon: Icon(widget.prefixIcon),
         ),

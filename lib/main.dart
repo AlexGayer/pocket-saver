@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
 import 'package:flutter_pocket_saver/app/constant/app_routes.dart';
 import 'package:flutter_pocket_saver/app/constant/app_theme.dart';
+import 'package:flutter_pocket_saver/app/pages/login_page.dart';
 import 'package:flutter_pocket_saver/app/pages/pocket_page.dart';
 import 'package:flutter_pocket_saver/di/di.dart';
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: appThemeLight,
       darkTheme: appThemeDark,
       themeMode: ThemeMode.system,
-      home: const PocketPage(),
+      home: const LoginPage(),
       navigatorKey: navigatorKey,
       onGenerateRoute: Routes.generateRoute,
     );
