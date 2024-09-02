@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 const String indexRoute = "/index";
+const String loginRoute = "/login";
+const String cadastroRoute = "/cadastro";
 const String homeRoute = "/home";
 const String userRoute = "/user";
 const String transactionsRoute = "/transactions";

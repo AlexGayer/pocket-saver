@@ -1,4 +1,4 @@
-package com.example.flutter_pocket_saver
+package com.alexgayer
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -42,14 +42,15 @@ dependencies:
   intl:
   brasil_fields: 
   json_annotation:
-  firebase_core: 
-  firebase_auth: 
-  firebase_storage: 
-  cloud_firestore:
+  firebase_core: ^3.4.0
+  firebase_auth: ^5.2.0
+  firebase_storage: ^12.2.0
+  cloud_firestore: ^5.3.0
+  google_sign_in: ^6.2.1
   dropdown_button2:
   shimmer:
-  google_sign_in:
   fl_chart:
+  shared_preferences: ^2.3.2
 
 
  

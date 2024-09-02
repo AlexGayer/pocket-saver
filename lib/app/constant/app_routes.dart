@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/pages/analytics_page.dart';
+import 'package:flutter_pocket_saver/app/pages/cadastro_page.dart';
+import 'package:flutter_pocket_saver/app/pages/login_page.dart';
 import 'package:flutter_pocket_saver/app/pages/user_page.dart';
 import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
 import 'package:flutter_pocket_saver/app/pages/despesas_page.dart';
@@ -13,6 +15,10 @@ class Routes {
     switch (settings.name) {
       case indexRoute:
         return SlideRightRoute(widget: const IndexPage());
+      case loginRoute:
+        return SlideRightRoute(widget: const LoginPage());
+      case cadastroRoute:
+        return SlideRightRoute(widget: const CadastroPage());
       case homeRoute:
         return SlideRightRoute(widget: const HomePage());
       case transactionsRoute:
