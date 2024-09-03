@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class FirestoreRepository {
-  Future<void> addUser(String userId, String email, String displayName);
+  Future<void> addUser(
+      String userId, String email, String displayName, String? photoURL);
   Future<void> changePassword(String newPassword);
   Future<Map<String, String>?> getUserDetails(String userId);
 }
@@ -16,11 +17,14 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
   FirestoreRepositoryImpl(this.firestore, this.auth);
 
   @override
-  Future<void> addUser(String userId, String email, String displayName) async {
+  Future<void> addUser(
+      String userId, String email, String displayName, String? photoURL) async {
     try {
       await firestore.collection('users').doc(userId).set({
         'email': email,
         'displayName': displayName,
+        'photoURL':
+            photoURL ?? '', // Adiciona a URL da foto de perfil, se disponível
       });
     } catch (e) {
       rethrow;

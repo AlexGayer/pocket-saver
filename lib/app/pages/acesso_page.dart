@@ -8,7 +8,7 @@ import 'package:flutter_pocket_saver/app/widgets/gradient_background_widget.dart
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class AcessoPage extends StatefulWidget {
-  final bool isLogin; // Indica se é a tela de login ou cadastro
+  final bool isLogin;
 
   const AcessoPage({super.key, required this.isLogin});
 

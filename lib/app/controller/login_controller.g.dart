@@ -55,6 +55,22 @@ mixin _$LoginController on _LoginControllerrBase, Store {
     });
   }
 
+  late final _$userPhotoURLAtom =
+      Atom(name: '_LoginControllerrBase.userPhotoURL', context: context);
+
+  @override
+  String? get userPhotoURL {
+    _$userPhotoURLAtom.reportRead();
+    return super.userPhotoURL;
+  }
+
+  @override
+  set userPhotoURL(String? value) {
+    _$userPhotoURLAtom.reportWrite(value, super.userPhotoURL, () {
+      super.userPhotoURL = value;
+    });
+  }
+
   late final _$initStateAsyncAction =
       AsyncAction('_LoginControllerrBase.initState', context: context);
 
@@ -100,8 +116,8 @@ mixin _$LoginController on _LoginControllerrBase, Store {
       AsyncAction('_LoginControllerrBase.saveCampos', context: context);
 
   @override
-  Future<void> saveCampos([String? photoURL]) {
-    return _$saveCamposAsyncAction.run(() => super.saveCampos(photoURL));
+  Future<void> saveCampos() {
+    return _$saveCamposAsyncAction.run(() => super.saveCampos());
   }
 
   late final _$_LoginControllerrBaseActionController =
@@ -121,6 +137,7 @@ mixin _$LoginController on _LoginControllerrBase, Store {
   @override
   String toString() {
     return '''
+userPhotoURL: ${userPhotoURL},
 loading: ${loading},
 firstLogin: ${firstLogin}
     ''';

@@ -2,7 +2,8 @@ import 'package:flutter_pocket_saver/app/data/repository/firebase_repository.dar
 import 'package:injectable/injectable.dart';
 
 abstract class FirebaseUsecase {
-  Future<void> registerUser(String userId, String email, String displayName);
+  Future<void> registerUser(
+      String userId, String email, String displayName, String? photoURL);
   Future<void> updatePassword(String newPassword);
   Future<Map<String, String>?> getUserDetails(String userId);
 }
@@ -15,9 +16,9 @@ class FirebaseUsecaseImpl implements FirebaseUsecase {
 
   @override
   Future<void> registerUser(
-      String userId, String email, String displayName) async {
+      String userId, String email, String displayName, String? photoURL) async {
     try {
-      await firestoreRepository.addUser(userId, email, displayName);
+      await firestoreRepository.addUser(userId, email, displayName, photoURL);
     } catch (e) {
       rethrow;
     }

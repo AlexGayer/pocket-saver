@@ -13,7 +13,7 @@ void main() async {
   await Firebase.initializeApp();
   configureInjection();
 
-  tela = await AppFuncoes().isConfigured() ? "/home" : "/login";
+  tela = await AppFuncoes().isConfigured() ? "/home" : "/acesso";
   runApp(const MyApp());
 }
 

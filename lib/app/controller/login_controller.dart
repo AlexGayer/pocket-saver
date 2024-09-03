@@ -38,6 +38,9 @@ abstract class _LoginControllerrBase with Store {
   @observable
   bool _firstLogin = false;
 
+  @observable
+  String? userPhotoURL;
+
   @computed
   bool get loading => _loading;
 
@@ -79,11 +82,7 @@ abstract class _LoginControllerrBase with Store {
       if (userDetails != null) {
         nameCtrl.text = userDetails['displayName'] ?? '';
         emailCtrl.text = userDetails['email'] ?? '';
-
-        String? photoURL = userDetails['photoURL'];
-        if (photoURL != null && photoURL.isNotEmpty) {
-          await saveCampos(photoURL);
-        }
+        userPhotoURL = userDetails['photoURL'] ?? '';
       }
 
       await saveCampos();
@@ -109,12 +108,14 @@ abstract class _LoginControllerrBase with Store {
           await _auth.createUserWithEmailAndPassword(
               email: emailCtrl.text, password: pwdCtrl.text);
 
-      // Atualizar o display name do usuário
       await userCredential.user!.updateProfile(displayName: nameCtrl.text);
 
-      // Salvar usuário no Firestore
       await _firebaseUsecase.registerUser(
-          userCredential.user!.uid, emailCtrl.text, nameCtrl.text);
+        userCredential.user!.uid,
+        emailCtrl.text,
+        nameCtrl.text,
+        userPhotoURL,
+      );
 
       await saveCampos();
 
@@ -138,8 +139,17 @@ abstract class _LoginControllerrBase with Store {
     _loading = true;
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        // Usuário cancelou o login
+        throw Exception('Login com Google foi cancelado.');
+      }
+
       final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+          await googleUser.authentication;
+
+      if (googleAuth?.accessToken == null && googleAuth?.idToken == null) {
+        throw Exception('Falha ao obter accessToken e idToken.');
+      }
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
@@ -150,7 +160,22 @@ abstract class _LoginControllerrBase with Store {
           await FirebaseAuth.instance.signInWithCredential(credential);
 
       if (userCredential != null) {
-        Navigator.of(context).pushNamed('/home');
+        final User? user = userCredential.user;
+
+        if (user != null) {
+          nameCtrl.text = user.displayName ?? '';
+          emailCtrl.text = user.email ?? '';
+          userPhotoURL = user.photoURL ?? '';
+
+          await _firebaseUsecase.registerUser(
+            user.uid,
+            user.email ?? '',
+            user.displayName ?? '',
+            userPhotoURL,
+          );
+
+          Navigator.of(context).pushNamed('/home');
+        }
       }
 
       return userCredential;
@@ -179,12 +204,12 @@ abstract class _LoginControllerrBase with Store {
   }
 
   @action
-  Future<void> saveCampos([String? photoURL]) async {
+  Future<void> saveCampos() async {
     await handler.savePreferences("name", nameCtrl.text.trim());
     await handler.savePreferences("mail", emailCtrl.text.trim());
     await handler.savePreferences("password", pwdCtrl.text);
-    if (photoURL != null) {
-      await handler.savePreferences("photoURL", photoURL);
+    if (userPhotoURL != null) {
+      await handler.savePreferences("photoURL", userPhotoURL!);
     }
   }
 
