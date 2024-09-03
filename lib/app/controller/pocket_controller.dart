@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
 import 'package:flutter_pocket_saver/app/domain/model/contas.dart';
 import 'package:flutter_pocket_saver/app/domain/usecase/busca_contas_usecase.dart';
-import 'package:flutter_pocket_saver/app/global/widget/custom_dialog_widget.dart';
+import 'package:flutter_pocket_saver/app/constant/dialog_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
@@ -20,7 +20,7 @@ abstract class _PocketControllerBase with Store {
   final edtValor = TextEditingController();
   final edtData = TextEditingController();
   final edtDescr = TextEditingController();
-  final mHandler = CustomDialogWidget();
+  final mHandler = DialogHelper();
 
   TimeOfDay timeOfDay = TimeOfDay.now();
   DateTime selectedDate = DateTime.now();

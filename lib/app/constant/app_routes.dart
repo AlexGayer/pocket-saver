@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/pages/analytics_page.dart';
 import 'package:flutter_pocket_saver/app/pages/cadastro_page.dart';
 import 'package:flutter_pocket_saver/app/pages/login_page.dart';
+import 'package:flutter_pocket_saver/app/pages/pocket_page.dart';
 import 'package:flutter_pocket_saver/app/pages/user_page.dart';
 import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
 import 'package:flutter_pocket_saver/app/pages/despesas_page.dart';
 import 'package:flutter_pocket_saver/app/pages/receitas_page.dart';
-import 'package:flutter_pocket_saver/app/pages/home_page.dart';
 import 'package:flutter_pocket_saver/app/pages/index_page.dart';
 import 'package:flutter_pocket_saver/app/pages/transactions_page.dart';
 
@@ -20,7 +20,7 @@ class Routes {
       case cadastroRoute:
         return SlideRightRoute(widget: const CadastroPage());
       case homeRoute:
-        return SlideRightRoute(widget: const HomePage());
+        return SlideRightRoute(widget: const PocketPage());
       case transactionsRoute:
         return SlideRightRoute(widget: const TransactionsPage());
       case despesasRoute:

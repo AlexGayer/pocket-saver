@@ -23,7 +23,10 @@ class GradientBackgroundWidget extends StatelessWidget {
             ),
           ),
         ),
-        child,
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: child,
+        ),
       ],
     );
   }

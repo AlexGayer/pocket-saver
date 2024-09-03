@@ -91,8 +91,9 @@ mixin _$LoginController on _LoginControllerrBase, Store {
       AsyncAction('_LoginControllerrBase.signInWithGoogle', context: context);
 
   @override
-  Future<UserCredential?> signInWithGoogle() {
-    return _$signInWithGoogleAsyncAction.run(() => super.signInWithGoogle());
+  Future<UserCredential?> signInWithGoogle(BuildContext context) {
+    return _$signInWithGoogleAsyncAction
+        .run(() => super.signInWithGoogle(context));
   }
 
   late final _$saveCamposAsyncAction =

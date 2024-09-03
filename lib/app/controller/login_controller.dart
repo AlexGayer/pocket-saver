@@ -2,13 +2,13 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
 import 'package:flutter_pocket_saver/app/constant/app_shared_preferences.dart';
 import 'package:flutter_pocket_saver/app/domain/usecase/firebase_usecase.dart';
-import 'package:flutter_pocket_saver/app/global/widget/custom_dialog_widget.dart';
+import 'package:flutter_pocket_saver/app/constant/dialog_helper.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
+
 part 'login_controller.g.dart';
 
 @injectable
@@ -28,7 +28,7 @@ abstract class _LoginControllerrBase with Store {
   final focusNewPwd = FocusNode();
   final formKey = GlobalKey<FormState>();
   final handler = AppSharedPreferences();
-  final helper = CustomDialogWidget();
+  final helper = DialogHelper();
 
   _LoginControllerrBase(this._firebaseUsecase);
 
@@ -46,34 +46,30 @@ abstract class _LoginControllerrBase with Store {
 
   @action
   initState() async {
-    try {
-      _loading = false;
-    } catch (e) {
-      _loading = false;
-      e;
-    }
+    _loading = false;
   }
 
   @action
   Future login(BuildContext context) async {
     try {
-      if (formKey.currentState != null) {
-        if (formKey.currentState!.validate()) {
-          if (_firstLogin) {
-            await _signUp(context);
-          } else {
-            await _signIn(context);
-          }
+      if (formKey.currentState != null && formKey.currentState!.validate()) {
+        if (_firstLogin) {
+          await _signUp(context);
+        } else {
+          await _signIn(context);
         }
       }
     } catch (e) {
-      return e;
+      print(e);
     }
   }
 
   @action
   Future<void> _signIn(BuildContext context) async {
     _loading = true;
+
+    showMessage(context, "Realizando acesso, aguarde...");
+
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: emailCtrl.text, password: pwdCtrl.text);
@@ -86,53 +82,60 @@ abstract class _LoginControllerrBase with Store {
 
         String? photoURL = userDetails['photoURL'];
         if (photoURL != null && photoURL.isNotEmpty) {
-          await saveCampos(photoURL); // Salva a URL da imagem
+          await saveCampos(photoURL);
         }
       }
 
-      saveCampos();
+      await saveCampos();
 
       Navigator.of(context).pushNamed("/home");
-      _loading = false;
     } on FirebaseAuthException catch (e) {
       print(e);
+      await helper.showErrorDialog(
+          context, "Erro ao fazer login: ${e.message}");
+    } finally {
       _loading = false;
-      rethrow;
     }
   }
 
   @action
   Future<void> _signUp(BuildContext context) async {
     _loading = true;
+
+    showMessage(context, "Realizando cadastro, aguarde...");
+
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
               email: emailCtrl.text, password: pwdCtrl.text);
 
+      // Atualizar o display name do usuário
       await userCredential.user!.updateProfile(displayName: nameCtrl.text);
 
+      // Salvar usuário no Firestore
       await _firebaseUsecase.registerUser(
           userCredential.user!.uid, emailCtrl.text, nameCtrl.text);
 
       await saveCampos();
-      _loading = false;
 
-      helper.show(context, "Cadastro realizado com sucesso!",
-          func: () => Navigator.of(context).pushNamed("/home"));
+      await helper.showSuccessDialog(
+        context,
+        "Cadastro realizado com sucesso! Realize o login novamente!",
+        onConfirm: () => Navigator.of(context).pushNamed("/login"),
+      );
     } on FirebaseAuthException catch (e) {
       print(e);
-
-      helper.show(
-          context, "O endereço de e-mail já está sendo usado por outra conta !",
-          func: () => Navigator.of(context).pushNamed("/home"));
-
+      await helper.showErrorDialog(
+          context, "O endereço de e-mail já está sendo usado por outra conta!");
       _loading = false;
-      rethrow;
+    } finally {
+      _loading = false;
     }
   }
 
   @action
-  Future<UserCredential?> signInWithGoogle() async {
+  Future<UserCredential?> signInWithGoogle(BuildContext context) async {
+    _loading = true;
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication? googleAuth =
@@ -147,12 +150,16 @@ abstract class _LoginControllerrBase with Store {
           await FirebaseAuth.instance.signInWithCredential(credential);
 
       if (userCredential != null) {
-        Navigator.of(ctx).pushNamed('/home');
+        Navigator.of(context).pushNamed('/home');
       }
 
       return userCredential;
     } on Exception catch (e) {
       print('exception->$e');
+      await helper.showErrorDialog(
+          context, "Erro ao fazer login com Google: ${e.toString()}");
+    } finally {
+      _loading = false;
     }
     return null;
   }
@@ -179,5 +186,23 @@ abstract class _LoginControllerrBase with Store {
     if (photoURL != null) {
       await handler.savePreferences("photoURL", photoURL);
     }
+  }
+
+  showMessage(BuildContext context, String message) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Row(
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(width: 20),
+              Text(message),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
