@@ -23,8 +23,7 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
       await firestore.collection('users').doc(userId).set({
         'email': email,
         'displayName': displayName,
-        'photoURL':
-            photoURL ?? '', // Adiciona a URL da foto de perfil, se disponível
+        'photoURL': photoURL ?? '',
       });
     } catch (e) {
       rethrow;
@@ -39,12 +38,10 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
         final userData = docSnapshot.data() as Map<String, dynamic>;
         String? photoURL = userData['photoURL'];
 
-        // Se tiver uma URL de foto, retorne junto com outros detalhes
         return {
           'displayName': userData['displayName'],
           'email': userData['email'],
-          'photoURL':
-              photoURL ?? '', // Pode ser vazio se não houver URL de foto
+          'photoURL': photoURL ?? '',
         };
       }
       return null;

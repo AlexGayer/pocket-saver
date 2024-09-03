@@ -1,13 +1,14 @@
-// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, avoid_print
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
 import 'package:flutter_pocket_saver/app/domain/model/contas.dart';
 import 'package:flutter_pocket_saver/app/domain/usecase/busca_contas_usecase.dart';
 import 'package:flutter_pocket_saver/app/constant/dialog_helper.dart';
+import 'package:flutter_pocket_saver/app/domain/usecase/firebase_usecase.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
+
 part 'pocket_controller.g.dart';
 
 @injectable
@@ -15,6 +16,8 @@ class PocketController = _PocketControllerBase with _$PocketController;
 
 abstract class _PocketControllerBase with Store {
   final BuscaContasUsecase _buscaContasUsecase;
+  final FirebaseUsecase _firebaseUsecase;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final currency = TextEditingController();
   final edtValor = TextEditingController();
@@ -27,7 +30,13 @@ abstract class _PocketControllerBase with Store {
   DateTime firstDate = DateTime(2024);
   DateTime lastDate = DateTime(2999);
 
-  _PocketControllerBase(this._buscaContasUsecase);
+  _PocketControllerBase(this._buscaContasUsecase, this._firebaseUsecase);
+
+  @observable
+  String userName = "";
+
+  @observable
+  String userPhotoURL = "";
 
   @observable
   bool showCurrency = false;
@@ -73,13 +82,22 @@ abstract class _PocketControllerBase with Store {
   bool get loading => _loading;
 
   @action
-  initState() async {
+  Future<void> initState() async {
     try {
       edtValor.text = "0,00";
       _loading = false;
+
+      final userId = _auth.currentUser?.uid;
+      if (userId != null) {
+        final userDetails = await _firebaseUsecase.getUserDetails(userId);
+        if (userDetails != null) {
+          userName = userDetails['displayName'] ?? 'Usuário';
+          userPhotoURL = userDetails['photoURL'] ?? '';
+        }
+      }
     } catch (e) {
       _loading = false;
-      e;
+      print('Erro ao inicializar estado: $e');
     }
   }
 
@@ -97,9 +115,7 @@ abstract class _PocketControllerBase with Store {
   Future<void> fetchContas() async {
     try {
       List<Contas> despesas = await _buscaContasUsecase.fetchContas('Despesa');
-
       List<Contas> receitas = await _buscaContasUsecase.fetchContas('Receita');
-
       contas = [...despesas, ...receitas];
     } catch (e) {
       print('Erro ao buscar contas: $e');
@@ -118,15 +134,10 @@ abstract class _PocketControllerBase with Store {
       totalReceitas = receitas.fold(0, (sum, item) => sum + item.valor);
       totalDespesas = despesas.fold(0, (sum, item) => sum + item.valor);
 
-      // Calcular o total geral
       totalContas = totalReceitas - totalDespesas;
 
-      // Atualizar o TextEditingController
       _updateTotalContasController();
 
-      // print('Total Receitas: $totalReceitas');
-      // print('Total Despesas: $totalDespesas');
-      // print('Total Contas: $totalContas');
       _loading = false;
     } catch (e) {
       _loading = false;
@@ -242,6 +253,7 @@ abstract class _PocketControllerBase with Store {
     }
   }
 
+  @action
   String formatDouble(double value, {String? locale, String? pattern}) {
     try {
       final format = NumberFormat(pattern ?? 'R\$ #,##0.##', locale ?? 'pt_BR');
@@ -252,38 +264,24 @@ abstract class _PocketControllerBase with Store {
   }
 
   @action
-  double parseDouble(String input) {
+  double parseDouble(String valor) {
     try {
-      String value = input.trim();
-
-      value = value.replaceAll(",", ".");
-
-      value = value.replaceAll(RegExp(r'(?<=\d)\.(?=\d{3})'), '');
-
-      return double.parse(value);
+      final currencyFormat = NumberFormat.simpleCurrency(locale: 'pt_BR');
+      return currencyFormat.parse(valor).toDouble();
     } catch (e) {
-      throw FormatException('Formato inválido para número: $input');
+      return 0.0;
     }
   }
 
   @action
-  void _updateTotalContasController() {
-    currency.text = formatCurrency(totalContas);
-  }
-
-  String formatCurrency(double value) {
-    final format = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
-    return format.format(value);
+  _updateTotalContasController() {
+    edtValor.text = NumberFormat.currency(locale: 'pt_BR').format(totalContas);
   }
 
   @action
-  void showCustomSnackBar(BuildContext context, String message,
-      {Duration duration = const Duration(seconds: 3)}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: duration,
-      ),
+  showCustomSnackBar(BuildContext ctx, String message) {
+    ScaffoldMessenger.of(ctx).showSnackBar(
+      SnackBar(content: Text(message)),
     );
   }
 }

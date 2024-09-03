@@ -53,12 +53,14 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i394.BuscaContasUsecase>(() => _i394.BuscaContasUsecaseImpl(
         buscaContasRepository: gh<_i204.BuscaContasRepository>()));
-    gh.factory<_i422.PocketController>(
-        () => _i422.PocketController(gh<_i394.BuscaContasUsecase>()));
     gh.factory<_i478.FirebaseUsecase>(
         () => _i478.FirebaseUsecaseImpl(gh<_i170.FirestoreRepository>()));
     gh.factory<_i468.LoginController>(
         () => _i468.LoginController(gh<_i478.FirebaseUsecase>()));
+    gh.factory<_i422.PocketController>(() => _i422.PocketController(
+          gh<_i394.BuscaContasUsecase>(),
+          gh<_i478.FirebaseUsecase>(),
+        ));
     return this;
   }
 }

@@ -16,6 +16,38 @@ mixin _$PocketController on _PocketControllerBase, Store {
           name: '_PocketControllerBase.loading'))
       .value;
 
+  late final _$userNameAtom =
+      Atom(name: '_PocketControllerBase.userName', context: context);
+
+  @override
+  String get userName {
+    _$userNameAtom.reportRead();
+    return super.userName;
+  }
+
+  @override
+  set userName(String value) {
+    _$userNameAtom.reportWrite(value, super.userName, () {
+      super.userName = value;
+    });
+  }
+
+  late final _$userPhotoURLAtom =
+      Atom(name: '_PocketControllerBase.userPhotoURL', context: context);
+
+  @override
+  String get userPhotoURL {
+    _$userPhotoURLAtom.reportRead();
+    return super.userPhotoURL;
+  }
+
+  @override
+  set userPhotoURL(String value) {
+    _$userPhotoURLAtom.reportWrite(value, super.userPhotoURL, () {
+      super.userPhotoURL = value;
+    });
+  }
+
   late final _$showCurrencyAtom =
       Atom(name: '_PocketControllerBase.showCurrency', context: context);
 
@@ -181,7 +213,7 @@ mixin _$PocketController on _PocketControllerBase, Store {
       AsyncAction('_PocketControllerBase.initState', context: context);
 
   @override
-  Future initState() {
+  Future<void> initState() {
     return _$initStateAsyncAction.run(() => super.initState());
   }
 
@@ -305,18 +337,29 @@ mixin _$PocketController on _PocketControllerBase, Store {
   }
 
   @override
-  double parseDouble(String input) {
+  String formatDouble(double value, {String? locale, String? pattern}) {
     final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
-        name: '_PocketControllerBase.parseDouble');
+        name: '_PocketControllerBase.formatDouble');
     try {
-      return super.parseDouble(input);
+      return super.formatDouble(value, locale: locale, pattern: pattern);
     } finally {
       _$_PocketControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void _updateTotalContasController() {
+  double parseDouble(String valor) {
+    final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
+        name: '_PocketControllerBase.parseDouble');
+    try {
+      return super.parseDouble(valor);
+    } finally {
+      _$_PocketControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic _updateTotalContasController() {
     final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
         name: '_PocketControllerBase._updateTotalContasController');
     try {
@@ -327,12 +370,11 @@ mixin _$PocketController on _PocketControllerBase, Store {
   }
 
   @override
-  void showCustomSnackBar(BuildContext context, String message,
-      {Duration duration = const Duration(seconds: 3)}) {
+  dynamic showCustomSnackBar(BuildContext ctx, String message) {
     final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
         name: '_PocketControllerBase.showCustomSnackBar');
     try {
-      return super.showCustomSnackBar(context, message, duration: duration);
+      return super.showCustomSnackBar(ctx, message);
     } finally {
       _$_PocketControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -341,6 +383,8 @@ mixin _$PocketController on _PocketControllerBase, Store {
   @override
   String toString() {
     return '''
+userName: ${userName},
+userPhotoURL: ${userPhotoURL},
 showCurrency: ${showCurrency},
 totalReceitas: ${totalReceitas},
 totalDespesas: ${totalDespesas},
