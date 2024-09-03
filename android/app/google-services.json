@@ -12,7 +12,20 @@
           "package_name": "com.alexgayer"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "801854125479-vuesktvarvk5c913g4ssgfqcikpgbr9o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alexgayer",
+            "certificate_hash": "4d2495ad4aeefee203a3770e361b374e4a3e7c42"
+          }
+        },
+        {
+          "client_id": "801854125479-vvmkgdb6uoshi3mblnvtp19f0fnkc8uu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDPAfsHYWMj8qvkBI4mAFtrPP5cs-hrgeA"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "801854125479-vvmkgdb6uoshi3mblnvtp19f0fnkc8uu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "801854125479-1l9tseoh5b1ietdmvl6gsb8htjlk9v1t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.alexgayer"
+              }
+            }
+          ]
         }
       }
     }

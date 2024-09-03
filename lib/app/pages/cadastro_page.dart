@@ -26,10 +26,12 @@ class _CadastroPageState extends WidgetStateful<CadastroPage, LoginController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  color: Colors.white,
+                SizedBox(
                   width: 200,
                   height: 200,
+                  child: Image.asset(
+                    'assets/images/pocket_white.png',
+                  ),
                 ),
                 const SizedBox(height: 20),
                 SizedBox(

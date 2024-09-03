@@ -20,10 +20,12 @@ class _IndexPageState extends State<IndexPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              color: Colors.white,
+            SizedBox(
               width: 200,
               height: 200,
+              child: Image.asset(
+                'assets/images/pocket_white.png',
+              ),
             ),
             const SizedBox(height: 20),
             Center(

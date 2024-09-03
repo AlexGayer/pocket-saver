@@ -43,10 +43,12 @@ class _AcessoPageState extends WidgetStateful<AcessoPage, LoginController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                color: Colors.white,
+              SizedBox(
                 width: 200,
                 height: 200,
+                child: Image.asset(
+                  'assets/images/pocket_white.png',
+                ),
               ),
               const SizedBox(height: 20),
               SizedBox(
@@ -65,18 +67,6 @@ class _AcessoPageState extends WidgetStateful<AcessoPage, LoginController> {
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
-              ),
-              const SizedBox(height: 20),
-              CustomElevatedButton(
-                backgroundColor: Colors.white,
-                themeColor: Colors.black,
-                iconColor: Colors.black,
-                text: "Continuar com Apple",
-                icon: MdiIcons.apple,
-                onPressed: () async {
-                  controller.setFirstLogin(!widget.isLogin);
-                  controller.login(context);
-                },
               ),
               const SizedBox(height: 20),
               CustomElevatedButton(
