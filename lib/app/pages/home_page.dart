@@ -4,6 +4,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_pocket_saver/app/global/widget/stateful_widget.dart';
 import 'package:flutter_pocket_saver/app/pages/shimmer_page.dart';
 import 'package:flutter_pocket_saver/app/widgets/balance_widget.dart';
+import 'package:flutter_pocket_saver/app/widgets/container_budget_widget.dart';
+import 'package:flutter_pocket_saver/app/widgets/container_spending_widget.dart';
 import 'package:flutter_pocket_saver/app/widgets/gradient_background_widget.dart';
 import 'package:flutter_pocket_saver/app/widgets/inc_exp_widget.dart';
 import 'package:flutter_pocket_saver/app/widgets/user_widget.dart';
@@ -61,9 +63,8 @@ class _HomePageState extends WidgetStateful<HomePage, PocketController>
                     UserWidget(),
                     BalanceWidget(),
                     IncExpWidget(),
-                    // ContainerBudgetWidget(),
-                    // ContainerBudgetWidget(),
-                    // ContainerBudgetWidget(),
+                    ContainerSpendingWidget(),
+                    ContainerBudgetWidget(),
                   ],
                 ),
               ),

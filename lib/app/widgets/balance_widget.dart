@@ -22,7 +22,7 @@ class _BalanceWidgetState
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 10),
+      margin: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -33,7 +33,7 @@ class _BalanceWidgetState
             builder: (_) => TextField(
               obscureText: controller.showCurrency ? false : true,
               style: Theme.of(context).textTheme.titleLarge,
-              controller: controller.currency,
+              controller: controller.edtValor,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 prefixIcon: IconButton(

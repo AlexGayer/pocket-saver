@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
+import 'package:flutter_pocket_saver/app/constant/app_shared_preferences.dart';
 import 'package:flutter_pocket_saver/app/domain/model/contas.dart';
 import 'package:flutter_pocket_saver/app/domain/usecase/busca_contas_usecase.dart';
 import 'package:flutter_pocket_saver/app/constant/dialog_helper.dart';
@@ -24,6 +25,7 @@ abstract class _PocketControllerBase with Store {
   final edtData = TextEditingController();
   final edtDescr = TextEditingController();
   final mHandler = DialogHelper();
+  final sHandler = AppSharedPreferences();
 
   TimeOfDay timeOfDay = TimeOfDay.now();
   DateTime selectedDate = DateTime.now();

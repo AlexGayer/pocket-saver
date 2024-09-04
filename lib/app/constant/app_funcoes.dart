@@ -1,17 +1,30 @@
-// ignore_for_file: depend_on_referenced_packages, avoid_print
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_pocket_saver/app/constant/app_shared_preferences.dart';
 
 class AppFuncoes {
   Future<bool> isConfigured() async {
+    final _auth = FirebaseAuth.instance;
     final handler = AppSharedPreferences();
-    final String edtMail = await handler.redPreferences("mail");
-    final String edtPwd = await handler.redPreferences("password");
 
-    if (edtMail.isNotEmpty && edtPwd.isNotEmpty) {
-      return true;
-    } else {
-      return false;
+    final User? user = _auth.currentUser;
+
+    if (user != null) {
+      final String edtMail = await handler.readPreferences("mail");
+      final String edtPwd = await handler.readPreferences("password");
+
+      if (user.providerData
+          .any((provider) => provider.providerId == 'password')) {
+        if (edtMail.isNotEmpty && edtPwd.isNotEmpty) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        true;
+        return true;
+      }
     }
+
+    return false;
   }
 }

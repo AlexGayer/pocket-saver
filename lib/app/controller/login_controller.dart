@@ -174,6 +174,8 @@ abstract class _LoginControllerrBase with Store {
             userPhotoURL,
           );
 
+          await saveCampos();
+
           Navigator.of(context).pushNamed('/home');
         }
       }

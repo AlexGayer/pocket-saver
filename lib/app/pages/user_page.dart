@@ -15,7 +15,9 @@ class _UserPageState extends State<UserPage> {
       body: GradientBackgroundWidget(
           child: Center(
         child: TextButton(
-            onPressed: () => Navigator.of(context).pushNamed("/index"),
+            onPressed: () {
+              Navigator.of(context).pushNamed("/index");
+            },
             child: const Text("Sair")),
       )),
     );
