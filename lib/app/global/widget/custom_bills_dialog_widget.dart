@@ -82,7 +82,7 @@ class _CustomBillsDialogWidgetState
                     const TextInputType.numberWithOptions(decimal: true),
               ),
               CustomButtonFieldContainer(
-                  edtController: controller.edtData,
+                  edtController: controller.edtVcto,
                   tipo: widget.tipo,
                   prefixIcon: MdiIcons.calendar,
                   controller: controller),

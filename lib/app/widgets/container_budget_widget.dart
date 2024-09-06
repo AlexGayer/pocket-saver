@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_pocket_saver/app/controller/pocket_controller.dart';
 import 'package:flutter_pocket_saver/app/global/widget/stateful_widget.dart';
+import 'package:flutter_pocket_saver/app/widgets/list_tile_contas_widget.dart';
 
 class ContainerBudgetWidget extends StatefulWidget {
   const ContainerBudgetWidget({super.key});
@@ -28,18 +29,24 @@ class ContainerBudgetWidgetState
               child: SizedBox(
                 width: double.infinity,
                 height: size.height * 0.2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text("Atividades Recentes"),
-                    const SizedBox(height: 10),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.contas.length,
-                      itemBuilder: (context, index) =>
-                          Text(controller.contas[index].categoria),
-                    ),
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Atividades Recentes",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      const SizedBox(height: 10),
+                      ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: controller.contas.length,
+                        itemBuilder: (context, index) => ListTileContasWidget(
+                            controller: controller, index: index),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ));

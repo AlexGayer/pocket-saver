@@ -62,7 +62,7 @@ class _CustomButtonFieldContainerState
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                         ),
-                        controller: widget.controller.edtData,
+                        controller: widget.controller.edtVcto,
                         style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.bold,

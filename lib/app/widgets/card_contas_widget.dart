@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/controller/pocket_controller.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class TextFieldContasWidget extends StatelessWidget {
+class CardContasWidget extends StatelessWidget {
   final PocketController controller;
   final int index;
-  const TextFieldContasWidget(
+  const CardContasWidget(
       {super.key, required this.controller, required this.index});
 
   @override
   Widget build(BuildContext context) {
+    final style = Theme.of(context).textTheme;
     final contas = controller.contas[index];
 
     Color getColor(String tipo) {
@@ -51,15 +52,27 @@ class TextFieldContasWidget extends StatelessWidget {
                       color: getColor(contas.tipo),
                       fontWeight: FontWeight.bold,
                       fontSize: 18)),
-              Text(controller.formatDouble(contas.valor)),
+              Text(
+                controller.formatDouble(contas.valor),
+                style: style.titleMedium,
+              ),
             ],
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(contas.categoria),
-              Text(contas.descricao),
-              Text("Vencimento: ${controller.toBRDt(contas.vencimento)}"),
+              Text(
+                contas.categoria,
+                style: style.titleSmall,
+              ),
+              Text(
+                contas.descricao,
+                style: style.titleSmall,
+              ),
+              Text(
+                "Vencimento: ${controller.toBRDt(contas.dtVencimento)}",
+                style: style.titleSmall,
+              ),
             ],
           ),
         ),

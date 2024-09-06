@@ -3,10 +3,10 @@ import 'package:flutter_pocket_saver/app/constant/app_shared_preferences.dart';
 
 class AppFuncoes {
   Future<bool> isConfigured() async {
-    final _auth = FirebaseAuth.instance;
+    final auth = FirebaseAuth.instance;
     final handler = AppSharedPreferences();
 
-    final User? user = _auth.currentUser;
+    final User? user = auth.currentUser;
 
     if (user != null) {
       final String edtMail = await handler.readPreferences("mail");

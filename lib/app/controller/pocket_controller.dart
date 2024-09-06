@@ -22,7 +22,8 @@ abstract class _PocketControllerBase with Store {
 
   final currency = TextEditingController();
   final edtValor = TextEditingController();
-  final edtData = TextEditingController();
+  final edtVcto = TextEditingController();
+  final edtCdto = TextEditingController();
   final edtDescr = TextEditingController();
   final mHandler = DialogHelper();
   final sHandler = AppSharedPreferences();
@@ -118,6 +119,7 @@ abstract class _PocketControllerBase with Store {
     try {
       List<Contas> despesas = await _buscaContasUsecase.fetchContas('Despesa');
       List<Contas> receitas = await _buscaContasUsecase.fetchContas('Receita');
+
       contas = [...despesas, ...receitas];
     } catch (e) {
       print('Erro ao buscar contas: $e');
@@ -150,7 +152,8 @@ abstract class _PocketControllerBase with Store {
   @action
   Future<void> adicionaContas(String tipo, String categoria) async {
     final id = DateTime.now().millisecondsSinceEpoch;
-    final formatData = parseData(edtData.text);
+    final formatVcto = parseData(edtVcto.text);
+    final formatCdto = parseData(edtCdto.text);
     final formaValor = parseDouble(edtValor.text);
 
     final addContas = Contas(
@@ -158,7 +161,8 @@ abstract class _PocketControllerBase with Store {
       tipo: tipo,
       descricao: edtDescr.text,
       categoria: categoria,
-      vencimento: formatData!,
+      dtVencimento: formatVcto!,
+      dtCadastro: formatCdto!,
       valor: formaValor,
     );
 
@@ -207,9 +211,9 @@ abstract class _PocketControllerBase with Store {
   @action
   Future datePicker(BuildContext context, String? date) async {
     if (date == "Hoje") {
-      edtData.text = toBRDt(DateTime.now());
+      edtVcto.text = toBRDt(DateTime.now());
     } else if (date == "Amanhã") {
-      edtData.text = toBRDt(DateTime.now().add(const Duration(hours: 24)));
+      edtVcto.text = toBRDt(DateTime.now().add(const Duration(hours: 24)));
     } else {
       final DateTime? datePicked = await showDatePicker(
         context: context,
@@ -224,7 +228,7 @@ abstract class _PocketControllerBase with Store {
 
       if (datePicked != null && datePicked != selectedDate) {
         selectedDate = datePicked;
-        edtData.text = toBRDt(selectedDate);
+        edtVcto.text = toBRDt(selectedDate);
       }
     }
   }

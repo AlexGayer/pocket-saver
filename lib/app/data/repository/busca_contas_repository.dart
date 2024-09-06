@@ -41,7 +41,8 @@ class BuscaContasRepositoryImpl implements BuscaContasRepository {
       final newDespesa = Contas(
         id: id,
         tipo: contas.tipo,
-        vencimento: contas.vencimento,
+        dtVencimento: contas.dtVencimento,
+        dtCadastro: contas.dtCadastro,
         descricao: contas.descricao,
         categoria: contas.categoria,
         valor: contas.valor,

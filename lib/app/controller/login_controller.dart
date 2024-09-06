@@ -140,20 +140,19 @@ abstract class _LoginControllerrBase with Store {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
-        // Usuário cancelou o login
         throw Exception('Login com Google foi cancelado.');
       }
 
-      final GoogleSignInAuthentication? googleAuth =
+      final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
-      if (googleAuth?.accessToken == null && googleAuth?.idToken == null) {
+      if (googleAuth.accessToken == null && googleAuth.idToken == null) {
         throw Exception('Falha ao obter accessToken e idToken.');
       }
 
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
 
       final userCredential =

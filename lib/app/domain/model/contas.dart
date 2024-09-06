@@ -5,7 +5,8 @@ class Contas {
   final String tipo;
   final String descricao;
   final String categoria;
-  final DateTime vencimento;
+  final DateTime dtVencimento;
+  final DateTime dtCadastro;
   final double valor;
 
   Contas({
@@ -13,7 +14,8 @@ class Contas {
     required this.tipo,
     required this.descricao,
     required this.categoria,
-    required this.vencimento,
+    required this.dtVencimento,
+    required this.dtCadastro,
     required this.valor,
   });
 
@@ -22,7 +24,8 @@ class Contas {
         tipo: json['tipo'],
         descricao: json['descricao'],
         categoria: json['categoria'],
-        vencimento: DateFormat("dd/MM/yyyy").parse(json['vencimento']),
+        dtVencimento: DateFormat("dd/MM/yyyy").parse(json['dtVencimento']),
+        dtCadastro: DateFormat("dd/MM/yyyy").parse(json['dtCadastro']),
         valor: json['valor'],
       );
 
@@ -31,8 +34,10 @@ class Contas {
         'tipo': tipo,
         'descricao': descricao,
         'categoria': categoria,
-        'vencimento':
-            "${vencimento.day.toString().padLeft(2, '0')}/${vencimento.month.toString().padLeft(2, '0')}/${vencimento.year.toString().padLeft(4, '0')}",
+        'dtVencimento':
+            "${dtVencimento.day.toString().padLeft(2, '0')}/${dtVencimento.month.toString().padLeft(2, '0')}/${dtVencimento.year.toString().padLeft(4, '0')}",
+        'dtCadastro':
+            "${dtCadastro.day.toString().padLeft(2, '0')}/${dtCadastro.month.toString().padLeft(2, '0')}/${dtCadastro.year.toString().padLeft(4, '0')}",
         'valor': valor,
       };
 }

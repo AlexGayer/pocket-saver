@@ -81,7 +81,7 @@ class _CustomTextFieldContainerState extends State<CustomTextFieldContainer> {
         decoration: InputDecoration(
           hintText: widget.hintText,
           border: InputBorder.none,
-          prefixIcon: Icon(widget.prefixIcon),
+          prefixIcon: Icon(widget.prefixIcon, color: Colors.white),
           suffixIcon: widget.pwd == true
               ? IconButton(
                   onPressed: () {
@@ -95,8 +95,8 @@ class _CustomTextFieldContainerState extends State<CustomTextFieldContainer> {
                   ))
               : null,
           labelText: widget.hintText,
-          labelStyle: Theme.of(context).textTheme.bodySmall,
-          hintStyle: Theme.of(context).textTheme.bodySmall,
+          labelStyle: Theme.of(context).textTheme.titleSmall,
+          hintStyle: Theme.of(context).textTheme.titleSmall,
         ),
       ),
     );
