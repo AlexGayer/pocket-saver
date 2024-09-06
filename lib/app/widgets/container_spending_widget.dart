@@ -31,8 +31,8 @@ class ContainerSpendingWidgetState
       padding: const EdgeInsets.all(10.0),
       child: SizedBox(
           width: double.infinity,
-          height: size.height * 0.15,
-          child: BarChartWidget()),
+          height: size.height * 0.2,
+          child: BarChartWidget(controller: controller)),
     );
   }
 }

@@ -26,27 +26,27 @@ class ContainerBudgetWidgetState
     return Observer(
         builder: (_) => Padding(
               padding: const EdgeInsets.all(10.0),
-              child: SizedBox(
-                width: double.infinity,
-                height: size.height * 0.2,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Atividades Recentes",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 10),
-                      ListView.builder(
-                        physics: const BouncingScrollPhysics(),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Atividades Recentes",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: double.infinity,
+                      height: size.height * 0.2,
+                      child: ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: controller.contas.length,
                         itemBuilder: (context, index) => ListTileContasWidget(
                             controller: controller, index: index),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ));

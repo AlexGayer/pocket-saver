@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/widgets/balance_widget.dart';
 import 'package:flutter_pocket_saver/app/widgets/container_budget_widget.dart';
+import 'package:flutter_pocket_saver/app/widgets/container_spending_widget.dart';
 import 'package:flutter_pocket_saver/app/widgets/inc_exp_widget.dart';
 import 'package:flutter_pocket_saver/app/widgets/user_widget.dart';
 import 'package:shimmer/shimmer.dart';
@@ -22,8 +23,7 @@ class ShimmerPage extends StatelessWidget {
             UserWidget(),
             BalanceWidget(),
             IncExpWidget(),
-            ContainerBudgetWidget(),
-            ContainerBudgetWidget(),
+            ContainerSpendingWidget(),
             ContainerBudgetWidget(),
           ],
         ),

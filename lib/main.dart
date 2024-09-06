@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
 import 'package:flutter_pocket_saver/app/constant/app_funcoes.dart';
 import 'package:flutter_pocket_saver/app/constant/app_routes.dart';
@@ -31,6 +32,16 @@ class MyApp extends StatelessWidget {
       initialRoute: tela,
       navigatorKey: navigatorKey,
       onGenerateRoute: Routes.generateRoute,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('pt', 'BR'),
+        Locale('en', 'US'),
+        Locale('es', 'ES'),
+      ],
     );
   }
 }

@@ -25,44 +25,56 @@ class _IncExpWidgetState
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: 50,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(MdiIcons.arrowDownCircle),
-                  onPressed: () => Navigator.of(context).pushNamed("/receitas"),
-                  color: Colors.green,
-                  iconSize: 30,
-                ),
-                Text(
-                  "R\$ ${controller.totalReceitas.toStringAsFixed(2)}",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(width: 5),
-              ],
-            ),
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(MdiIcons.arrowDownCircle),
-                  onPressed: () => Navigator.of(context).pushNamed("/despesas"),
-                  color: Colors.red,
-                  iconSize: 30,
-                ),
-                const SizedBox(width: 5),
-                Text(
-                  "R\$ ${controller.totalDespesas.toStringAsFixed(2)}",
-                  style: Theme.of(context).textTheme.titleMedium,
-                )
-              ],
-            ),
-          ],
+      builder: (_) => Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: 100,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Manteção de Contas"),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(MdiIcons.arrowDownCircle),
+                        onPressed: () =>
+                            Navigator.of(context).pushNamed("/receitas"),
+                        color: Colors.green,
+                        iconSize: 30,
+                      ),
+                      Text(
+                        "R\$ ${controller.totalReceitas.toStringAsFixed(2)}",
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(width: 5),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(MdiIcons.arrowDownCircle),
+                        onPressed: () =>
+                            Navigator.of(context).pushNamed("/despesas"),
+                        color: Colors.red,
+                        iconSize: 30,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        "R\$ ${controller.totalDespesas.toStringAsFixed(2)}",
+                        style: Theme.of(context).textTheme.titleMedium,
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

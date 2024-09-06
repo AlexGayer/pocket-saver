@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pocket_saver/app/widgets/gradient_background_widget.dart';
 
 class AnalyticsPage extends StatefulWidget {
   const AnalyticsPage({super.key});
@@ -10,7 +11,9 @@ class AnalyticsPage extends StatefulWidget {
 class _AnalyticsPageState extends State<AnalyticsPage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-        child: Text('Analytics Page', style: TextStyle(color: Colors.white)));
+    return const GradientBackgroundWidget(
+        child: Center(
+      child: Text('Analytics Page', style: TextStyle(color: Colors.white)),
+    ));
   }
 }

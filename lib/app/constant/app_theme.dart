@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 final ThemeData appThemeLight = ThemeData(
   useMaterial3: true,
   fontFamily: "PT_Sans-Narrow-Web",
-  brightness: Brightness.light,
+  brightness: Brightness.dark,
   primaryColor: Colors.black,
   appBarTheme: const AppBarTheme(
       backgroundColor: Colors.black,

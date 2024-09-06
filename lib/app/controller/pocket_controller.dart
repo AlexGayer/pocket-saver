@@ -71,6 +71,7 @@ abstract class _PocketControllerBase with Store {
   @observable
   List<String> categorias = [
     "Casa",
+    "Salário",
     "Educação",
     "Alimentação",
     "Lazer",
@@ -153,7 +154,7 @@ abstract class _PocketControllerBase with Store {
   Future<void> adicionaContas(String tipo, String categoria) async {
     final id = DateTime.now().millisecondsSinceEpoch;
     final formatVcto = parseData(edtVcto.text);
-    final formatCdto = parseData(edtCdto.text);
+    final formatCdto = DateTime.now();
     final formaValor = parseDouble(edtValor.text);
 
     final addContas = Contas(
@@ -162,11 +163,11 @@ abstract class _PocketControllerBase with Store {
       descricao: edtDescr.text,
       categoria: categoria,
       dtVencimento: formatVcto!,
-      dtCadastro: formatCdto!,
+      dtCadastro: formatCdto,
       valor: formaValor,
     );
 
-    showCustomSnackBar(ctx, "Adicionando $tipo... Aguarde");
+    // showCustomSnackBar(ctx, "Adicionando $tipo... Aguarde");
 
     try {
       await _buscaContasUsecase.addContas(addContas);

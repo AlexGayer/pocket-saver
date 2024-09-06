@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   animated_bottom_navigation_bar:
   material_design_icons_flutter: 
   flutter_expandable_fab: 

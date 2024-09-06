@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pocket_saver/app/widgets/gradient_background_widget.dart';
 
 class TransactionsPage extends StatefulWidget {
   const TransactionsPage({super.key});
@@ -10,7 +11,9 @@ class TransactionsPage extends StatefulWidget {
 class _TransactionsPageState extends State<TransactionsPage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-        child: Text('Payments Page', style: TextStyle(color: Colors.white)));
+    return const GradientBackgroundWidget(
+        child: Center(
+      child: Text('Transactions Page', style: TextStyle(color: Colors.white)),
+    ));
   }
 }
