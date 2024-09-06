@@ -34,6 +34,7 @@ class BarChartWidget extends StatelessWidget {
             : 0;
         final List<Color> colors = [
           Colors.lime,
+          Colors.green,
           Colors.blue,
         ];
         final Gradient gradient =
@@ -50,7 +51,8 @@ class BarChartWidget extends StatelessWidget {
                   date.difference(referenceDate).inDays;
 
               return BarChartGroupData(x: daysFromReference, barRods: [
-                BarChartRodData(toY: summedValue, gradient: gradient),
+                BarChartRodData(
+                    toY: summedValue, gradient: gradient, width: 15),
               ]);
             }),
             titlesData: FlTitlesData(
