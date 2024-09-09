@@ -4,6 +4,7 @@ import 'package:flutter_pocket_saver/app/controller/pocket_controller.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_app_bar_widget.dart';
 import 'package:flutter_pocket_saver/app/global/widget/stateful_widget.dart';
 import 'package:flutter_pocket_saver/app/widgets/card_contas_widget.dart';
+import 'package:flutter_pocket_saver/app/widgets/gradient_background_widget.dart';
 
 class TransactionsPage extends StatefulWidget {
   const TransactionsPage({super.key});
@@ -25,15 +26,20 @@ class _TransactionsPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBarWidget(title: "Manutenção de Contas"),
-      body: Observer(
-          builder: (_) => ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: controller.contas.length,
-                itemBuilder: (context, index) =>
-                    CardContasWidget(controller: controller, index: index),
-              )),
+      appBar: const CustomAppBarWidget(
+        title: "Manutenção de Contas",
+        implyLeading: false,
+      ),
+      body: GradientBackgroundWidget(
+        child: Observer(
+            builder: (_) => ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: controller.contas.length,
+                  itemBuilder: (context, index) =>
+                      CardContasWidget(controller: controller, index: index),
+                )),
+      ),
     );
   }
 }

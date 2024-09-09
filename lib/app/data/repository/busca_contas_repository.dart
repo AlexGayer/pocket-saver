@@ -3,7 +3,8 @@ import 'package:flutter_pocket_saver/app/domain/model/contas.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class BuscaContasRepository {
-  Future<List<Contas>> fetchContas(String tipo);
+  Future<List<Contas>> fetchContas();
+  Future<List<Contas>> fetchContasByTipo(String tipo);
   Future<void> addContas(Contas contas);
   Future<void> deleteContas(int id);
   Future<void> updateContas(Contas contas);
@@ -16,7 +17,21 @@ class BuscaContasRepositoryImpl implements BuscaContasRepository {
   BuscaContasRepositoryImpl(this.firestore);
 
   @override
-  Future<List<Contas>> fetchContas(String? tipo) async {
+  Future<List<Contas>> fetchContas() async {
+    try {
+      Query query = firestore.collection('contas');
+
+      final snapshot = await query.get();
+      return snapshot.docs
+          .map((doc) => Contas.fromJson(doc.data() as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      throw Exception('Erro ao buscar contas: $e');
+    }
+  }
+
+  @override
+  Future<List<Contas>> fetchContasByTipo(String? tipo) async {
     try {
       Query query = firestore.collection('contas');
 

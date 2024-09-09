@@ -108,7 +108,8 @@ abstract class _PocketControllerBase with Store {
   @action
   Future<void> fetchContasByTipo(String tipo) async {
     try {
-      List<Contas> allContas = await _buscaContasUsecase.fetchContas(tipo);
+      List<Contas> allContas =
+          await _buscaContasUsecase.fetchContasByTipo(tipo);
       contas = allContas;
     } catch (e) {
       print('Erro ao buscar contas por tipo: $e');
@@ -118,10 +119,7 @@ abstract class _PocketControllerBase with Store {
   @action
   Future<void> fetchContas() async {
     try {
-      List<Contas> despesas = await _buscaContasUsecase.fetchContas('Despesa');
-      List<Contas> receitas = await _buscaContasUsecase.fetchContas('Receita');
-
-      contas = [...despesas, ...receitas];
+      contas = await _buscaContasUsecase.fetchContas();
     } catch (e) {
       print('Erro ao buscar contas: $e');
     }
@@ -132,9 +130,9 @@ abstract class _PocketControllerBase with Store {
     _loading = true;
     try {
       final List<Contas> receitas =
-          await _buscaContasUsecase.fetchContas('Receita');
+          await _buscaContasUsecase.fetchContasByTipo('Receita');
       final List<Contas> despesas =
-          await _buscaContasUsecase.fetchContas('Despesa');
+          await _buscaContasUsecase.fetchContasByTipo('Despesa');
 
       totalReceitas = receitas.fold(0, (sum, item) => sum + item.valor);
       totalDespesas = despesas.fold(0, (sum, item) => sum + item.valor);

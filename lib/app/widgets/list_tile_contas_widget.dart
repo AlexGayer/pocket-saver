@@ -17,7 +17,7 @@ class ListTileContasWidget extends StatelessWidget {
         children: [
           Icon(
             MdiIcons.circle,
-            size: 20,
+            size: 15,
             color: controller.contas[index].tipo == "Receita"
                 ? Colors.green
                 : Colors.red,
@@ -26,9 +26,19 @@ class ListTileContasWidget extends StatelessWidget {
           Text(controller.contas[index].categoria, style: style.titleSmall),
         ],
       ),
-      subtitle: Text(
-        controller.formatDouble(controller.contas[index].valor),
-        style: style.titleMedium,
+      subtitle: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            controller.formatDouble(controller.contas[index].valor),
+            style: style.titleMedium,
+          ),
+          Text(
+            "Vcto: ${controller.toBRDt(controller.contas[index].dtVencimento)}",
+            style: const TextStyle(color: Colors.grey),
+          ),
+        ],
       ),
     );
   }

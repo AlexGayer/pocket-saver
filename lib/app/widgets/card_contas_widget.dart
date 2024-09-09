@@ -17,6 +17,10 @@ class CardContasWidget extends StatelessWidget {
       return tipo == "Receita" ? Colors.green : Colors.red;
     }
 
+    String setSub(String tipo) {
+      return tipo == "Receita" ? "+" : "-";
+    }
+
     return Card(
       color: Colors.grey.withOpacity(0.1),
       child: Dismissible(
@@ -51,8 +55,8 @@ class CardContasWidget extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 18)),
               Text(
-                controller.formatDouble(contas.valor),
-                style: style.titleMedium,
+                "${setSub(contas.tipo)} ${controller.formatDouble(contas.valor)}",
+                style: TextStyle(color: getColor(contas.tipo)),
               ),
             ],
           ),
@@ -68,7 +72,7 @@ class CardContasWidget extends StatelessWidget {
                 style: style.titleSmall,
               ),
               Text(
-                "Vencimento: ${controller.toBRDt(contas.dtVencimento)}",
+                "Vcto: ${controller.toBRDt(contas.dtVencimento)}",
                 style: style.titleSmall,
               ),
             ],
