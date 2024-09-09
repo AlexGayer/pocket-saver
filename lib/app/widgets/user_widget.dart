@@ -28,21 +28,25 @@ class _UserWidgetState extends WidgetStateful<UserWidget, PocketController> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: controller.userPhotoURL.isNotEmpty
-                  ? Image.network(
-                      controller.userPhotoURL,
-                      height: size.height * 0.05,
-                      width: size.width * 0.10,
-                      fit: BoxFit.fill,
-                    )
-                  : Image.asset(
-                      'assets/images/batman.png',
-                      height: size.height * 0.05,
-                      width: size.width * 0.10,
-                      fit: BoxFit.fill,
-                    ),
+            SizedBox(
+              width: 50,
+              height: 50,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: controller.userPhotoURL.isNotEmpty
+                    ? Image.network(
+                        controller.userPhotoURL,
+                        height: size.height,
+                        width: size.width,
+                        fit: BoxFit.fill,
+                      )
+                    : Image.asset(
+                        'assets/images/batman.png',
+                        height: size.height,
+                        width: size.width,
+                        fit: BoxFit.fill,
+                      ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),

@@ -3,11 +3,11 @@ import 'package:flutter_pocket_saver/app/domain/model/contas.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class BuscaContasUsecase {
-  Future<List<Contas>> fetchContas();
-  Future<List<Contas>> fetchContasByTipo(String tipo);
-  Future<void> deleteContas(int id);
-  Future<void> updateContas(Contas contas);
-  Future<void> addContas(Contas contas);
+  Future<List<Contas>> fetchContas(String userId);
+  Future<List<Contas>> fetchContasByTipo(String userId, String tipo);
+  Future<void> addContas(String userId, Contas contas);
+  Future<void> deleteContas(String userId, int id);
+  Future<void> updateContas(String userId, Contas contas);
 }
 
 @Injectable(as: BuscaContasUsecase)
@@ -17,9 +17,9 @@ class BuscaContasUsecaseImpl implements BuscaContasUsecase {
   BuscaContasUsecaseImpl({required this.buscaContasRepository});
 
   @override
-  Future<List<Contas>> fetchContas() async {
+  Future<List<Contas>> fetchContas(String userId) async {
     try {
-      List<Contas> contas = await buscaContasRepository.fetchContas();
+      List<Contas> contas = await buscaContasRepository.fetchContas(userId);
 
       contas.sort((a, b) => b.dtVencimento.compareTo(a.dtVencimento));
 
@@ -30,9 +30,10 @@ class BuscaContasUsecaseImpl implements BuscaContasUsecase {
   }
 
   @override
-  Future<List<Contas>> fetchContasByTipo(String tipo) async {
+  Future<List<Contas>> fetchContasByTipo(String userId, String tipo) async {
     try {
-      List<Contas> contas = await buscaContasRepository.fetchContasByTipo(tipo);
+      List<Contas> contas =
+          await buscaContasRepository.fetchContasByTipo(userId, tipo);
 
       contas.sort((a, b) => b.dtVencimento.compareTo(a.dtVencimento));
 
@@ -43,27 +44,27 @@ class BuscaContasUsecaseImpl implements BuscaContasUsecase {
   }
 
   @override
-  Future<void> addContas(Contas contas) async {
+  Future<void> addContas(String userId, Contas contas) async {
     try {
-      await buscaContasRepository.addContas(contas);
+      await buscaContasRepository.addContas(userId, contas);
     } catch (e) {
       throw Exception('Erro ao deletar despesa: $e');
     }
   }
 
   @override
-  Future<void> deleteContas(int id) async {
+  Future<void> deleteContas(String userId, int id) async {
     try {
-      await buscaContasRepository.deleteContas(id);
+      await buscaContasRepository.deleteContas(userId, id);
     } catch (e) {
       throw Exception('Erro ao deletar Contas: $e');
     }
   }
 
   @override
-  Future<void> updateContas(Contas contas) async {
+  Future<void> updateContas(String userId, Contas contas) async {
     try {
-      await buscaContasRepository.updateContas(contas);
+      await buscaContasRepository.updateContas(userId, contas);
     } catch (e) {
       throw Exception('Erro ao atualizar despesa: $e');
     }

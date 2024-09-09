@@ -107,9 +107,10 @@ abstract class _PocketControllerBase with Store {
 
   @action
   Future<void> fetchContasByTipo(String tipo) async {
+    final userId = _auth.currentUser?.uid;
     try {
       List<Contas> allContas =
-          await _buscaContasUsecase.fetchContasByTipo(tipo);
+          await _buscaContasUsecase.fetchContasByTipo(userId!, tipo);
       contas = allContas;
     } catch (e) {
       print('Erro ao buscar contas por tipo: $e');
@@ -118,8 +119,9 @@ abstract class _PocketControllerBase with Store {
 
   @action
   Future<void> fetchContas() async {
+    final userId = _auth.currentUser?.uid;
     try {
-      contas = await _buscaContasUsecase.fetchContas();
+      contas = await _buscaContasUsecase.fetchContas(userId!);
     } catch (e) {
       print('Erro ao buscar contas: $e');
     }
@@ -128,11 +130,12 @@ abstract class _PocketControllerBase with Store {
   @action
   Future<void> fetchAndCalculateTotals() async {
     _loading = true;
+    final userId = _auth.currentUser?.uid;
     try {
       final List<Contas> receitas =
-          await _buscaContasUsecase.fetchContasByTipo('Receita');
+          await _buscaContasUsecase.fetchContasByTipo(userId!, 'Receita');
       final List<Contas> despesas =
-          await _buscaContasUsecase.fetchContasByTipo('Despesa');
+          await _buscaContasUsecase.fetchContasByTipo(userId, 'Despesa');
 
       totalReceitas = receitas.fold(0, (sum, item) => sum + item.valor);
       totalDespesas = despesas.fold(0, (sum, item) => sum + item.valor);
@@ -165,10 +168,9 @@ abstract class _PocketControllerBase with Store {
       valor: formaValor,
     );
 
-    // showCustomSnackBar(ctx, "Adicionando $tipo... Aguarde");
-
     try {
-      await _buscaContasUsecase.addContas(addContas);
+      final userId = _auth.currentUser?.uid;
+      await _buscaContasUsecase.addContas(userId!, addContas);
 
       showCustomSnackBar(ctx, "$tipo gravada com sucesso!");
       await fetchAndCalculateTotals();
@@ -179,8 +181,9 @@ abstract class _PocketControllerBase with Store {
 
   @action
   Future<void> deleteContas(int id, String tipo) async {
+    final userId = _auth.currentUser?.uid;
     try {
-      await _buscaContasUsecase.deleteContas(id);
+      await _buscaContasUsecase.deleteContas(userId!, id);
       showCustomSnackBar(ctx, "$tipo excluída com sucesso com sucesso!");
       await fetchAndCalculateTotals();
     } catch (e) {
@@ -190,8 +193,9 @@ abstract class _PocketControllerBase with Store {
 
   @action
   Future<void> atualizarContas(Contas contas) async {
+    final userId = _auth.currentUser?.uid;
     try {
-      await _buscaContasUsecase.updateContas(contas);
+      await _buscaContasUsecase.updateContas(userId!, contas);
     } catch (e) {
       e;
     }

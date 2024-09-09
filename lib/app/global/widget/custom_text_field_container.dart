@@ -79,7 +79,7 @@ class _CustomTextFieldContainerState extends State<CustomTextFieldContainer> {
           return null;
         },
         decoration: InputDecoration(
-          hintText: widget.hintText,
+          // hintText: widget.hintText,
           border: InputBorder.none,
           prefixIcon: Icon(widget.prefixIcon, color: Colors.white),
           suffixIcon: widget.pwd == true

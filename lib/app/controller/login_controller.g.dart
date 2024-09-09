@@ -55,17 +55,49 @@ mixin _$LoginController on _LoginControllerrBase, Store {
     });
   }
 
+  late final _$userNameAtom =
+      Atom(name: '_LoginControllerrBase.userName', context: context);
+
+  @override
+  String get userName {
+    _$userNameAtom.reportRead();
+    return super.userName;
+  }
+
+  @override
+  set userName(String value) {
+    _$userNameAtom.reportWrite(value, super.userName, () {
+      super.userName = value;
+    });
+  }
+
+  late final _$userMailAtom =
+      Atom(name: '_LoginControllerrBase.userMail', context: context);
+
+  @override
+  String get userMail {
+    _$userMailAtom.reportRead();
+    return super.userMail;
+  }
+
+  @override
+  set userMail(String value) {
+    _$userMailAtom.reportWrite(value, super.userMail, () {
+      super.userMail = value;
+    });
+  }
+
   late final _$userPhotoURLAtom =
       Atom(name: '_LoginControllerrBase.userPhotoURL', context: context);
 
   @override
-  String? get userPhotoURL {
+  String get userPhotoURL {
     _$userPhotoURLAtom.reportRead();
     return super.userPhotoURL;
   }
 
   @override
-  set userPhotoURL(String? value) {
+  set userPhotoURL(String value) {
     _$userPhotoURLAtom.reportWrite(value, super.userPhotoURL, () {
       super.userPhotoURL = value;
     });
@@ -120,6 +152,14 @@ mixin _$LoginController on _LoginControllerrBase, Store {
     return _$saveCamposAsyncAction.run(() => super.saveCampos());
   }
 
+  late final _$logoutAsyncAction =
+      AsyncAction('_LoginControllerrBase.logout', context: context);
+
+  @override
+  Future<void> logout(BuildContext context) {
+    return _$logoutAsyncAction.run(() => super.logout(context));
+  }
+
   late final _$_LoginControllerrBaseActionController =
       ActionController(name: '_LoginControllerrBase', context: context);
 
@@ -137,6 +177,8 @@ mixin _$LoginController on _LoginControllerrBase, Store {
   @override
   String toString() {
     return '''
+userName: ${userName},
+userMail: ${userMail},
 userPhotoURL: ${userPhotoURL},
 loading: ${loading},
 firstLogin: ${firstLogin}

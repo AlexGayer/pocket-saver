@@ -4,15 +4,30 @@ class CustomAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
   final String? title;
   final bool? implyLeading;
+  final IconData? icon;
+  final Function()? func;
 
-  const CustomAppBarWidget({super.key, this.title, this.implyLeading});
+  const CustomAppBarWidget(
+      {super.key, this.title, this.implyLeading, this.icon, this.func});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: implyLeading ?? true,
       backgroundColor: const Color(0xFF0F052C),
-      title: Text(title ?? "", style: Theme.of(context).textTheme.titleMedium),
+      actions: [
+        IconButton(
+          onPressed: func,
+          icon: Icon(icon),
+        )
+      ],
+      title: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          title ?? "",
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ),
     );
   }
 

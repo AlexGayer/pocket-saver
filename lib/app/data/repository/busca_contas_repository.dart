@@ -3,11 +3,11 @@ import 'package:flutter_pocket_saver/app/domain/model/contas.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class BuscaContasRepository {
-  Future<List<Contas>> fetchContas();
-  Future<List<Contas>> fetchContasByTipo(String tipo);
-  Future<void> addContas(Contas contas);
-  Future<void> deleteContas(int id);
-  Future<void> updateContas(Contas contas);
+  Future<List<Contas>> fetchContas(String userId);
+  Future<List<Contas>> fetchContasByTipo(String userId, String tipo);
+  Future<void> addContas(String userId, Contas contas);
+  Future<void> deleteContas(String userId, int id);
+  Future<void> updateContas(String userId, Contas contas);
 }
 
 @Injectable(as: BuscaContasRepository)
@@ -17,9 +17,10 @@ class BuscaContasRepositoryImpl implements BuscaContasRepository {
   BuscaContasRepositoryImpl(this.firestore);
 
   @override
-  Future<List<Contas>> fetchContas() async {
+  Future<List<Contas>> fetchContas(String userId) async {
     try {
-      Query query = firestore.collection('contas');
+      Query query =
+          firestore.collection('users').doc(userId).collection('contas');
 
       final snapshot = await query.get();
       return snapshot.docs
@@ -31,11 +32,12 @@ class BuscaContasRepositoryImpl implements BuscaContasRepository {
   }
 
   @override
-  Future<List<Contas>> fetchContasByTipo(String? tipo) async {
+  Future<List<Contas>> fetchContasByTipo(String userId, String tipo) async {
     try {
-      Query query = firestore.collection('contas');
+      Query query =
+          firestore.collection('users').doc(userId).collection('contas');
 
-      if (tipo != null && tipo.isNotEmpty) {
+      if (tipo.isNotEmpty) {
         query = query.where('tipo', isEqualTo: tipo);
       }
 
@@ -44,12 +46,12 @@ class BuscaContasRepositoryImpl implements BuscaContasRepository {
           .map((doc) => Contas.fromJson(doc.data() as Map<String, dynamic>))
           .toList();
     } catch (e) {
-      throw Exception('Erro ao buscar contas: $e');
+      throw Exception('Erro ao buscar contas por tipo: $e');
     }
   }
 
   @override
-  Future<void> addContas(Contas contas) async {
+  Future<void> addContas(String userId, Contas contas) async {
     try {
       final id = DateTime.now().millisecondsSinceEpoch;
 
@@ -63,32 +65,43 @@ class BuscaContasRepositoryImpl implements BuscaContasRepository {
         valor: contas.valor,
       );
 
-      await firestore.collection('contas').doc().set(newDespesa.toJson());
+      await firestore
+          .collection('users')
+          .doc(userId)
+          .collection('contas')
+          .doc(id.toString())
+          .set(newDespesa.toJson());
     } catch (e) {
       throw Exception('Erro ao adicionar contas: $e');
     }
   }
 
   @override
-  Future<void> deleteContas(int id) async {
+  Future<void> deleteContas(String userId, int id) async {
     try {
-      final despesaQuery =
-          await firestore.collection('contas').where('id', isEqualTo: id).get();
+      final despesaQuery = await firestore
+          .collection('users')
+          .doc(userId)
+          .collection('contas')
+          .where('id', isEqualTo: id)
+          .get();
 
       if (despesaQuery.docs.isNotEmpty) {
         await despesaQuery.docs.first.reference.delete();
       } else {
-        throw Exception('contas não encontrada para o ID: $id');
+        throw Exception('Conta não encontrada para o ID: $id');
       }
     } catch (e) {
-      throw Exception('Erro ao deletar contas: $e');
+      throw Exception('Erro ao deletar conta: $e');
     }
   }
 
   @override
-  Future<void> updateContas(Contas contas) async {
+  Future<void> updateContas(String userId, Contas contas) async {
     try {
       final despesaQuery = await firestore
+          .collection('users')
+          .doc(userId)
           .collection('contas')
           .where('id', isEqualTo: contas.id)
           .get();
@@ -96,10 +109,10 @@ class BuscaContasRepositoryImpl implements BuscaContasRepository {
       if (despesaQuery.docs.isNotEmpty) {
         await despesaQuery.docs.first.reference.update(contas.toJson());
       } else {
-        throw Exception('contas não encontrada para o ID: ${contas.id}');
+        throw Exception('Conta não encontrada para o ID: ${contas.id}');
       }
     } catch (e) {
-      throw Exception('Erro ao atualizar contas: $e');
+      throw Exception('Erro ao atualizar conta: $e');
     }
   }
 }

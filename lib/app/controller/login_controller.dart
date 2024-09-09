@@ -39,7 +39,13 @@ abstract class _LoginControllerrBase with Store {
   bool _firstLogin = false;
 
   @observable
-  String? userPhotoURL;
+  String userName = "";
+
+  @observable
+  String userMail = "";
+
+  @observable
+  String userPhotoURL = "";
 
   @computed
   bool get loading => _loading;
@@ -49,6 +55,16 @@ abstract class _LoginControllerrBase with Store {
 
   @action
   initState() async {
+    _loading = true;
+    final userId = _auth.currentUser?.uid;
+    if (userId != null) {
+      final userDetails = await _firebaseUsecase.getUserDetails(userId);
+      if (userDetails != null) {
+        userName = userDetails['displayName'] ?? 'Usuário';
+        userPhotoURL = userDetails['photoURL'] ?? '';
+        userMail = userDetails['email'] ?? 'E-mail';
+      }
+    }
     _loading = false;
   }
 
@@ -210,8 +226,19 @@ abstract class _LoginControllerrBase with Store {
     await handler.savePreferences("mail", emailCtrl.text.trim());
     await handler.savePreferences("password", pwdCtrl.text);
     if (userPhotoURL != null) {
-      await handler.savePreferences("photoURL", userPhotoURL!);
+      await handler.savePreferences("photoURL", userPhotoURL);
     }
+  }
+
+  @action
+  Future<void> logout(BuildContext context) async {
+    print("aquiii");
+    await handler.removePreferences("name");
+    await handler.removePreferences("mail");
+    await handler.removePreferences("password");
+    await handler.removePreferences("photoURL");
+    await Navigator.of(context)
+        .pushNamedAndRemoveUntil("/index", (route) => false);
   }
 
   showMessage(BuildContext context, String message) {
