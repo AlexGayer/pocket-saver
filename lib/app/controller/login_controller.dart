@@ -29,11 +29,13 @@ abstract class _LoginControllerrBase with Store {
   final birthCtrl = TextEditingController();
   final phoneCtrl = TextEditingController();
   final cepCtrl = TextEditingController();
+  final cpfCtrl = TextEditingController();
   final focusName = FocusNode();
   final focusPhone = FocusNode();
   final focusEmail = FocusNode();
   final focusPwd = FocusNode();
   final focusCep = FocusNode();
+  final focusCpf = FocusNode();
   final focusNewPwd = FocusNode();
   final formKey = GlobalKey<FormState>();
   final handler = AppSharedPreferences();

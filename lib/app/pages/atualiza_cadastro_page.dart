@@ -57,6 +57,17 @@ class _AtualizaCadastroPageState
                       prefixIcon: MdiIcons.email,
                       keyboardType: TextInputType.emailAddress,
                     ),
+                    CustomTextFieldContainer(
+                      desableDecoration: true,
+                      cpf: true,
+                      email: false,
+                      focus: controller.focusCpf,
+                      controller: controller.cpfCtrl,
+                      hintText: "CPF",
+                      validatorText: "Informe seu CPF!",
+                      prefixIcon: MdiIcons.email,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
                     GestureDetector(
                       onTap: () => controller.datePicker(context),
                       child: AbsorbPointer(
@@ -71,6 +82,7 @@ class _AtualizaCadastroPageState
                       ),
                     ),
                     CustomTextFieldContainer(
+                      phone: true,
                       desableDecoration: true,
                       focus: controller.focusPhone,
                       controller: controller.phoneCtrl,
