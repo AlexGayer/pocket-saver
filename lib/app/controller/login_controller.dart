@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/constant/app_shared_preferences.dart';
+import 'package:flutter_pocket_saver/app/domain/model/usuario.dart';
 import 'package:flutter_pocket_saver/app/domain/usecase/busca_cep_usecase.dart';
 import 'package:flutter_pocket_saver/app/domain/usecase/firebase_usecase.dart';
 import 'package:flutter_pocket_saver/app/constant/dialog_helper.dart';
@@ -13,12 +14,16 @@ import 'package:mobx/mobx.dart';
 part 'login_controller.g.dart';
 
 @Injectable()
-class LoginController = _LoginControllerrBase with _$LoginController;
+class LoginController = _LoginControllerBase with _$LoginController;
 
-abstract class _LoginControllerrBase with Store {
+abstract class _LoginControllerBase with Store {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseUsecase _firebaseUsecase;
   final BuscaCepUseCase _buscaCepUseCase;
+
+  _LoginControllerBase(this._firebaseUsecase, this._buscaCepUseCase);
+
+  final formKey = GlobalKey<FormState>();
 
   final nameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
@@ -30,23 +35,14 @@ abstract class _LoginControllerrBase with Store {
   final phoneCtrl = TextEditingController();
   final cepCtrl = TextEditingController();
   final cpfCtrl = TextEditingController();
-  final focusName = FocusNode();
-  final focusPhone = FocusNode();
-  final focusEmail = FocusNode();
-  final focusPwd = FocusNode();
-  final focusCep = FocusNode();
-  final focusCpf = FocusNode();
-  final focusNewPwd = FocusNode();
-  final formKey = GlobalKey<FormState>();
-  final handler = AppSharedPreferences();
+
   final helper = DialogHelper();
+  final handler = AppSharedPreferences();
 
   TimeOfDay timeOfDay = TimeOfDay.now();
   DateTime selectedDate = DateTime.now();
   DateTime firstDate = DateTime(2024);
   DateTime lastDate = DateTime(2999);
-
-  _LoginControllerrBase(this._firebaseUsecase, this._buscaCepUseCase);
 
   @observable
   bool _loading = false;
@@ -70,22 +66,28 @@ abstract class _LoginControllerrBase with Store {
   bool get firstLogin => _firstLogin;
 
   @action
-  initState() async {
+  Future<void> initState() async {
     _loading = true;
-    final userId = _auth.currentUser?.uid;
-    if (userId != null) {
-      final userDetails = await _firebaseUsecase.getUserDetails(userId);
-      if (userDetails != null) {
-        userName = userDetails['displayName'] ?? 'Usuário';
-        userPhotoURL = userDetails['photoURL'] ?? '';
-        userMail = userDetails['email'] ?? 'E-mail';
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        final userDetails = await _firebaseUsecase.getUserDetails(user.uid);
+        userName = userDetails?.name ?? 'Usuário';
+        userPhotoURL = userDetails?.photoURL ?? "";
+        userMail = userDetails?.email ?? 'E-mail';
+        nameCtrl.text = userName;
+        emailCtrl.text = userMail;
+        cpfCtrl.text = userDetails?.cpf ?? "";
+        cepCtrl.text = userDetails?.cep ?? "";
+        cepCtrl.text = userDetails?.cep ?? "";
+        cityCtrl.text = userDetails?.city ?? "";
+        stateCtrl.text = userDetails?.state ?? "";
+        birthCtrl.text = userDetails?.birthDate ?? "";
+        phoneCtrl.text = userDetails?.phone ?? "";
       }
+    } finally {
+      _loading = false;
     }
-
-    nameCtrl.text = userName;
-    emailCtrl.text = userMail;
-
-    _loading = false;
   }
 
   @action
@@ -100,43 +102,31 @@ abstract class _LoginControllerrBase with Store {
   }
 
   @action
-  Future login(BuildContext context) async {
-    try {
-      if (formKey.currentState != null && formKey.currentState!.validate()) {
-        if (_firstLogin) {
-          await _signUp(context);
-        } else {
-          await _signIn(context);
-        }
-      }
-    } catch (e) {
-      print(e);
+  Future<void> login(BuildContext context) async {
+    if (formKey.currentState?.validate() ?? false) {
+      _firstLogin ? await _signUp(context) : await _signIn(context);
     }
   }
 
   @action
   Future<void> _signIn(BuildContext context) async {
     _loading = true;
-
-    showMessage(context, "Realizando acesso, aguarde...");
-
     try {
+      helper.showSuccessDialog(context, "Realizando acesso, aguarde...");
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-          email: emailCtrl.text, password: pwdCtrl.text);
+        email: emailCtrl.text,
+        password: pwdCtrl.text,
+      );
 
-      Map<String, String>? userDetails =
+      final userDetails =
           await _firebaseUsecase.getUserDetails(userCredential.user!.uid);
-      if (userDetails != null) {
-        nameCtrl.text = userDetails['displayName'] ?? '';
-        emailCtrl.text = userDetails['email'] ?? '';
-        userPhotoURL = userDetails['photoURL'] ?? '';
-      }
+      nameCtrl.text = userDetails?.name ?? '';
+      emailCtrl.text = userDetails?.email ?? '';
+      userPhotoURL = userDetails?.photoURL ?? '';
 
       await saveCampos();
-
       Navigator.of(context).pushNamed("/home");
     } on FirebaseAuthException catch (e) {
-      print(e);
       await helper.showErrorDialog(
           context, "Erro ao fazer login: ${e.message}");
     } finally {
@@ -147,102 +137,147 @@ abstract class _LoginControllerrBase with Store {
   @action
   Future<void> _signUp(BuildContext context) async {
     _loading = true;
-
-    showMessage(context, "Realizando cadastro, aguarde...");
-
     try {
+      helper.showSimpleMessage(context, "Realizando cadastro, aguarde...");
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
-              email: emailCtrl.text, password: pwdCtrl.text);
-
-      await userCredential.user!.updateProfile(displayName: nameCtrl.text);
-
-      await _firebaseUsecase.registerUser(
-        userCredential.user!.uid,
-        emailCtrl.text,
-        nameCtrl.text,
-        userPhotoURL,
+        email: emailCtrl.text,
+        password: pwdCtrl.text,
       );
+
+      // Atualizando o perfil do usuário no Firebase Authentication
+      await userCredential.user?.updateProfile(displayName: nameCtrl.text);
+
+      // Criando o objeto Usuario com informações essenciais
+      final usuario = Usuario(
+        id: userCredential.user!.uid,
+        name: nameCtrl.text,
+        email: emailCtrl.text,
+        photoURL: userPhotoURL,
+        cpf: "", // Campo opcional; deixe em branco ou passe um valor padrão
+        birthDate:
+            "", // Campo opcional; deixe em branco ou passe um valor padrão
+        phone: "", // Campo opcional; deixe em branco ou passe um valor padrão
+        cep: "", // Campo opcional; deixe em branco ou passe um valor padrão
+        state: "", // Campo opcional; deixe em branco ou passe um valor padrão
+        city: "", // Campo opcional; deixe em branco ou passe um valor padrão
+      );
+
+      await _firebaseUsecase.registerUser(usuario);
 
       await saveCampos();
-
       await helper.showSuccessDialog(
-        context,
-        "Cadastro realizado com sucesso! Realize o login novamente!",
-        onConfirm: () => Navigator.of(context).pushNamed("/login"),
-      );
+          context, "Cadastro realizado com sucesso!");
+      Navigator.of(context).pushNamed("/home");
     } on FirebaseAuthException catch (e) {
-      print(e);
       await helper.showErrorDialog(
-          context, "O endereço de e-mail já está sendo usado por outra conta!");
-      _loading = false;
+        context,
+        "Erro ao criar conta: ${e.message}",
+      );
     } finally {
       _loading = false;
     }
   }
 
   @action
-  Future<UserCredential?> signInWithGoogle(BuildContext context) async {
+  Future<void> signInWithGoogle(BuildContext context) async {
     _loading = true;
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) {
-        throw Exception('Login com Google foi cancelado.');
-      }
+      final googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) throw Exception('Login cancelado.');
 
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-
-      if (googleAuth.accessToken == null && googleAuth.idToken == null) {
-        throw Exception('Falha ao obter accessToken e idToken.');
-      }
-
+      final googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      final userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
 
-      if (userCredential != null) {
-        final User? user = userCredential.user;
+      final user = userCredential.user;
+      if (user != null) {
+        nameCtrl.text = user.displayName ?? '';
+        emailCtrl.text = user.email ?? '';
+        userPhotoURL = user.photoURL ?? '';
 
-        if (user != null) {
-          nameCtrl.text = user.displayName ?? '';
-          emailCtrl.text = user.email ?? '';
-          userPhotoURL = user.photoURL ?? '';
+        final usuario = Usuario(
+          id: user.uid,
+          name: user.displayName ?? '',
+          email: user.email ?? '',
+          photoURL: user.photoURL,
+          cpf: "", // Campo opcional; deixe em branco ou passe um valor padrão
+          birthDate:
+              "", // Campo opcional; deixe em branco ou passe um valor padrão
+          phone: "", // Campo opcional; deixe em branco ou passe um valor padrão
+          cep: "", // Campo opcional; deixe em branco ou passe um valor padrão
+          state: "", // Campo opcional; deixe em branco ou passe um valor padrão
+          city: "", // Campo opcional; deixe em branco ou passe um valor padrão
+        );
 
-          await _firebaseUsecase.registerUser(
-            user.uid,
-            user.email ?? '',
-            user.displayName ?? '',
-            userPhotoURL,
-          );
+        await _firebaseUsecase.registerUser(usuario);
 
-          await saveCampos();
-
-          Navigator.of(context).pushNamed('/home');
-        }
+        await saveCampos();
+        Navigator.of(context).pushNamed('/home');
       }
-
-      return userCredential;
     } on Exception catch (e) {
-      print('exception->$e');
       await helper.showErrorDialog(
-          context, "Erro ao fazer login com Google: ${e.toString()}");
+          context, "Erro ao fazer login com Google: $e");
     } finally {
       _loading = false;
     }
-    return null;
   }
 
-  Future<bool> signOutFromGoogle() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      return true;
-    } on Exception catch (_) {
-      return false;
+  @action
+  Future<void> saveCampos() async {
+    await handler.savePreferences("name", nameCtrl.text.trim());
+    await handler.savePreferences("mail", emailCtrl.text.trim());
+    await handler.savePreferences("password", pwdCtrl.text.trim());
+    if (userPhotoURL.isNotEmpty) {
+      await handler.savePreferences("photoURL", userPhotoURL);
+    }
+  }
+
+  @action
+  Future<void> logout(BuildContext context) async {
+    await _auth.signOut();
+    await handler.clearPreferences();
+    Navigator.of(context).pushNamedAndRemoveUntil("/index", (route) => false);
+  }
+
+  @action
+  Future<void> updateUserDetails(BuildContext context) async {
+    if (formKey.currentState?.validate() ?? false) {
+      try {
+        _loading = true;
+        final user = _auth.currentUser;
+        if (user != null) {
+          user.updateProfile(displayName: nameCtrl.text.trim());
+          user.verifyBeforeUpdateEmail(emailCtrl.text.trim());
+
+          final usuario = Usuario(
+            id: user.uid,
+            name: nameCtrl.text.trim(),
+            email: emailCtrl.text.trim(),
+            photoURL: user.photoURL,
+            cpf: cpfCtrl.text.trim(),
+            birthDate: birthCtrl.text.trim(),
+            phone: phoneCtrl.text.trim(),
+            cep: cepCtrl.text.trim(),
+            state: stateCtrl.text.trim(),
+            city: cityCtrl.text.trim(),
+          );
+
+          await _firebaseUsecase.updateUserDetails(usuario);
+
+          await helper.showSuccessDialog(
+              context, "Dados atualizados com sucesso!");
+        }
+      } catch (e) {
+        await helper.showErrorDialog(context, "Erro ao atualizar dados: $e");
+      } finally {
+        _loading = false;
+      }
     }
   }
 
@@ -271,26 +306,6 @@ abstract class _LoginControllerrBase with Store {
   }
 
   @action
-  Future<void> saveCampos() async {
-    await handler.savePreferences("name", nameCtrl.text.trim());
-    await handler.savePreferences("mail", emailCtrl.text.trim());
-    await handler.savePreferences("password", pwdCtrl.text);
-    if (userPhotoURL != null) {
-      await handler.savePreferences("photoURL", userPhotoURL);
-    }
-  }
-
-  @action
-  Future<void> logout(BuildContext context) async {
-    await handler.removePreferences("name");
-    await handler.removePreferences("mail");
-    await handler.removePreferences("password");
-    await handler.removePreferences("photoURL");
-    await Navigator.of(context)
-        .pushNamedAndRemoveUntil("/index", (route) => false);
-  }
-
-  @action
   toBRDt(DateTime? date) {
     if (date != null) {
       final day = date.day.toString();
@@ -299,23 +314,5 @@ abstract class _LoginControllerrBase with Store {
       return "${day.padLeft(2, "0")}/${month.padLeft(2, "0")}/$year";
     }
     return "";
-  }
-
-  showMessage(BuildContext context, String message) {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Row(
-            children: [
-              const CircularProgressIndicator(),
-              const SizedBox(width: 20),
-              Text(message),
-            ],
-          ),
-        );
-      },
-    );
   }
 }

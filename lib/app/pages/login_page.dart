@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/controller/login_controller.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_app_bar_widget.dart';
@@ -52,14 +54,12 @@ class _LoginPageState extends WidgetStateful<LoginPage, LoginController> {
                     hintText: "Email",
                     pwd: false,
                     prefixIcon: MdiIcons.email,
-                    focus: controller.focusEmail,
                     controller: controller.emailCtrl,
                     keyboardType: TextInputType.emailAddress,
                   ),
                   const SizedBox(height: 20),
                   CustomTextFieldContainer(
                     pwd: true,
-                    focus: controller.focusPwd,
                     controller: controller.pwdCtrl,
                     hintText: "Senha",
                     validatorText: "Informe sua senha !",

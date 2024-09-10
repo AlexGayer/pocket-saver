@@ -128,7 +128,7 @@ class _CustomTextFieldContainerState extends State<CustomTextFieldContainer> {
                 return null;
               },
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(10),
+                contentPadding: const EdgeInsets.all(10),
                 border:
                     widget.desableDecoration == true ? null : InputBorder.none,
                 suffixIcon: widget.pwd == true

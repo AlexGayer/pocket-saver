@@ -8,23 +8,23 @@ part of 'login_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$LoginController on _LoginControllerrBase, Store {
+mixin _$LoginController on _LoginControllerBase, Store {
   Computed<bool>? _$loadingComputed;
 
   @override
   bool get loading => (_$loadingComputed ??= Computed<bool>(() => super.loading,
-          name: '_LoginControllerrBase.loading'))
+          name: '_LoginControllerBase.loading'))
       .value;
   Computed<bool>? _$firstLoginComputed;
 
   @override
   bool get firstLogin =>
       (_$firstLoginComputed ??= Computed<bool>(() => super.firstLogin,
-              name: '_LoginControllerrBase.firstLogin'))
+              name: '_LoginControllerBase.firstLogin'))
           .value;
 
   late final _$_loadingAtom =
-      Atom(name: '_LoginControllerrBase._loading', context: context);
+      Atom(name: '_LoginControllerBase._loading', context: context);
 
   @override
   bool get _loading {
@@ -40,7 +40,7 @@ mixin _$LoginController on _LoginControllerrBase, Store {
   }
 
   late final _$_firstLoginAtom =
-      Atom(name: '_LoginControllerrBase._firstLogin', context: context);
+      Atom(name: '_LoginControllerBase._firstLogin', context: context);
 
   @override
   bool get _firstLogin {
@@ -56,7 +56,7 @@ mixin _$LoginController on _LoginControllerrBase, Store {
   }
 
   late final _$userNameAtom =
-      Atom(name: '_LoginControllerrBase.userName', context: context);
+      Atom(name: '_LoginControllerBase.userName', context: context);
 
   @override
   String get userName {
@@ -72,7 +72,7 @@ mixin _$LoginController on _LoginControllerrBase, Store {
   }
 
   late final _$userMailAtom =
-      Atom(name: '_LoginControllerrBase.userMail', context: context);
+      Atom(name: '_LoginControllerBase.userMail', context: context);
 
   @override
   String get userMail {
@@ -88,7 +88,7 @@ mixin _$LoginController on _LoginControllerrBase, Store {
   }
 
   late final _$userPhotoURLAtom =
-      Atom(name: '_LoginControllerrBase.userPhotoURL', context: context);
+      Atom(name: '_LoginControllerBase.userPhotoURL', context: context);
 
   @override
   String get userPhotoURL {
@@ -104,15 +104,15 @@ mixin _$LoginController on _LoginControllerrBase, Store {
   }
 
   late final _$initStateAsyncAction =
-      AsyncAction('_LoginControllerrBase.initState', context: context);
+      AsyncAction('_LoginControllerBase.initState', context: context);
 
   @override
-  Future initState() {
+  Future<void> initState() {
     return _$initStateAsyncAction.run(() => super.initState());
   }
 
   late final _$searchCepAsyncAction =
-      AsyncAction('_LoginControllerrBase.searchCep', context: context);
+      AsyncAction('_LoginControllerBase.searchCep', context: context);
 
   @override
   Future<void> searchCep(String cep) {
@@ -120,15 +120,15 @@ mixin _$LoginController on _LoginControllerrBase, Store {
   }
 
   late final _$loginAsyncAction =
-      AsyncAction('_LoginControllerrBase.login', context: context);
+      AsyncAction('_LoginControllerBase.login', context: context);
 
   @override
-  Future<dynamic> login(BuildContext context) {
+  Future<void> login(BuildContext context) {
     return _$loginAsyncAction.run(() => super.login(context));
   }
 
   late final _$_signInAsyncAction =
-      AsyncAction('_LoginControllerrBase._signIn', context: context);
+      AsyncAction('_LoginControllerBase._signIn', context: context);
 
   @override
   Future<void> _signIn(BuildContext context) {
@@ -136,7 +136,7 @@ mixin _$LoginController on _LoginControllerrBase, Store {
   }
 
   late final _$_signUpAsyncAction =
-      AsyncAction('_LoginControllerrBase._signUp', context: context);
+      AsyncAction('_LoginControllerBase._signUp', context: context);
 
   @override
   Future<void> _signUp(BuildContext context) {
@@ -144,24 +144,16 @@ mixin _$LoginController on _LoginControllerrBase, Store {
   }
 
   late final _$signInWithGoogleAsyncAction =
-      AsyncAction('_LoginControllerrBase.signInWithGoogle', context: context);
+      AsyncAction('_LoginControllerBase.signInWithGoogle', context: context);
 
   @override
-  Future<UserCredential?> signInWithGoogle(BuildContext context) {
+  Future<void> signInWithGoogle(BuildContext context) {
     return _$signInWithGoogleAsyncAction
         .run(() => super.signInWithGoogle(context));
   }
 
-  late final _$datePickerAsyncAction =
-      AsyncAction('_LoginControllerrBase.datePicker', context: context);
-
-  @override
-  Future<dynamic> datePicker(BuildContext context) {
-    return _$datePickerAsyncAction.run(() => super.datePicker(context));
-  }
-
   late final _$saveCamposAsyncAction =
-      AsyncAction('_LoginControllerrBase.saveCampos', context: context);
+      AsyncAction('_LoginControllerBase.saveCampos', context: context);
 
   @override
   Future<void> saveCampos() {
@@ -169,35 +161,52 @@ mixin _$LoginController on _LoginControllerrBase, Store {
   }
 
   late final _$logoutAsyncAction =
-      AsyncAction('_LoginControllerrBase.logout', context: context);
+      AsyncAction('_LoginControllerBase.logout', context: context);
 
   @override
   Future<void> logout(BuildContext context) {
     return _$logoutAsyncAction.run(() => super.logout(context));
   }
 
-  late final _$_LoginControllerrBaseActionController =
-      ActionController(name: '_LoginControllerrBase', context: context);
+  late final _$updateUserDetailsAsyncAction =
+      AsyncAction('_LoginControllerBase.updateUserDetails', context: context);
+
+  @override
+  Future<void> updateUserDetails(BuildContext context) {
+    return _$updateUserDetailsAsyncAction
+        .run(() => super.updateUserDetails(context));
+  }
+
+  late final _$datePickerAsyncAction =
+      AsyncAction('_LoginControllerBase.datePicker', context: context);
+
+  @override
+  Future<dynamic> datePicker(BuildContext context) {
+    return _$datePickerAsyncAction.run(() => super.datePicker(context));
+  }
+
+  late final _$_LoginControllerBaseActionController =
+      ActionController(name: '_LoginControllerBase', context: context);
 
   @override
   void setFirstLogin(bool firstLog) {
-    final _$actionInfo = _$_LoginControllerrBaseActionController.startAction(
-        name: '_LoginControllerrBase.setFirstLogin');
+    final _$actionInfo = _$_LoginControllerBaseActionController.startAction(
+        name: '_LoginControllerBase.setFirstLogin');
     try {
       return super.setFirstLogin(firstLog);
     } finally {
-      _$_LoginControllerrBaseActionController.endAction(_$actionInfo);
+      _$_LoginControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic toBRDt(DateTime? date) {
-    final _$actionInfo = _$_LoginControllerrBaseActionController.startAction(
-        name: '_LoginControllerrBase.toBRDt');
+    final _$actionInfo = _$_LoginControllerBaseActionController.startAction(
+        name: '_LoginControllerBase.toBRDt');
     try {
       return super.toBRDt(date);
     } finally {
-      _$_LoginControllerrBaseActionController.endAction(_$actionInfo);
+      _$_LoginControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 

@@ -26,4 +26,9 @@ class AppSharedPreferences {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.getDouble(key) ?? 0.0;
   }
+
+  Future<void> clearPreferences() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.clear();
+  }
 }

@@ -48,7 +48,6 @@ class _CadastroPageState extends WidgetStateful<CadastroPage, LoginController> {
                         style: Theme.of(context).textTheme.bodyLarge)),
                 const SizedBox(height: 10),
                 CustomTextFieldContainer(
-                  focus: controller.focusName,
                   controller: controller.nameCtrl,
                   hintText: "Nome completo",
                   validatorText: "Informe seu nome !",
@@ -57,7 +56,6 @@ class _CadastroPageState extends WidgetStateful<CadastroPage, LoginController> {
                 const SizedBox(height: 10),
                 CustomTextFieldContainer(
                   email: true,
-                  focus: controller.focusEmail,
                   controller: controller.emailCtrl,
                   hintText: "Email",
                   validatorText: "Informe seu email !",
@@ -67,7 +65,6 @@ class _CadastroPageState extends WidgetStateful<CadastroPage, LoginController> {
                 const SizedBox(height: 10),
                 CustomTextFieldContainer(
                   pwd: true,
-                  focus: controller.focusPwd,
                   controller: controller.pwdCtrl,
                   hintText: "Senha",
                   validatorText: "Informe sua senha !",

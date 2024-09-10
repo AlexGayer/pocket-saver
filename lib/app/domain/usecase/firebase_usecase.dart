@@ -1,11 +1,12 @@
 import 'package:flutter_pocket_saver/app/data/repository/firebase_repository.dart';
+import 'package:flutter_pocket_saver/app/domain/model/usuario.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class FirebaseUsecase {
-  Future<void> registerUser(
-      String userId, String email, String displayName, String? photoURL);
+  Future<void> registerUser(Usuario usuario);
   Future<void> updatePassword(String newPassword);
-  Future<Map<String, String>?> getUserDetails(String userId);
+  Future<Usuario?> getUserDetails(String userId);
+  Future<void> updateUserDetails(Usuario usuario);
 }
 
 @Injectable(as: FirebaseUsecase)
@@ -15,10 +16,9 @@ class FirebaseUsecaseImpl implements FirebaseUsecase {
   FirebaseUsecaseImpl(this.firestoreRepository);
 
   @override
-  Future<void> registerUser(
-      String userId, String email, String displayName, String? photoURL) async {
+  Future<void> registerUser(Usuario usuario) async {
     try {
-      await firestoreRepository.addUser(userId, email, displayName, photoURL);
+      await firestoreRepository.addUser(usuario);
     } catch (e) {
       rethrow;
     }
@@ -34,9 +34,18 @@ class FirebaseUsecaseImpl implements FirebaseUsecase {
   }
 
   @override
-  Future<Map<String, String>?> getUserDetails(String userId) async {
+  Future<Usuario?> getUserDetails(String userId) async {
     try {
       return await firestoreRepository.getUserDetails(userId);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> updateUserDetails(Usuario usuario) async {
+    try {
+      await firestoreRepository.updateUserDetails(usuario);
     } catch (e) {
       rethrow;
     }

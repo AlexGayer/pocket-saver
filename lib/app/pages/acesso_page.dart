@@ -19,7 +19,6 @@ class AcessoPage extends StatefulWidget {
 class _AcessoPageState extends WidgetStateful<AcessoPage, LoginController> {
   @override
   Widget build(BuildContext context) {
-    // Define textos e ações com base em isLogin
     final String pageTitle =
         widget.isLogin ? "Bem-vindo de volta!" : "Comece aqui!";
     final String pageSubtitle = widget.isLogin

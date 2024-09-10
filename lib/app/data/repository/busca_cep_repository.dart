@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:dio/dio.dart';
 import 'package:flutter_pocket_saver/app/domain/model/cep.dart';
 import 'package:injectable/injectable.dart';
