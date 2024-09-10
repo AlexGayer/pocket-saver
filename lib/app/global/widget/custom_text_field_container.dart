@@ -14,6 +14,8 @@ class CustomTextFieldContainer extends StatefulWidget {
   final TextEditingController? controller;
   final String? hintText;
   final String? validatorText;
+  final bool? desableDecoration;
+  final ValueChanged<String>? onChanged; // Adiciona o parâmetro onChanged
 
   const CustomTextFieldContainer({
     super.key,
@@ -28,6 +30,8 @@ class CustomTextFieldContainer extends StatefulWidget {
     this.email,
     this.newPwd,
     this.focus,
+    this.desableDecoration,
+    this.onChanged, // Inicializa o onChanged
   });
 
   @override
@@ -43,16 +47,19 @@ class _CustomTextFieldContainerState extends State<CustomTextFieldContainer> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-      decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(20),
-      ),
+      decoration: widget.desableDecoration == true
+          ? null
+          : BoxDecoration(
+              color: Colors.grey.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(20),
+            ),
       child: TextFormField(
         focusNode: widget.focus,
         controller: widget.controller,
         obscureText: widget.pwd == true ? !visible : visible,
         keyboardType: widget.keyboardType,
         inputFormatters: widget.inputFormatters,
+        onChanged: widget.onChanged, // Adiciona o onChanged no TextFormField
         validator: (value) {
           if (value!.isEmpty) {
             return widget.validatorText;
@@ -79,8 +86,7 @@ class _CustomTextFieldContainerState extends State<CustomTextFieldContainer> {
           return null;
         },
         decoration: InputDecoration(
-          // hintText: widget.hintText,
-          border: InputBorder.none,
+          border: widget.desableDecoration == true ? null : InputBorder.none,
           prefixIcon: Icon(widget.prefixIcon, color: Colors.white),
           suffixIcon: widget.pwd == true
               ? IconButton(

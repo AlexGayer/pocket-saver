@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/constant/app_shared_preferences.dart';
+import 'package:flutter_pocket_saver/app/domain/usecase/busca_cep_usecase.dart';
 import 'package:flutter_pocket_saver/app/domain/usecase/firebase_usecase.dart';
 import 'package:flutter_pocket_saver/app/constant/dialog_helper.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -11,26 +12,39 @@ import 'package:mobx/mobx.dart';
 
 part 'login_controller.g.dart';
 
-@injectable
+@Injectable()
 class LoginController = _LoginControllerrBase with _$LoginController;
 
 abstract class _LoginControllerrBase with Store {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseUsecase _firebaseUsecase;
+  final BuscaCepUseCase _buscaCepUseCase;
 
   final nameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
   final pwdCtrl = TextEditingController();
   final newPwdCtrl = TextEditingController();
+  final cityCtrl = TextEditingController();
+  final stateCtrl = TextEditingController();
+  final birthCtrl = TextEditingController();
+  final phoneCtrl = TextEditingController();
+  final cepCtrl = TextEditingController();
   final focusName = FocusNode();
+  final focusPhone = FocusNode();
   final focusEmail = FocusNode();
   final focusPwd = FocusNode();
+  final focusCep = FocusNode();
   final focusNewPwd = FocusNode();
   final formKey = GlobalKey<FormState>();
   final handler = AppSharedPreferences();
   final helper = DialogHelper();
 
-  _LoginControllerrBase(this._firebaseUsecase);
+  TimeOfDay timeOfDay = TimeOfDay.now();
+  DateTime selectedDate = DateTime.now();
+  DateTime firstDate = DateTime(2024);
+  DateTime lastDate = DateTime(2999);
+
+  _LoginControllerrBase(this._firebaseUsecase, this._buscaCepUseCase);
 
   @observable
   bool _loading = false;
@@ -65,7 +79,22 @@ abstract class _LoginControllerrBase with Store {
         userMail = userDetails['email'] ?? 'E-mail';
       }
     }
+
+    nameCtrl.text = userName;
+    emailCtrl.text = userMail;
+
     _loading = false;
+  }
+
+  @action
+  Future<void> searchCep(String cep) async {
+    try {
+      final resultCep = await _buscaCepUseCase.call(cep);
+      cityCtrl.text = resultCep.localidade;
+      stateCtrl.text = resultCep.uf;
+    } catch (e) {
+      print('Erro ao buscar CEP: $e');
+    }
   }
 
   @action
@@ -221,6 +250,25 @@ abstract class _LoginControllerrBase with Store {
   }
 
   @action
+  Future datePicker(BuildContext context) async {
+    final DateTime? datePicked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: firstDate,
+      lastDate: lastDate,
+      builder: (context, child) => Theme(
+        data: ThemeData(timePickerTheme: Theme.of(context).timePickerTheme),
+        child: child!,
+      ),
+    );
+
+    if (datePicked != null && datePicked != selectedDate) {
+      selectedDate = datePicked;
+      birthCtrl.text = toBRDt(selectedDate);
+    }
+  }
+
+  @action
   Future<void> saveCampos() async {
     await handler.savePreferences("name", nameCtrl.text.trim());
     await handler.savePreferences("mail", emailCtrl.text.trim());
@@ -232,13 +280,23 @@ abstract class _LoginControllerrBase with Store {
 
   @action
   Future<void> logout(BuildContext context) async {
-    print("aquiii");
     await handler.removePreferences("name");
     await handler.removePreferences("mail");
     await handler.removePreferences("password");
     await handler.removePreferences("photoURL");
     await Navigator.of(context)
         .pushNamedAndRemoveUntil("/index", (route) => false);
+  }
+
+  @action
+  toBRDt(DateTime? date) {
+    if (date != null) {
+      final day = date.day.toString();
+      final month = date.month.toString();
+      final year = date.year.toString();
+      return "${day.padLeft(2, "0")}/${month.padLeft(2, "0")}/$year";
+    }
+    return "";
   }
 
   showMessage(BuildContext context, String message) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/pages/analytics_page.dart';
+import 'package:flutter_pocket_saver/app/pages/atualiza_cadastro_page.dart';
 import 'package:flutter_pocket_saver/app/pages/cadastro_page.dart';
 import 'package:flutter_pocket_saver/app/pages/login_page.dart';
 import 'package:flutter_pocket_saver/app/pages/pocket_page.dart';
@@ -19,6 +20,8 @@ class Routes {
         return SlideRightRoute(widget: const LoginPage());
       case cadastroRoute:
         return SlideRightRoute(widget: const CadastroPage());
+      case atualizaCadastroRoute:
+        return SlideRightRoute(widget: const AtualizaCadastroPage());
       case homeRoute:
         return SlideRightRoute(widget: const PocketPage());
       case transactionsRoute:

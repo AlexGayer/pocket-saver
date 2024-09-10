@@ -23,9 +23,13 @@ class CustomAppBarWidget extends StatelessWidget
       ],
       title: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(
-          title ?? "",
-          style: Theme.of(context).textTheme.titleLarge,
+        child: Row(
+          children: [
+            Text(
+              title ?? "",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ],
         ),
       ),
     );

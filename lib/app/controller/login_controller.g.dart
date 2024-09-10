@@ -111,6 +111,14 @@ mixin _$LoginController on _LoginControllerrBase, Store {
     return _$initStateAsyncAction.run(() => super.initState());
   }
 
+  late final _$searchCepAsyncAction =
+      AsyncAction('_LoginControllerrBase.searchCep', context: context);
+
+  @override
+  Future<void> searchCep(String cep) {
+    return _$searchCepAsyncAction.run(() => super.searchCep(cep));
+  }
+
   late final _$loginAsyncAction =
       AsyncAction('_LoginControllerrBase.login', context: context);
 
@@ -144,6 +152,14 @@ mixin _$LoginController on _LoginControllerrBase, Store {
         .run(() => super.signInWithGoogle(context));
   }
 
+  late final _$datePickerAsyncAction =
+      AsyncAction('_LoginControllerrBase.datePicker', context: context);
+
+  @override
+  Future<dynamic> datePicker(BuildContext context) {
+    return _$datePickerAsyncAction.run(() => super.datePicker(context));
+  }
+
   late final _$saveCamposAsyncAction =
       AsyncAction('_LoginControllerrBase.saveCampos', context: context);
 
@@ -169,6 +185,17 @@ mixin _$LoginController on _LoginControllerrBase, Store {
         name: '_LoginControllerrBase.setFirstLogin');
     try {
       return super.setFirstLogin(firstLog);
+    } finally {
+      _$_LoginControllerrBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic toBRDt(DateTime? date) {
+    final _$actionInfo = _$_LoginControllerrBaseActionController.startAction(
+        name: '_LoginControllerrBase.toBRDt');
+    try {
+      return super.toBRDt(date);
     } finally {
       _$_LoginControllerrBaseActionController.endAction(_$actionInfo);
     }

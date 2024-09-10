@@ -9,20 +9,26 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
+import 'package:dio/dio.dart' as _i361;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:firebase_core/firebase_core.dart' as _i982;
 import 'package:flutter_pocket_saver/app/controller/login_controller.dart'
     as _i468;
 import 'package:flutter_pocket_saver/app/controller/pocket_controller.dart'
     as _i422;
+import 'package:flutter_pocket_saver/app/data/repository/busca_cep_repository.dart'
+    as _i180;
 import 'package:flutter_pocket_saver/app/data/repository/busca_contas_repository.dart'
     as _i204;
 import 'package:flutter_pocket_saver/app/data/repository/firebase_repository.dart'
     as _i170;
+import 'package:flutter_pocket_saver/app/domain/usecase/busca_cep_usecase.dart'
+    as _i816;
 import 'package:flutter_pocket_saver/app/domain/usecase/busca_contas_usecase.dart'
     as _i394;
 import 'package:flutter_pocket_saver/app/domain/usecase/firebase_usecase.dart'
     as _i478;
+import 'package:flutter_pocket_saver/di/dio_di.dart' as _i349;
 import 'package:flutter_pocket_saver/di/firebase_di.dart' as _i774;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -39,12 +45,19 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final firebaseModule = _$FirebaseModule();
+    final dioDi = _$DioDi();
     await gh.factoryAsync<_i982.FirebaseApp>(
       () => firebaseModule.initFirebaseApp,
       preResolve: true,
     );
     gh.factory<_i59.FirebaseAuth>(() => firebaseModule.auth);
     gh.factory<_i974.FirebaseFirestore>(() => firebaseModule.firestore);
+    gh.factory<_i361.BaseOptions>(() => dioDi.options);
+    gh.lazySingleton<_i361.Dio>(() => dioDi.dio());
+    gh.factory<_i180.BuscaCepRepository>(
+        () => _i180.BuscaCepRepositoryImpl(gh<_i361.Dio>()));
+    gh.factory<_i816.BuscaCepUseCase>(
+        () => _i816.BuscaCepUseCaseImpl(gh<_i180.BuscaCepRepository>()));
     gh.factory<_i204.BuscaContasRepository>(
         () => _i204.BuscaContasRepositoryImpl(gh<_i974.FirebaseFirestore>()));
     gh.factory<_i170.FirestoreRepository>(() => _i170.FirestoreRepositoryImpl(
@@ -55,8 +68,10 @@ extension GetItInjectableX on _i174.GetIt {
         buscaContasRepository: gh<_i204.BuscaContasRepository>()));
     gh.factory<_i478.FirebaseUsecase>(
         () => _i478.FirebaseUsecaseImpl(gh<_i170.FirestoreRepository>()));
-    gh.factory<_i468.LoginController>(
-        () => _i468.LoginController(gh<_i478.FirebaseUsecase>()));
+    gh.factory<_i468.LoginController>(() => _i468.LoginController(
+          gh<_i478.FirebaseUsecase>(),
+          gh<_i816.BuscaCepUseCase>(),
+        ));
     gh.factory<_i422.PocketController>(() => _i422.PocketController(
           gh<_i394.BuscaContasUsecase>(),
           gh<_i478.FirebaseUsecase>(),
@@ -66,3 +81,5 @@ extension GetItInjectableX on _i174.GetIt {
 }
 
 class _$FirebaseModule extends _i774.FirebaseModule {}
+
+class _$DioDi extends _i349.DioDi {}

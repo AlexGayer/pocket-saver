@@ -54,7 +54,8 @@ dependencies:
   fl_chart:
   shared_preferences: ^2.3.2
   flutter_launcher_icons: ^0.13.1
-  cached_network_image: 
+  flutter_libphonenumber: ^2.3.3
+  dio: ^5.7.0
 
 
   # The following adds the Cupertino Icons font to your application.

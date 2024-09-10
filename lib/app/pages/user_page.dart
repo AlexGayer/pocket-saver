@@ -73,8 +73,9 @@ class _UserPageState extends WidgetStateful<UserPage, LoginController> {
                       children: [
                         TextButton.icon(
                             icon: Icon(MdiIcons.account),
-                            onPressed: () {},
-                            label: const Text("Meu Cadastro")),
+                            onPressed: () => Navigator.of(context)
+                                .pushNamed("/atualizaCadastro"),
+                            label: const Text("Atualizar cadastro")),
                       ],
                     ),
                   ),
