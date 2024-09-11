@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_pocket_saver/app/data/repository/firebase_repository.dart';
 import 'package:flutter_pocket_saver/app/domain/model/usuario.dart';
 import 'package:injectable/injectable.dart';
@@ -7,6 +9,7 @@ abstract class FirebaseUsecase {
   Future<void> updatePassword(String newPassword);
   Future<Usuario?> getUserDetails(String userId);
   Future<void> updateUserDetails(Usuario usuario);
+  Future<void> uploadUserImage(String userId, File imageFile);
 }
 
 @Injectable(as: FirebaseUsecase)
@@ -46,6 +49,15 @@ class FirebaseUsecaseImpl implements FirebaseUsecase {
   Future<void> updateUserDetails(Usuario usuario) async {
     try {
       await firestoreRepository.updateUserDetails(usuario);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> uploadUserImage(String userId, File imageFile) async {
+    try {
+      await firestoreRepository.uploadUserImage(userId, imageFile);
     } catch (e) {
       rethrow;
     }

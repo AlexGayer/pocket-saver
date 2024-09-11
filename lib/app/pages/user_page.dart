@@ -25,11 +25,10 @@ class _UserPageState extends WidgetStateful<UserPage, LoginController> {
     final size = MediaQuery.of(context).size;
     final style = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: CustomAppBarWidget(
-          title: "Perfil",
-          implyLeading: false,
-          icon: MdiIcons.exitToApp,
-          func: () async => await controller.logout(context)),
+      appBar: const CustomAppBarWidget(
+        title: "Perfil",
+        implyLeading: false,
+      ),
       body: Observer(
         builder: (_) => GradientBackgroundWidget(
           child: SingleChildScrollView(
@@ -37,24 +36,25 @@ class _UserPageState extends WidgetStateful<UserPage, LoginController> {
               child: Column(
                 children: [
                   SizedBox(
-                      height: size.height * 0.2,
-                      child: CircleAvatar(
-                        radius: 100,
-                        backgroundColor: Colors.black,
-                        child: controller.userPhotoURL.isNotEmpty
-                            ? ClipOval(
-                                child: Image.network(
-                                  controller.userPhotoURL,
-                                  height: size.height,
-                                  width: size.width,
-                                  fit: BoxFit.fill,
-                                ),
-                              )
-                            : Image.asset(
-                                'assets/images/batman.png',
+                    height: size.height * 0.2,
+                    child: CircleAvatar(
+                      radius: 100,
+                      backgroundColor: Colors.black,
+                      child: controller.userPhotoURL.isNotEmpty
+                          ? ClipOval(
+                              child: Image.network(
+                                controller.userPhotoURL,
+                                height: size.height,
+                                width: size.width,
                                 fit: BoxFit.fill,
                               ),
-                      )),
+                            )
+                          : Image.asset(
+                              'assets/images/batman.png',
+                              fit: BoxFit.fill,
+                            ),
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   SizedBox(
                     height: size.height * 0.1,
@@ -68,9 +68,26 @@ class _UserPageState extends WidgetStateful<UserPage, LoginController> {
                   ),
                   const SizedBox(height: 50),
                   SizedBox(
-                    height: size.height * 0.2,
+                    width: size.width * 0.8,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        TextButton.icon(
+                            icon: Icon(MdiIcons.account),
+                            onPressed: () => Navigator.of(context)
+                                .pushNamed("/atualizaCadastro"),
+                            label: const Text("Atualizar cadastro")),
+                        TextButton.icon(
+                            icon: Icon(MdiIcons.account),
+                            onPressed: () => Navigator.of(context)
+                                .pushNamed("/atualizaCadastro"),
+                            label: const Text("Atualizar cadastro")),
+                        TextButton.icon(
+                            icon: Icon(MdiIcons.account),
+                            onPressed: () => Navigator.of(context)
+                                .pushNamed("/atualizaCadastro"),
+                            label: const Text("Atualizar cadastro")),
                         TextButton.icon(
                             icon: Icon(MdiIcons.account),
                             onPressed: () => Navigator.of(context)

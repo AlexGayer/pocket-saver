@@ -103,6 +103,22 @@ mixin _$LoginController on _LoginControllerBase, Store {
     });
   }
 
+  late final _$pickedImageAtom =
+      Atom(name: '_LoginControllerBase.pickedImage', context: context);
+
+  @override
+  XFile? get pickedImage {
+    _$pickedImageAtom.reportRead();
+    return super.pickedImage;
+  }
+
+  @override
+  set pickedImage(XFile? value) {
+    _$pickedImageAtom.reportWrite(value, super.pickedImage, () {
+      super.pickedImage = value;
+    });
+  }
+
   late final _$initStateAsyncAction =
       AsyncAction('_LoginControllerBase.initState', context: context);
 
@@ -185,6 +201,32 @@ mixin _$LoginController on _LoginControllerBase, Store {
     return _$datePickerAsyncAction.run(() => super.datePicker(context));
   }
 
+  late final _$getImageGalleryAsyncAction =
+      AsyncAction('_LoginControllerBase.getImageGallery', context: context);
+
+  @override
+  Future<void> getImageGallery() {
+    return _$getImageGalleryAsyncAction.run(() => super.getImageGallery());
+  }
+
+  late final _$getImageCameraAsyncAction =
+      AsyncAction('_LoginControllerBase.getImageCamera', context: context);
+
+  @override
+  Future<void> getImageCamera() {
+    return _$getImageCameraAsyncAction.run(() => super.getImageCamera());
+  }
+
+  late final _$uploadImageToFirebaseAsyncAction = AsyncAction(
+      '_LoginControllerBase.uploadImageToFirebase',
+      context: context);
+
+  @override
+  Future<void> uploadImageToFirebase() {
+    return _$uploadImageToFirebaseAsyncAction
+        .run(() => super.uploadImageToFirebase());
+  }
+
   late final _$_LoginControllerBaseActionController =
       ActionController(name: '_LoginControllerBase', context: context);
 
@@ -216,6 +258,7 @@ mixin _$LoginController on _LoginControllerBase, Store {
 userName: ${userName},
 userMail: ${userMail},
 userPhotoURL: ${userPhotoURL},
+pickedImage: ${pickedImage},
 loading: ${loading},
 firstLogin: ${firstLogin}
     ''';

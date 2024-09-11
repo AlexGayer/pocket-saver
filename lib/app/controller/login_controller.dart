@@ -1,5 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, avoid_print, unnecessary_null_comparison
 
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/constant/app_shared_preferences.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_pocket_saver/app/domain/usecase/busca_cep_usecase.dart';
 import 'package:flutter_pocket_saver/app/domain/usecase/firebase_usecase.dart';
 import 'package:flutter_pocket_saver/app/constant/dialog_helper.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 
@@ -35,6 +38,7 @@ abstract class _LoginControllerBase with Store {
   final phoneCtrl = TextEditingController();
   final cepCtrl = TextEditingController();
   final cpfCtrl = TextEditingController();
+  final _picker = ImagePicker();
 
   final helper = DialogHelper();
   final handler = AppSharedPreferences();
@@ -58,6 +62,9 @@ abstract class _LoginControllerBase with Store {
 
   @observable
   String userPhotoURL = "";
+
+  @observable
+  XFile? pickedImage;
 
   @computed
   bool get loading => _loading;
@@ -145,23 +152,19 @@ abstract class _LoginControllerBase with Store {
         password: pwdCtrl.text,
       );
 
-      // Atualizando o perfil do usuário no Firebase Authentication
       await userCredential.user?.updateProfile(displayName: nameCtrl.text);
 
-      // Criando o objeto Usuario com informações essenciais
       final usuario = Usuario(
-        id: userCredential.user!.uid,
-        name: nameCtrl.text,
-        email: emailCtrl.text,
-        photoURL: userPhotoURL,
-        cpf: "", // Campo opcional; deixe em branco ou passe um valor padrão
-        birthDate:
-            "", // Campo opcional; deixe em branco ou passe um valor padrão
-        phone: "", // Campo opcional; deixe em branco ou passe um valor padrão
-        cep: "", // Campo opcional; deixe em branco ou passe um valor padrão
-        state: "", // Campo opcional; deixe em branco ou passe um valor padrão
-        city: "", // Campo opcional; deixe em branco ou passe um valor padrão
-      );
+          id: userCredential.user!.uid,
+          name: nameCtrl.text,
+          email: emailCtrl.text,
+          photoURL: userPhotoURL,
+          cpf: "",
+          birthDate: "",
+          phone: "",
+          cep: "",
+          state: "",
+          city: "");
 
       await _firebaseUsecase.registerUser(usuario);
 
@@ -206,13 +209,12 @@ abstract class _LoginControllerBase with Store {
           name: user.displayName ?? '',
           email: user.email ?? '',
           photoURL: user.photoURL,
-          cpf: "", // Campo opcional; deixe em branco ou passe um valor padrão
-          birthDate:
-              "", // Campo opcional; deixe em branco ou passe um valor padrão
-          phone: "", // Campo opcional; deixe em branco ou passe um valor padrão
-          cep: "", // Campo opcional; deixe em branco ou passe um valor padrão
-          state: "", // Campo opcional; deixe em branco ou passe um valor padrão
-          city: "", // Campo opcional; deixe em branco ou passe um valor padrão
+          cpf: "",
+          birthDate: "",
+          phone: "",
+          cep: "",
+          state: "",
+          city: "",
         );
 
         await _firebaseUsecase.registerUser(usuario);
@@ -302,6 +304,48 @@ abstract class _LoginControllerBase with Store {
     if (datePicked != null && datePicked != selectedDate) {
       selectedDate = datePicked;
       birthCtrl.text = toBRDt(selectedDate);
+    }
+  }
+
+  @action
+  Future<void> getImageGallery() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      pickedImage = XFile(pickedFile.path);
+      print('Imagem da galeria selecionada: ${pickedImage!.path}');
+    } else {
+      print('Nenhuma imagem selecionada.');
+    }
+  }
+
+  @action
+  Future<void> getImageCamera() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      pickedImage = XFile(pickedFile.path);
+      print('Imagem da câmera selecionada: ${pickedImage!.path}');
+    } else {
+      print('Nenhuma imagem selecionada.');
+    }
+  }
+
+  @action
+  Future<void> uploadImageToFirebase() async {
+    try {
+      if (pickedImage != null) {
+        _loading = true;
+
+        // Upload da imagem usando o repositório
+        await _firebaseUsecase.uploadUserImage(
+          _auth.currentUser!.uid,
+          File(pickedImage!.path),
+        );
+
+        _loading = false;
+      }
+    } catch (e) {
+      print('Erro ao enviar imagem para o Firebase Storage: $e');
+      _loading = false;
     }
   }
 

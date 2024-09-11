@@ -57,6 +57,7 @@ dependencies:
   flutter_libphonenumber: ^2.3.3
   dio: ^5.7.0
   country_code_picker:
+  image_picker:
 
 
   # The following adds the Cupertino Icons font to your application.
