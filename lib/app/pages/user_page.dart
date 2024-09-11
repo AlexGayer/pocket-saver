@@ -4,7 +4,6 @@ import 'package:flutter_pocket_saver/app/controller/login_controller.dart';
 import 'package:flutter_pocket_saver/app/global/widget/custom_app_bar_widget.dart';
 import 'package:flutter_pocket_saver/app/global/widget/stateful_widget.dart';
 import 'package:flutter_pocket_saver/app/widgets/gradient_background_widget.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -73,26 +72,31 @@ class _UserPageState extends WidgetStateful<UserPage, LoginController> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextButton.icon(
-                            icon: Icon(MdiIcons.account),
+                        ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 5.0),
+                          title: const Text(
+                            "Atualiza cadastro",
+                          ),
+                          trailing: IconButton(
                             onPressed: () => Navigator.of(context)
                                 .pushNamed("/atualizaCadastro"),
-                            label: const Text("Atualizar cadastro")),
-                        TextButton.icon(
-                            icon: Icon(MdiIcons.account),
-                            onPressed: () => Navigator.of(context)
-                                .pushNamed("/atualizaCadastro"),
-                            label: const Text("Atualizar cadastro")),
-                        TextButton.icon(
-                            icon: Icon(MdiIcons.account),
-                            onPressed: () => Navigator.of(context)
-                                .pushNamed("/atualizaCadastro"),
-                            label: const Text("Atualizar cadastro")),
-                        TextButton.icon(
-                            icon: Icon(MdiIcons.account),
-                            onPressed: () => Navigator.of(context)
-                                .pushNamed("/atualizaCadastro"),
-                            label: const Text("Atualizar cadastro")),
+                            icon: const Icon(Icons.keyboard_arrow_right),
+                          ),
+                        ),
+                        const Divider(color: Colors.grey),
+                        ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 5.0),
+                          title: const Text(
+                            "Sair",
+                          ),
+                          trailing: IconButton(
+                            onPressed: () => controller.logout(context),
+                            icon: const Icon(Icons.exit_to_app),
+                          ),
+                        ),
+                        const Divider(color: Colors.grey),
                       ],
                     ),
                   ),

@@ -46,14 +46,7 @@ class _AtualizaCadastroPageState
                       height: size.height * 0.2,
                       child: GestureDetector(
                         onTap: () async {
-                          // Permitir ao usuário selecionar uma imagem da galeria
                           await controller.getImageGallery();
-
-                          // Se a imagem for selecionada, atualize a foto do usuário
-                          if (controller.pickedImage != null) {
-                            // Aqui você pode adicionar a lógica para enviar a imagem ao Firebase Storage,
-                            // salvar a URL da imagem no perfil do usuário, etc.
-                          }
                         },
                         child: CircleAvatar(
                           radius: 100,
@@ -61,7 +54,7 @@ class _AtualizaCadastroPageState
                           child: controller.pickedImage != null
                               ? ClipOval(
                                   child: Image.file(
-                                    controller.pickedImage as File,
+                                    File(controller.pickedImage!.path),
                                     height: size.height,
                                     width: size.width,
                                     fit: BoxFit.fill,

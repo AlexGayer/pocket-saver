@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -84,7 +86,7 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
           .child('user_images/$userId.jpg');
 
       final uploadTask = await storageRef.putFile(imageFile);
-      final snapshot = await uploadTask;
+      final snapshot = uploadTask;
 
       if (snapshot.state == firebase_storage.TaskState.success) {
         print('Upload bem-sucedido');
