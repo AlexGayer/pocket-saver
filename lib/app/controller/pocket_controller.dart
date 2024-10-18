@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pocket_saver/app/constant/app_constants.dart';
 import 'package:flutter_pocket_saver/app/constant/app_shared_preferences.dart';
+import 'package:flutter_pocket_saver/app/domain/model/categoria.dart';
 import 'package:flutter_pocket_saver/app/domain/model/contas.dart';
 import 'package:flutter_pocket_saver/app/domain/usecase/busca_contas_usecase.dart';
 import 'package:flutter_pocket_saver/app/constant/dialog_helper.dart';
@@ -71,18 +72,7 @@ abstract class _PocketControllerBase with Store {
   List<Contas> contas = [];
 
   @observable
-  List<String> categorias = [
-    "Casa",
-    "Salário",
-    "Educação",
-    "Alimentação",
-    "Lazer",
-    "Saúde",
-    "Transporte",
-    "Roupas",
-    "Entretenimento",
-    "Outros"
-  ];
+  List<String> categorias = [];
 
   @computed
   bool get loading => _loading;
@@ -294,5 +284,43 @@ abstract class _PocketControllerBase with Store {
     ScaffoldMessenger.of(ctx).showSnackBar(
       SnackBar(content: Text(message)),
     );
+  }
+
+  @action
+  Future<Map<String, double>> agruparContasPorCategoria() async {
+    await fetchContas();
+
+    Map<String, double> categoriasTotais = {};
+
+    for (var conta in contas) {
+      if (categoriasTotais.containsKey(conta.categoria)) {
+        categoriasTotais[conta.categoria] =
+            categoriasTotais[conta.categoria]! + conta.valor;
+      } else {
+        categoriasTotais[conta.categoria] = conta.valor;
+      }
+    }
+
+    return categoriasTotais;
+  }
+
+  @action
+  void adicionarCategoria(String nome) {
+    final novaCategoria = Categoria(nome: nome);
+    categorias = List.from(categorias)..add(novaCategoria.nome);
+    addCategoria(nome);
+  }
+
+  @action
+  Future<void> addCategoria(String nome) async {
+    if (nome.isNotEmpty) {
+      Categoria novaCategoria = Categoria(nome: nome);
+
+      await _firebaseUsecase.addCategoria(novaCategoria);
+
+      categorias.add(nome);
+    } else {
+      print("Nome da categoria não pode estar vazio.");
+    }
   }
 }

@@ -45,7 +45,7 @@ abstract class _LoginControllerBase with Store {
 
   TimeOfDay timeOfDay = TimeOfDay.now();
   DateTime selectedDate = DateTime.now();
-  DateTime firstDate = DateTime(2024);
+  DateTime firstDate = DateTime(1900);
   DateTime lastDate = DateTime(2999);
 
   @observable

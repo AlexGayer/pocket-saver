@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:flutter_pocket_saver/app/domain/model/categoria.dart';
 import 'package:flutter_pocket_saver/app/domain/model/usuario.dart';
 import 'package:injectable/injectable.dart';
 
@@ -13,6 +14,7 @@ abstract class FirestoreRepository {
   Future<Usuario?> getUserDetails(String userId);
   Future<void> updateUserDetails(Usuario usuario);
   Future<void> uploadUserImage(String userId, File imageFile);
+  Future<void> addCategoria(Categoria categoria);
 }
 
 @Injectable(as: FirestoreRepository)
@@ -108,6 +110,31 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
       }
     } catch (e) {
       print('Erro ao fazer upload da imagem para o Firebase Storage: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> addCategoria(Categoria categoria) async {
+    try {
+      DocumentSnapshot docSnapshot =
+          await firestore.collection('categorias').doc('categoriasData').get();
+
+      List<dynamic> categoriasExistentes = [];
+
+      if (docSnapshot.exists) {
+        categoriasExistentes = List.from(docSnapshot['lista']);
+      }
+
+      categoriasExistentes.add(categoria.toJson());
+
+      await firestore.collection('categorias').doc('categoriasData').set({
+        'lista': categoriasExistentes,
+      });
+
+      print('Categoria adicionada com sucesso.');
+    } catch (e) {
+      print('Erro ao adicionar categoria: $e');
       rethrow;
     }
   }

@@ -278,6 +278,24 @@ mixin _$PocketController on _PocketControllerBase, Store {
     return _$datePickerAsyncAction.run(() => super.datePicker(context, date));
   }
 
+  late final _$agruparContasPorCategoriaAsyncAction = AsyncAction(
+      '_PocketControllerBase.agruparContasPorCategoria',
+      context: context);
+
+  @override
+  Future<Map<String, double>> agruparContasPorCategoria() {
+    return _$agruparContasPorCategoriaAsyncAction
+        .run(() => super.agruparContasPorCategoria());
+  }
+
+  late final _$addCategoriaAsyncAction =
+      AsyncAction('_PocketControllerBase.addCategoria', context: context);
+
+  @override
+  Future<void> addCategoria(String nome) {
+    return _$addCategoriaAsyncAction.run(() => super.addCategoria(nome));
+  }
+
   late final _$_PocketControllerBaseActionController =
       ActionController(name: '_PocketControllerBase', context: context);
 
@@ -375,6 +393,17 @@ mixin _$PocketController on _PocketControllerBase, Store {
         name: '_PocketControllerBase.showCustomSnackBar');
     try {
       return super.showCustomSnackBar(ctx, message);
+    } finally {
+      _$_PocketControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void adicionarCategoria(String nome) {
+    final _$actionInfo = _$_PocketControllerBaseActionController.startAction(
+        name: '_PocketControllerBase.adicionarCategoria');
+    try {
+      return super.adicionarCategoria(nome);
     } finally {
       _$_PocketControllerBaseActionController.endAction(_$actionInfo);
     }

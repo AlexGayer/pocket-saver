@@ -69,11 +69,13 @@ class _CustomDropDownFieldContainerState
                       controller.edtCat.isNotEmpty ? controller.edtCat : null,
                   onChanged: (String? value) {
                     setState(() {
-                      controller.edtCat = value!;
+                      if (value != null && value == "Adicionar categoria") {
+                        _adicionarCategoriaDialog(context);
+                      } else {
+                        controller.edtCat = value!;
+                        widget.onChanged?.call(value);
+                      }
                     });
-                    widget.onChanged != null
-                        ? widget.onChanged!(value)
-                        : widget.onChanged!(controller.categorias.first);
                   },
                   hint: Container(
                     margin: const EdgeInsets.only(left: 10),
@@ -83,27 +85,82 @@ class _CustomDropDownFieldContainerState
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  items: controller.categorias
-                      .toSet()
-                      .map((String cat) => DropdownMenuItem<String>(
-                            value: cat,
-                            child: Text(
-                              cat,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                  items: [
+                    ...controller.categorias
+                        .map((String cat) => DropdownMenuItem<String>(
+                              value: cat,
+                              child: Text(
+                                cat,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              overflow: TextOverflow.ellipsis,
+                            )),
+                    const DropdownMenuItem<String>(
+                      value: "Adicionar categoria",
+                      child: Row(
+                        children: [
+                          Icon(Icons.add, color: Colors.white),
+                          SizedBox(width: 8),
+                          Text(
+                            "Adicionar categoria",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
-                          ))
-                      .toList(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> _adicionarCategoriaDialog(BuildContext context) async {
+    String novaCategoria = "";
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Adicionar Nova Categoria'),
+          content: TextField(
+            onChanged: (value) {
+              novaCategoria = value;
+            },
+            decoration:
+                const InputDecoration(hintText: "Nome da nova categoria"),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Adicionar'),
+              onPressed: () {
+                if (novaCategoria.isNotEmpty) {
+                  setState(() {
+                    controller.adicionarCategoria(novaCategoria);
+                  });
+                }
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
