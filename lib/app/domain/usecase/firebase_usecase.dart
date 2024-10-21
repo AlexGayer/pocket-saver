@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter_pocket_saver/app/data/repository/firebase_repository.dart';
 import 'package:flutter_pocket_saver/app/domain/model/categoria.dart';
 import 'package:flutter_pocket_saver/app/domain/model/usuario.dart';
@@ -12,6 +11,7 @@ abstract class FirebaseUsecase {
   Future<void> updateUserDetails(Usuario usuario);
   Future<void> uploadUserImage(String userId, File imageFile);
   Future<void> addCategoria(Categoria categoria);
+  Future<List<Categoria>> getCategorias();
 }
 
 @Injectable(as: FirebaseUsecase)
@@ -69,6 +69,15 @@ class FirebaseUsecaseImpl implements FirebaseUsecase {
   Future<void> addCategoria(Categoria categoria) async {
     try {
       await firestoreRepository.addCategoria(categoria);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<Categoria>> getCategorias() async {
+    try {
+      return await firestoreRepository.getCategorias();
     } catch (e) {
       rethrow;
     }

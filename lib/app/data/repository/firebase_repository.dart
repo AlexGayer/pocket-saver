@@ -15,6 +15,7 @@ abstract class FirestoreRepository {
   Future<void> updateUserDetails(Usuario usuario);
   Future<void> uploadUserImage(String userId, File imageFile);
   Future<void> addCategoria(Categoria categoria);
+  Future<List<Categoria>> getCategorias();
 }
 
 @Injectable(as: FirestoreRepository)
@@ -117,25 +118,46 @@ class FirestoreRepositoryImpl implements FirestoreRepository {
   @override
   Future<void> addCategoria(Categoria categoria) async {
     try {
-      DocumentSnapshot docSnapshot =
-          await firestore.collection('categorias').doc('categoriasData').get();
-
-      List<dynamic> categoriasExistentes = [];
-
-      if (docSnapshot.exists) {
-        categoriasExistentes = List.from(docSnapshot['lista']);
+      final String? userId = auth.currentUser?.uid;
+      if (userId == null) {
+        throw Exception('Usuário não autenticado.');
       }
 
-      categoriasExistentes.add(categoria.toJson());
-
-      await firestore.collection('categorias').doc('categoriasData').set({
-        'lista': categoriasExistentes,
-      });
-
+      await firestore
+          .collection('users')
+          .doc(userId)
+          .collection('categorias')
+          .add(categoria.toJson());
       print('Categoria adicionada com sucesso.');
     } catch (e) {
       print('Erro ao adicionar categoria: $e');
       rethrow;
+    }
+  }
+
+  @override
+  Future<List<Categoria>> getCategorias() async {
+    try {
+      final String? userId = auth.currentUser?.uid;
+      if (userId == null) {
+        throw Exception('Usuário não autenticado.');
+      }
+
+      final snapshot = await firestore
+          .collection('users')
+          .doc(userId)
+          .collection('categorias')
+          .get();
+
+      if (snapshot.docs.isEmpty) {
+        return [];
+      }
+
+      return snapshot.docs
+          .map((doc) => Categoria.fromJson(doc.data()))
+          .toList();
+    } catch (e) {
+      throw Exception('Erro ao buscar categorias: $e');
     }
   }
 }

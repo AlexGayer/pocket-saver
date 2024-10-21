@@ -11,14 +11,17 @@ class CustomDropDownFieldContainer extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
   final ValueChanged<String?>? onChanged;
+  final String? value;
 
-  const CustomDropDownFieldContainer(
-      {super.key,
-      required this.prefixIcon,
-      required this.keyboardType,
-      this.inputFormatters,
-      this.controller,
-      this.onChanged});
+  const CustomDropDownFieldContainer({
+    super.key,
+    required this.prefixIcon,
+    required this.keyboardType,
+    this.inputFormatters,
+    this.controller,
+    this.onChanged,
+    this.value,
+  });
 
   @override
   State<CustomDropDownFieldContainer> createState() =>
@@ -30,7 +33,7 @@ class _CustomDropDownFieldContainerState
   @override
   void initState() {
     super.initState();
-    controller.initState();
+    controller.fetchCategorias();
   }
 
   @override
@@ -65,17 +68,18 @@ class _CustomDropDownFieldContainerState
                     ),
                   ),
                   isExpanded: true,
-                  value:
-                      controller.edtCat.isNotEmpty ? controller.edtCat : null,
+                  value: controller.categorias.contains(controller.edtCat)
+                      ? controller.edtCat
+                      : null,
                   onChanged: (String? value) {
-                    setState(() {
-                      if (value != null && value == "Adicionar categoria") {
+                    if (value != null) {
+                      if (value == "Adicionar categoria") {
                         _adicionarCategoriaDialog(context);
                       } else {
-                        controller.edtCat = value!;
+                        controller.edtCat = value;
                         widget.onChanged?.call(value);
                       }
-                    });
+                    }
                   },
                   hint: Container(
                     margin: const EdgeInsets.only(left: 10),
@@ -85,45 +89,51 @@ class _CustomDropDownFieldContainerState
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  items: [
-                    ...controller.categorias
-                        .map((String cat) => DropdownMenuItem<String>(
-                              value: cat,
-                              child: Text(
-                                cat,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            )),
-                    const DropdownMenuItem<String>(
-                      value: "Adicionar categoria",
-                      child: Row(
-                        children: [
-                          Icon(Icons.add, color: Colors.white),
-                          SizedBox(width: 8),
-                          Text(
-                            "Adicionar categoria",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                  items: _buildDropdownItems(),
                 ),
               ),
             ),
-          ),
+          )
         ],
       ),
     );
+  }
+
+  List<DropdownMenuItem<String>> _buildDropdownItems() {
+    // Use a Set to avoid duplicates and ensure unique values
+    final uniqueCategorias = controller.categorias.toSet().toList();
+
+    return [
+      ...uniqueCategorias.map((String cat) => DropdownMenuItem<String>(
+            value: cat,
+            child: Text(
+              cat,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          )),
+      const DropdownMenuItem<String>(
+        value: "Adicionar categoria",
+        child: Row(
+          children: [
+            Icon(Icons.add, color: Colors.white),
+            SizedBox(width: 8),
+            Text(
+              "Adicionar categoria",
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ];
   }
 
   Future<void> _adicionarCategoriaDialog(BuildContext context) async {
@@ -151,11 +161,10 @@ class _CustomDropDownFieldContainerState
               child: const Text('Adicionar'),
               onPressed: () {
                 if (novaCategoria.isNotEmpty) {
-                  setState(() {
-                    controller.adicionarCategoria(novaCategoria);
-                  });
+                  controller.adicionarCategoria(novaCategoria);
+                  controller.fetchCategorias();
+                  Navigator.of(context).pop();
                 }
-                Navigator.of(context).pop();
               },
             ),
           ],

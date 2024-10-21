@@ -296,6 +296,14 @@ mixin _$PocketController on _PocketControllerBase, Store {
     return _$addCategoriaAsyncAction.run(() => super.addCategoria(nome));
   }
 
+  late final _$fetchCategoriasAsyncAction =
+      AsyncAction('_PocketControllerBase.fetchCategorias', context: context);
+
+  @override
+  Future<void> fetchCategorias() {
+    return _$fetchCategoriasAsyncAction.run(() => super.fetchCategorias());
+  }
+
   late final _$_PocketControllerBaseActionController =
       ActionController(name: '_PocketControllerBase', context: context);
 

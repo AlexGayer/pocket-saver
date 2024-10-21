@@ -323,4 +323,16 @@ abstract class _PocketControllerBase with Store {
       print("Nome da categoria não pode estar vazio.");
     }
   }
+
+  @action
+  Future<void> fetchCategorias() async {
+    try {
+      final List<Categoria> categoriasObtidas =
+          await _firebaseUsecase.getCategorias();
+      categorias =
+          categoriasObtidas.map((categoria) => categoria.nome).toList();
+    } catch (e) {
+      print('Erro ao buscar categorias: $e');
+    }
+  }
 }

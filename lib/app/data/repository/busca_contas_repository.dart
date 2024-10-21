@@ -72,7 +72,7 @@ class BuscaContasRepositoryImpl implements BuscaContasRepository {
           .doc(id.toString())
           .set(newDespesa.toJson());
     } catch (e) {
-      throw Exception('Erro ao adicionar contas: $e');
+      throw Exception('Erro ao adicionar conta: $e');
     }
   }
 
