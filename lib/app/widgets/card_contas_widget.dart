@@ -5,12 +5,21 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class CardContasWidget extends StatelessWidget {
   final PocketController controller;
   final int index;
-  const CardContasWidget(
-      {super.key, required this.controller, required this.index});
+
+  const CardContasWidget({
+    super.key,
+    required this.controller,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
     final style = Theme.of(context).textTheme;
+
+    if (index < 0 || index >= controller.contas.length) {
+      return Container();
+    }
+
     final contas = controller.contas[index];
 
     Color getColor(String tipo) {
@@ -26,13 +35,16 @@ class CardContasWidget extends StatelessWidget {
       child: Dismissible(
         key: Key("${contas.id}"),
         onDismissed: (direction) {
+          final removedItem = controller.contas[index];
           controller.contas.removeAt(index);
-          controller.deleteContas(contas.id, contas.tipo);
+
+          controller.deleteContas(removedItem.id, removedItem.tipo);
         },
         background: Container(
           decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              color: Colors.red),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: Colors.red,
+          ),
           height: 200,
           child: Align(
             alignment: Alignment.centerRight,
@@ -49,11 +61,14 @@ class CardContasWidget extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(contas.tipo,
-                  style: TextStyle(
-                      color: getColor(contas.tipo),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18)),
+              Text(
+                contas.tipo,
+                style: TextStyle(
+                  color: getColor(contas.tipo),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
               Text(
                 "${setSub(contas.tipo)} ${controller.formatDouble(contas.valor)}",
                 style: TextStyle(color: getColor(contas.tipo)),

@@ -37,15 +37,18 @@ class _PocketPageState extends State<PocketPage> {
       initialIndex: _currentIndex,
       child: Scaffold(
         body: SafeArea(
-            child: TabBarView(
-          clipBehavior: Clip.antiAlias,
-          children: _screens,
-        )),
+          child: TabBarView(
+            clipBehavior: Clip.antiAlias,
+            children: _screens,
+          ),
+        ),
         bottomNavigationBar: CustomTabBarWidget(
           currentIndex: _currentIndex,
           onTap: _onTap,
         ),
-        floatingActionButton: const CustomFabWidget(),
+        floatingActionButton: _currentIndex == 0
+            ? const CustomFabWidget()
+            : const SizedBox.shrink(),
         persistentFooterAlignment: AlignmentDirectional.bottomCenter,
         floatingActionButtonLocation: ExpandableFab.location,
       ),

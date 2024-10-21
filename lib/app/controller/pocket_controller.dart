@@ -176,7 +176,7 @@ abstract class _PocketControllerBase with Store {
     final userId = _auth.currentUser?.uid;
     try {
       await _buscaContasUsecase.deleteContas(userId!, id);
-      showCustomSnackBar(ctx, "$tipo excluída com sucesso com sucesso!");
+      showCustomSnackBar(ctx, "$tipo excluída com sucesso!");
       await fetchAndCalculateTotals();
     } catch (e) {
       showCustomSnackBar(ctx, "Ocorreu um erro ao excluir a $tipo: $e");

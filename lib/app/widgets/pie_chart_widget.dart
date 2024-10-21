@@ -16,6 +16,7 @@ class _PieChartWidgetState
     extends WidgetStateful<PieChartWidget, PocketController> {
   int touchedIndex = -1;
   final ColorGenerator colorGenerator = ColorGenerator();
+  Map<String, Color> categoriaCores = {};
 
   @override
   void initState() {
@@ -39,54 +40,53 @@ class _PieChartWidgetState
         final categoriasMap = snapshot.data!;
         final categorias = categoriasMap.keys.toList();
 
-        // Gera cores randomicas para as categorias
-        final categoriaCores =
-            colorGenerator.generateRandomColorsForCategories(categorias);
+        for (var categoria in categorias) {
+          if (!categoriaCores.containsKey(categoria)) {
+            categoriaCores[categoria] = colorGenerator.generateRandomColor();
+          }
+        }
 
         return AspectRatio(
-          aspectRatio: 1.3,
-          child: Row(
+          aspectRatio: 1.5,
+          child: Column(
             children: <Widget>[
-              const SizedBox(height: 18),
               Expanded(
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: PieChart(
-                    PieChartData(
-                      pieTouchData: PieTouchData(
-                        touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                          setState(() {
-                            if (!event.isInterestedForInteractions ||
-                                pieTouchResponse == null ||
-                                pieTouchResponse.touchedSection == null) {
-                              touchedIndex = -1;
-                              return;
-                            }
-                            touchedIndex = pieTouchResponse
-                                .touchedSection!.touchedSectionIndex;
-                          });
-                        },
-                      ),
-                      borderData: FlBorderData(show: false),
-                      sectionsSpace: 0,
-                      centerSpaceRadius: 40,
-                      sections: showingSections(categoriasMap, categoriaCores),
+                child: PieChart(
+                  PieChartData(
+                    pieTouchData: PieTouchData(
+                      touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                        setState(() {
+                          if (!event.isInterestedForInteractions ||
+                              pieTouchResponse == null ||
+                              pieTouchResponse.touchedSection == null) {
+                            touchedIndex = -1;
+                            return;
+                          }
+                          touchedIndex = pieTouchResponse
+                              .touchedSection!.touchedSectionIndex;
+                        });
+                      },
                     ),
+                    borderData: FlBorderData(show: true),
+                    sectionsSpace: 0,
+                    centerSpaceRadius: 40,
+                    sections: showingSections(categoriasMap, categoriaCores),
                   ),
                 ),
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: categoriasMap.entries.map((entry) {
                   return Indicator(
+                    size: 14,
                     color: categoriaCores[entry.key]!,
                     text: entry.key,
                     isSquare: true,
                   );
                 }).toList(),
               ),
-              const SizedBox(width: 28),
+              const SizedBox(height: 18),
             ],
           ),
         );
