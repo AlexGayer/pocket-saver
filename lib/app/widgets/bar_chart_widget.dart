@@ -30,56 +30,128 @@ class BarChartWidget extends StatelessWidget {
             controller.contas.isNotEmpty ? sortedDates.first : DateTime.now();
 
         final double maxY = summedByDate.values.isNotEmpty
-            ? summedByDate.values.reduce((a, b) => a > b ? a : b)
-            : 0;
-        final List<Color> colors = [
-          Colors.lime,
-          Colors.green,
-          Colors.blue,
-        ];
-        final Gradient gradient =
-            LinearGradient(colors: colors, begin: Alignment.topCenter);
-        return BarChart(
-          BarChartData(
-            maxY: maxY,
-            minY: 0,
-            barGroups: List.generate(sortedDates.length, (index) {
-              DateTime date = sortedDates[index];
-              double summedValue = summedByDate[date]!;
+            ? summedByDate.values.reduce((a, b) => a > b ? a : b) * 1.2
+            : 100;
 
-              final int daysFromReference =
-                  date.difference(referenceDate).inDays;
-
-              return BarChartGroupData(x: daysFromReference, barRods: [
-                BarChartRodData(
-                    toY: summedValue, gradient: gradient, width: 15),
-              ]);
-            }),
-            titlesData: FlTitlesData(
-              leftTitles:
-                  const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              topTitles:
-                  const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              bottomTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  getTitlesWidget: (value, meta) {
-                    DateTime date =
-                        referenceDate.add(Duration(days: value.toInt()));
-
-                    String formattedDate = DateFormat('dd/MM').format(date);
-
-                    return Text(
-                      formattedDate,
-                      style: const TextStyle(fontSize: 10),
-                    );
-                  },
+        return summedByDate.isEmpty
+            ? const Center(
+                child: Text(
+                  "Sem dados para exibir",
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 14,
+                  ),
                 ),
-              ),
-            ),
-          ),
-        );
+              )
+            : BarChart(
+                BarChartData(
+                  gridData: const FlGridData(
+                    show: true,
+                    drawVerticalLine: false,
+                    horizontalInterval: 20,
+                    getDrawingHorizontalLine: _getDrawingLine,
+                  ),
+                  borderData: FlBorderData(show: false),
+                  alignment: BarChartAlignment.spaceAround,
+                  maxY: maxY,
+                  minY: 0,
+                  barGroups: List.generate(sortedDates.length, (index) {
+                    DateTime date = sortedDates[index];
+                    double summedValue = summedByDate[date]!;
+                    final int daysFromReference =
+                        date.difference(referenceDate).inDays;
+
+                    return BarChartGroupData(
+                      x: daysFromReference,
+                      barRods: [
+                        BarChartRodData(
+                          toY: summedValue,
+                          gradient: _getGradient(),
+                          width: 18,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(6),
+                            topRight: Radius.circular(6),
+                          ),
+                          backDrawRodData: BackgroundBarChartRodData(
+                            show: true,
+                            toY: maxY,
+                            color: Colors.white.withOpacity(0.05),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
+                  titlesData: FlTitlesData(
+                    show: true,
+                    rightTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    topTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 40,
+                        getTitlesWidget: (value, meta) {
+                          if (value == 0) return const SizedBox.shrink();
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Text(
+                              'R\$${value.toInt()}',
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.7),
+                                fontSize: 10,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        getTitlesWidget: (value, meta) {
+                          DateTime date =
+                              referenceDate.add(Duration(days: value.toInt()));
+                          String formattedDate =
+                              DateFormat('dd/MM').format(date);
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              formattedDate,
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.7),
+                                fontSize: 10,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              );
       },
+    );
+  }
+
+  static LinearGradient _getGradient() {
+    return const LinearGradient(
+      colors: [
+        Color(0xFF8A2BE2), // BlueViolet
+        Color(0xFFDA70D6), // Orchid
+      ],
+      begin: Alignment.bottomCenter,
+      end: Alignment.topCenter,
+    );
+  }
+
+  static FlLine _getDrawingLine(double value) {
+    return FlLine(
+      color: Colors.white.withOpacity(0.1),
+      strokeWidth: 1,
+      dashArray: [5, 5],
     );
   }
 }

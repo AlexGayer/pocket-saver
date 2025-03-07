@@ -16,39 +16,83 @@ class ContainerBudgetWidgetState
   @override
   void initState() {
     controller.fetchContas();
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Observer(
-        builder: (_) => Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Atividades Recentes",
-                      style: TextStyle(color: Colors.white),
+      builder: (_) => Card(
+        elevation: 0,
+        color: Colors.white.withOpacity(0.1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Atividades Recentes",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
                     ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: double.infinity,
-                      height: size.height * 0.2,
-                      child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: controller.contas.length,
-                        itemBuilder: (context, index) => ListTileContasWidget(
-                            controller: controller, index: index),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      // Implementação futura para ver todas as atividades
+                    },
+                    child: const Text(
+                      "Ver Todas",
+                      style: TextStyle(
+                        color: Colors.purpleAccent,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ));
+              const SizedBox(height: 8),
+              controller.contas.isEmpty
+                  ? const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          "Nenhuma transação recente",
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    )
+                  : SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        itemCount: controller.contas.length,
+                        itemBuilder: (context, index) => Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: ListTileContasWidget(
+                            controller: controller,
+                            index: index,
+                          ),
+                        ),
+                      ),
+                    ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

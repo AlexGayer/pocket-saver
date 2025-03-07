@@ -14,8 +14,10 @@ class PocketPage extends StatefulWidget {
   State<PocketPage> createState() => _PocketPageState();
 }
 
-class _PocketPageState extends State<PocketPage> {
+class _PocketPageState extends State<PocketPage>
+    with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
+  late TabController _tabController;
 
   final List<Widget> _screens = [
     const HomePage(),
@@ -24,34 +26,50 @@ class _PocketPageState extends State<PocketPage> {
     const UserPage(),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: _screens.length, vsync: this);
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        setState(() {
+          _currentIndex = _tabController.index;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   void _onTap(int index) {
     setState(() {
       _currentIndex = index;
+      _tabController.animateTo(index);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: _screens.length,
-      initialIndex: _currentIndex,
-      child: Scaffold(
-        body: SafeArea(
-          child: TabBarView(
-            clipBehavior: Clip.antiAlias,
-            children: _screens,
-          ),
-        ),
-        bottomNavigationBar: CustomTabBarWidget(
-          currentIndex: _currentIndex,
-          onTap: _onTap,
-        ),
-        floatingActionButton: _currentIndex == 0
-            ? const CustomFabWidget()
-            : const SizedBox.shrink(),
-        persistentFooterAlignment: AlignmentDirectional.bottomCenter,
-        floatingActionButtonLocation: ExpandableFab.location,
+    return Scaffold(
+      body: TabBarView(
+        controller: _tabController,
+        physics:
+            const NeverScrollableScrollPhysics(), // Desativa o deslizamento para evitar conflitos
+        children: _screens,
       ),
+      bottomNavigationBar: CustomTabBarWidget(
+        currentIndex: _currentIndex,
+        onTap: _onTap,
+      ),
+      floatingActionButton: _currentIndex == 0
+          ? const CustomFabWidget()
+          : const SizedBox.shrink(),
+      persistentFooterAlignment: AlignmentDirectional.bottomCenter,
+      floatingActionButtonLocation: ExpandableFab.location,
     );
   }
 }

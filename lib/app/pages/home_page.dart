@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_pocket_saver/app/global/widget/stateful_widget.dart';
 import 'package:flutter_pocket_saver/app/pages/shimmer_page.dart';
@@ -37,14 +36,10 @@ class _HomePageState extends WidgetStateful<HomePage, PocketController>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
     controller.fetchAndCalculateTotals();
-
-    setState(() {});
 
     final bool? shouldUpdate =
         ModalRoute.of(context)?.settings.arguments as bool?;
-
     if (shouldUpdate == true) {
       setState(() {});
     }
@@ -52,22 +47,41 @@ class _HomePageState extends WidgetStateful<HomePage, PocketController>
 
   @override
   Widget build(BuildContext context) {
-    return GradientBackgroundWidget(
-      child: Observer(
-        builder: (_) => controller.loading
-            ? const ShimmerPage()
-            : const SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    UserWidget(),
-                    BalanceWidget(),
-                    IncExpWidget(),
-                    ContainerSpendingWidget(),
-                    ContainerBudgetWidget(),
-                  ],
-                ),
-              ),
+    return Scaffold(
+      body: GradientBackgroundWidget(
+        child: SafeArea(
+          child: Observer(
+            builder: (_) => controller.loading
+                ? const ShimmerPage()
+                : RefreshIndicator(
+                    onRefresh: () async {
+                      await controller.fetchAndCalculateTotals();
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: SingleChildScrollView(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 16),
+                            UserWidget(),
+                            SizedBox(height: 16),
+                            BalanceWidget(),
+                            SizedBox(height: 16),
+                            IncExpWidget(),
+                            SizedBox(height: 24),
+                            ContainerSpendingWidget(),
+                            SizedBox(height: 24),
+                            ContainerBudgetWidget(),
+                            SizedBox(height: 24),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+          ),
+        ),
       ),
     );
   }

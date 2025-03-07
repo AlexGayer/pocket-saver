@@ -21,33 +21,92 @@ class _BalanceWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
-      width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text("Saldo Atual", style: TextStyle(color: Colors.white)),
-          Observer(
-            builder: (_) => TextField(
-              obscureText: controller.showCurrency ? false : true,
-              style: Theme.of(context).textTheme.titleLarge,
-              controller: controller.edtValor,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                prefixIcon: IconButton(
-                  icon: Icon(controller.showCurrency
-                      ? Icons.visibility
-                      : Icons.visibility_off),
-                  onPressed: () {
-                    controller.toogleCurrency();
-                  },
+    return Card(
+      elevation: 0,
+      color: Colors.white.withOpacity(0.15),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Saldo Atual",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Observer(
+                  builder: (_) => IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    icon: Icon(
+                      controller.showCurrency
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.white70,
+                      size: 22,
+                    ),
+                    onPressed: () {
+                      controller.toogleCurrency();
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Observer(
+              builder: (_) => Container(
+                width: double.infinity,
+                height: 40,
+                alignment: Alignment.centerLeft,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    controller.showCurrency
+                        ? controller.edtValor.text
+                        : "R\$ ••••••",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ),
-          )
-        ],
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    // Implementação futura para adicionar transação
+                  },
+                  icon: const Icon(Icons.add, size: 18),
+                  label: const Text("Adicionar"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purpleAccent.withOpacity(0.7),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

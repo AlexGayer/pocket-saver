@@ -25,36 +25,97 @@ class _IncExpWidgetState
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Icon(MdiIcons.arrowUp, color: Colors.green, size: 30),
-                  Text(
-                    "R\$ ${controller.totalReceitas.toStringAsFixed(2)}",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(width: 5),
-                ],
-              ),
-              Row(
-                children: [
-                  Icon(MdiIcons.arrowDown, color: Colors.red, size: 30),
-                  const SizedBox(width: 5),
-                  Text(
-                    "R\$ ${controller.totalDespesas.toStringAsFixed(2)}",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  )
-                ],
-              ),
-            ],
+      builder: (_) => Row(
+        children: [
+          Expanded(
+            child: _buildFinanceCard(
+              context,
+              title: "Receitas",
+              value: controller.totalReceitas,
+              icon: MdiIcons.arrowUp,
+              iconColor: Colors.green,
+              backgroundColor: Colors.green.withOpacity(0.15),
+            ),
           ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: _buildFinanceCard(
+              context,
+              title: "Despesas",
+              value: controller.totalDespesas,
+              icon: MdiIcons.arrowDown,
+              iconColor: Colors.red,
+              backgroundColor: Colors.red.withOpacity(0.15),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFinanceCard(
+    BuildContext context, {
+    required String title,
+    required double value,
+    required IconData icon,
+    required Color iconColor,
+    required Color backgroundColor,
+  }) {
+    return Card(
+      elevation: 0,
+      color: backgroundColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: iconColor.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    icon,
+                    color: iconColor,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Container(
+              width: double.infinity,
+              height: 30,
+              alignment: Alignment.centerLeft,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "R\$ ${value.toStringAsFixed(2)}",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

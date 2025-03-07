@@ -21,41 +21,88 @@ class _UserWidgetState extends WidgetStateful<UserWidget, PocketController> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Observer(
-      builder: (_) => Container(
-        margin: const EdgeInsets.all(20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 50,
-              height: 50,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: controller.userPhotoURL.isNotEmpty
-                    ? Image.network(
-                        controller.userPhotoURL,
-                        height: size.height,
-                        width: size.width,
-                        fit: BoxFit.fill,
-                      )
-                    : Image.asset(
-                        'assets/images/batman.png',
-                        height: size.height,
-                        width: size.width,
-                        fit: BoxFit.fill,
+      builder: (_) => Card(
+        elevation: 0,
+        color: Colors.white.withOpacity(0.1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: SizedBox(
+                    width: 56,
+                    height: 56,
+                    child: controller.userPhotoURL.isNotEmpty
+                        ? Image.network(
+                            controller.userPhotoURL,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Image.asset(
+                              'assets/images/batman.png',
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : Image.asset(
+                            'assets/images/batman.png',
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Bem-vindo de volta,',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.7),
+                        fontSize: 14,
                       ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      controller.userName.isNotEmpty
+                          ? controller.userName
+                          : 'Usuário',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(
-                'Olá ${controller.userName}!',
-                style: Theme.of(context).textTheme.titleMedium,
+              IconButton(
+                icon: const Icon(
+                  Icons.notifications_outlined,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  // Implementação futura para notificações
+                },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

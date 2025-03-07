@@ -55,7 +55,7 @@ class _CustomTextFieldContainerState extends State<CustomTextFieldContainer> {
       decoration: widget.desableDecoration == true
           ? null
           : BoxDecoration(
-              color: Colors.grey.withOpacity(0.1),
+              color: Colors.grey.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
             ),
       child: Row(

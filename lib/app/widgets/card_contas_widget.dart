@@ -31,7 +31,7 @@ class CardContasWidget extends StatelessWidget {
     }
 
     return Card(
-      color: Colors.grey.withOpacity(0.1),
+      color: Colors.grey.withValues(alpha: 0.1),
       child: Dismissible(
         key: Key("${contas.id}"),
         onDismissed: (direction) {

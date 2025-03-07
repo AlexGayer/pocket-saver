@@ -20,19 +20,58 @@ class ContainerSpendingWidgetState
   @override
   void initState() {
     controller.fetchContas();
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: SizedBox(
-          width: double.infinity,
-          height: size.height * 0.25,
-          child: BarChartWidget(controller: controller)),
+    return Card(
+      elevation: 0,
+      color: Colors.white.withOpacity(0.1),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Análise de Gastos",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Text(
+                    "Mensal",
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.22,
+              child: BarChartWidget(controller: controller),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
