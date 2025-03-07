@@ -83,28 +83,6 @@ class _BalanceWidgetState
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    // Implementação futura para adicionar transação
-                  },
-                  icon: const Icon(Icons.add, size: 18),
-                  label: const Text("Adicionar"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purpleAccent.withValues(alpha: 0.7),
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  ),
-                ),
-              ],
-            ),
           ],
         ),
       ),

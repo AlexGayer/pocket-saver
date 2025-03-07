@@ -72,23 +72,6 @@ class _TransactionsPageState
             ),
           ],
         ),
-        IconButton(
-          onPressed: () {
-            // Implementação futura para adicionar nova transação
-          },
-          icon: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.purpleAccent.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              MdiIcons.plus,
-              color: Colors.purpleAccent,
-              size: 24,
-            ),
-          ),
-        ),
       ],
     );
   }
