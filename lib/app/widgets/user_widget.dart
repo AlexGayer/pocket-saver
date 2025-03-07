@@ -24,7 +24,7 @@ class _UserWidgetState extends WidgetStateful<UserWidget, PocketController> {
     return Observer(
       builder: (_) => Card(
         elevation: 0,
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha: 0.1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -37,7 +37,7 @@ class _UserWidgetState extends WidgetStateful<UserWidget, PocketController> {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
+                      color: Colors.black.withValues(alpha: 0.2),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -73,7 +73,7 @@ class _UserWidgetState extends WidgetStateful<UserWidget, PocketController> {
                     Text(
                       'Bem-vindo de volta,',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.white.withValues(alpha: 0.7),
                         fontSize: 14,
                       ),
                     ),

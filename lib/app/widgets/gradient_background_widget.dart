@@ -33,7 +33,7 @@ class GradientBackgroundWidget extends StatelessWidget {
               shape: BoxShape.circle,
               gradient: RadialGradient(
                 colors: [
-                  Colors.purpleAccent.withOpacity(0.2),
+                  Colors.purpleAccent.withValues(alpha: 0.2),
                   Colors.transparent,
                 ],
               ),
@@ -50,7 +50,7 @@ class GradientBackgroundWidget extends StatelessWidget {
               shape: BoxShape.circle,
               gradient: RadialGradient(
                 colors: [
-                  Colors.blueAccent.withOpacity(0.15),
+                  Colors.blueAccent.withValues(alpha: 0.15),
                   Colors.transparent,
                 ],
               ),

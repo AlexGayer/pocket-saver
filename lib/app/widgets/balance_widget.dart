@@ -23,7 +23,7 @@ class _BalanceWidgetState
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      color: Colors.white.withOpacity(0.15),
+      color: Colors.white.withValues(alpha: 0.15),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -94,7 +94,7 @@ class _BalanceWidgetState
                   icon: const Icon(Icons.add, size: 18),
                   label: const Text("Adicionar"),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purpleAccent.withOpacity(0.7),
+                    backgroundColor: Colors.purpleAccent.withValues(alpha: 0.7),
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),

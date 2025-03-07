@@ -35,86 +35,167 @@ class _CustomBillsDialogWidgetState
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    return Align(
-      alignment: Alignment.bottomCenter,
+    final isReceita = widget.tipo == "Receita";
+    final color = isReceita ? Colors.green : Colors.red;
+    final icon = isReceita ? MdiIcons.cashPlus : MdiIcons.cashMinus;
+
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Container(
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-        ),
-        height: height * 0.7,
-        child: Material(
-          color: Colors.black,
+        decoration: BoxDecoration(
+          color: const Color(0xFF1A1F38),
           borderRadius: BorderRadius.circular(20),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.3),
+              blurRadius: 10,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildHeader(color, icon),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Text(
-                      widget.tipo,
-                      style: TextStyle(
-                          color: controller.color,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    ),
+                  _buildSectionTitle("Valor"),
+                  const SizedBox(height: 8),
+                  CustomTextFieldContainer(
+                    controller: controller.edtValor,
+                    prefixIcon: MdiIcons.currencyBrl,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      CentavosInputFormatter(casasDecimais: 2, moeda: false)
+                    ],
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        Navigator.of(context).pop(true);
-                      });
-                    },
-                    icon: Icon(MdiIcons.close),
+                  const SizedBox(height: 16),
+                  _buildSectionTitle("Data de Vencimento"),
+                  const SizedBox(height: 8),
+                  CustomButtonFieldContainer(
+                    edtController: controller.edtVcto,
+                    tipo: widget.tipo,
+                    prefixIcon: MdiIcons.calendar,
+                    controller: controller,
                   ),
+                  const SizedBox(height: 16),
+                  _buildSectionTitle("Categoria"),
+                  const SizedBox(height: 8),
+                  CustomDropDownFieldContainer(
+                    prefixIcon: MdiIcons.book,
+                    keyboardType: TextInputType.none,
+                    onChanged: _onDropDownValueChanged,
+                  ),
+                  const SizedBox(height: 16),
+                  _buildSectionTitle("Descrição"),
+                  const SizedBox(height: 8),
+                  CustomTextFieldContainer(
+                    controller: controller.edtDescr,
+                    prefixIcon: MdiIcons.pencil,
+                    keyboardType: TextInputType.text,
+                  ),
+                  const SizedBox(height: 24),
+                  _buildSaveButton(color),
                 ],
               ),
-              CustomTextFieldContainer(
-                controller: controller.edtValor,
-                prefixIcon: MdiIcons.currencyBrl,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  CentavosInputFormatter(casasDecimais: 2, moeda: false)
-                ],
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-              ),
-              CustomButtonFieldContainer(
-                  edtController: controller.edtVcto,
-                  tipo: widget.tipo,
-                  prefixIcon: MdiIcons.calendar,
-                  controller: controller),
-              CustomDropDownFieldContainer(
-                prefixIcon: MdiIcons.book,
-                keyboardType: TextInputType.none,
-                onChanged: _onDropDownValueChanged,
-              ),
-              CustomTextFieldContainer(
-                controller: controller.edtDescr,
-                prefixIcon: MdiIcons.pencil,
-                keyboardType: TextInputType.text,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: controller.color,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  onPressed: () async {
-                    await controller
-                        .adicionaContas(widget.tipo, controller.edtCat)
-                        .then((value) => Navigator.of(context).pop(true));
-                  },
-                  child: Text("Salvar",
-                      style: Theme.of(context).textTheme.titleSmall),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(Color color, IconData icon) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.2),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              )
+                child: Icon(
+                  icon,
+                  color: color,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                widget.tipo,
+                style: TextStyle(
+                  color: color,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
             ],
+          ),
+          IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: Icon(
+              Icons.close,
+              color: Colors.white.withValues(alpha: 0.7),
+              size: 24,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+      ),
+    );
+  }
+
+  Widget _buildSaveButton(Color color) {
+    return SizedBox(
+      width: double.infinity,
+      height: 50,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          elevation: 2,
+        ),
+        onPressed: () async {
+          await controller
+              .adicionaContas(widget.tipo, controller.edtCat)
+              .then((value) => Navigator.of(context).pop());
+        },
+        child: const Text(
+          "Salvar",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

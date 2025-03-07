@@ -67,7 +67,7 @@ class _AnalyticsPageState
               builder: (_) => Text(
                 "Visualize seus gastos e receitas",
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.7),
+                  color: Colors.white.withValues(alpha: 0.7),
                   fontSize: 14,
                 ),
               ),
@@ -81,7 +81,7 @@ class _AnalyticsPageState
           icon: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.purpleAccent.withOpacity(0.2),
+              color: Colors.purpleAccent.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -107,12 +107,13 @@ class _AnalyticsPageState
               selected: isSelected,
               label: Text(option),
               labelStyle: TextStyle(
-                color:
-                    isSelected ? Colors.white : Colors.white.withOpacity(0.7),
+                color: isSelected
+                    ? Colors.white
+                    : Colors.white.withValues(alpha: 0.7),
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
-              backgroundColor: Colors.white.withOpacity(0.1),
-              selectedColor: Colors.purpleAccent.withOpacity(0.3),
+              backgroundColor: Colors.white.withValues(alpha: 0.1),
+              selectedColor: Colors.purpleAccent.withValues(alpha: 0.3),
               checkmarkColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -139,7 +140,7 @@ class _AnalyticsPageState
               value: controller.totalReceitas,
               icon: MdiIcons.arrowUp,
               iconColor: Colors.green,
-              backgroundColor: Colors.green.withOpacity(0.15),
+              backgroundColor: Colors.green.withValues(alpha: 0.15),
             ),
           ),
           const SizedBox(width: 16),
@@ -149,7 +150,7 @@ class _AnalyticsPageState
               value: controller.totalDespesas,
               icon: MdiIcons.arrowDown,
               iconColor: Colors.red,
-              backgroundColor: Colors.red.withOpacity(0.15),
+              backgroundColor: Colors.red.withValues(alpha: 0.15),
             ),
           ),
         ],
@@ -180,7 +181,7 @@ class _AnalyticsPageState
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: iconColor.withOpacity(0.2),
+                    color: iconColor.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
@@ -228,7 +229,7 @@ class _AnalyticsPageState
     return Expanded(
       child: Card(
         elevation: 0,
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha: 0.1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),

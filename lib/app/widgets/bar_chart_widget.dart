@@ -75,7 +75,7 @@ class BarChartWidget extends StatelessWidget {
                           backDrawRodData: BackgroundBarChartRodData(
                             show: true,
                             toY: maxY,
-                            color: Colors.white.withOpacity(0.05),
+                            color: Colors.white.withValues(alpha: 0.05),
                           ),
                         ),
                       ],
@@ -100,7 +100,7 @@ class BarChartWidget extends StatelessWidget {
                             child: Text(
                               'R\$${value.toInt()}',
                               style: TextStyle(
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withValues(alpha: 0.7),
                                 fontSize: 10,
                               ),
                             ),
@@ -121,7 +121,7 @@ class BarChartWidget extends StatelessWidget {
                             child: Text(
                               formattedDate,
                               style: TextStyle(
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withValues(alpha: 0.7),
                                 fontSize: 10,
                               ),
                             ),
@@ -149,7 +149,7 @@ class BarChartWidget extends StatelessWidget {
 
   static FlLine _getDrawingLine(double value) {
     return FlLine(
-      color: Colors.white.withOpacity(0.1),
+      color: Colors.white.withValues(alpha: 0.1),
       strokeWidth: 1,
       dashArray: [5, 5],
     );

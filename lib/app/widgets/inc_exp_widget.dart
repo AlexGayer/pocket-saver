@@ -34,7 +34,7 @@ class _IncExpWidgetState
               value: controller.totalReceitas,
               icon: MdiIcons.arrowUp,
               iconColor: Colors.green,
-              backgroundColor: Colors.green.withOpacity(0.15),
+              backgroundColor: Colors.green.withValues(alpha: 0.15),
             ),
           ),
           const SizedBox(width: 16),
@@ -45,7 +45,7 @@ class _IncExpWidgetState
               value: controller.totalDespesas,
               icon: MdiIcons.arrowDown,
               iconColor: Colors.red,
-              backgroundColor: Colors.red.withOpacity(0.15),
+              backgroundColor: Colors.red.withValues(alpha: 0.15),
             ),
           ),
         ],
@@ -77,7 +77,7 @@ class _IncExpWidgetState
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: iconColor.withOpacity(0.2),
+                    color: iconColor.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(

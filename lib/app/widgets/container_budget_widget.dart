@@ -24,7 +24,7 @@ class ContainerBudgetWidgetState
     return Observer(
       builder: (_) => Card(
         elevation: 0,
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha: 0.1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),

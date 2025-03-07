@@ -65,7 +65,7 @@ class _TransactionsPageState
               builder: (_) => Text(
                 "${controller.contas.length} transações registradas",
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.7),
+                  color: Colors.white.withValues(alpha: 0.7),
                   fontSize: 14,
                 ),
               ),
@@ -79,7 +79,7 @@ class _TransactionsPageState
           icon: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.purpleAccent.withOpacity(0.2),
+              color: Colors.purpleAccent.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -105,12 +105,13 @@ class _TransactionsPageState
               selected: isSelected,
               label: Text(option),
               labelStyle: TextStyle(
-                color:
-                    isSelected ? Colors.white : Colors.white.withOpacity(0.7),
+                color: isSelected
+                    ? Colors.white
+                    : Colors.white.withValues(alpha: 0.7),
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
-              backgroundColor: Colors.white.withOpacity(0.1),
-              selectedColor: Colors.purpleAccent.withOpacity(0.3),
+              backgroundColor: Colors.white.withValues(alpha: 0.1),
+              selectedColor: Colors.purpleAccent.withValues(alpha: 0.3),
               checkmarkColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -145,13 +146,13 @@ class _TransactionsPageState
                   Icon(
                     MdiIcons.cashRemove,
                     size: 64,
-                    color: Colors.white.withOpacity(0.3),
+                    color: Colors.white.withValues(alpha: 0.3),
                   ),
                   const SizedBox(height: 16),
                   Text(
                     "Nenhuma transação encontrada",
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withValues(alpha: 0.7),
                       fontSize: 16,
                     ),
                   ),
@@ -178,7 +179,7 @@ class _TransactionsPageState
                   background: Container(
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
                     decoration: BoxDecoration(
-                      color: Colors.red.withOpacity(0.8),
+                      color: Colors.red.withValues(alpha: 0.8),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     alignment: Alignment.centerRight,
@@ -205,7 +206,7 @@ class _TransactionsPageState
                   child: Card(
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
                     elevation: 0,
-                    color: Colors.white.withOpacity(0.1),
+                    color: Colors.white.withValues(alpha: 0.1),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -217,7 +218,7 @@ class _TransactionsPageState
                             width: 50,
                             height: 50,
                             decoration: BoxDecoration(
-                              color: color.withOpacity(0.2),
+                              color: color.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Icon(
@@ -245,7 +246,7 @@ class _TransactionsPageState
                                 Text(
                                   conta.descricao,
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.7),
+                                    color: Colors.white.withValues(alpha: 0.7),
                                     fontSize: 14,
                                   ),
                                   maxLines: 1,
@@ -255,7 +256,7 @@ class _TransactionsPageState
                                 Text(
                                   "Vencimento: ${controller.toBRDt(conta.dtVencimento)}",
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.5),
+                                    color: Colors.white.withValues(alpha: 0.5),
                                     fontSize: 12,
                                   ),
                                 ),
