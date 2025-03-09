@@ -7,6 +7,7 @@ import 'package:flutter_pocket_saver/app/widgets/container_budget_widget.dart';
 import 'package:flutter_pocket_saver/app/widgets/container_spending_widget.dart';
 import 'package:flutter_pocket_saver/app/widgets/gradient_background_widget.dart';
 import 'package:flutter_pocket_saver/app/widgets/inc_exp_widget.dart';
+import 'package:flutter_pocket_saver/app/widgets/monthly_chart_widget.dart';
 import 'package:flutter_pocket_saver/app/widgets/user_widget.dart';
 import 'package:flutter_pocket_saver/app/controller/pocket_controller.dart';
 
@@ -57,24 +58,26 @@ class _HomePageState extends WidgetStateful<HomePage, PocketController>
                     onRefresh: () async {
                       await controller.fetchAndCalculateTotals();
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: SingleChildScrollView(
-                        physics: AlwaysScrollableScrollPhysics(),
+                        physics: const AlwaysScrollableScrollPhysics(),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 16),
-                            UserWidget(),
-                            SizedBox(height: 16),
-                            BalanceWidget(),
-                            SizedBox(height: 16),
-                            IncExpWidget(),
-                            SizedBox(height: 24),
-                            ContainerSpendingWidget(),
-                            SizedBox(height: 24),
-                            ContainerBudgetWidget(),
-                            SizedBox(height: 24),
+                            const SizedBox(height: 16),
+                            const UserWidget(),
+                            const SizedBox(height: 16),
+                            const BalanceWidget(),
+                            const SizedBox(height: 16),
+                            const IncExpWidget(),
+                            const SizedBox(height: 24),
+                            MonthlyChartWidget(controller: controller),
+                            const SizedBox(height: 24),
+                            const ContainerSpendingWidget(),
+                            const SizedBox(height: 24),
+                            const ContainerBudgetWidget(),
+                            const SizedBox(height: 24),
                           ],
                         ),
                       ),

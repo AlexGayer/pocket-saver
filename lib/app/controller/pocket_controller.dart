@@ -136,6 +136,9 @@ abstract class _PocketControllerBase with Store {
 
       _updateTotalContasController();
 
+      // Buscar todas as contas para o gráfico mensal
+      await fetchContas();
+
       _loading = false;
     } catch (e) {
       _loading = false;
