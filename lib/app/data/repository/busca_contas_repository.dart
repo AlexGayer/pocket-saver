@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_pocket_saver/app/domain/model/contas.dart';
 import 'package:injectable/injectable.dart';
 
@@ -16,6 +17,12 @@ class BuscaContasRepositoryImpl implements BuscaContasRepository {
 
   BuscaContasRepositoryImpl(this.firestore);
 
+  List<Contas> contasFromJsonList(List<dynamic> jsonList) {
+    return jsonList
+        .map((item) => Contas.fromJson(item as Map<String, dynamic>))
+        .toList();
+  }
+
   @override
   Future<List<Contas>> fetchContas(String userId) async {
     try {
@@ -23,9 +30,13 @@ class BuscaContasRepositoryImpl implements BuscaContasRepository {
           firestore.collection('users').doc(userId).collection('contas');
 
       final snapshot = await query.get();
-      return snapshot.docs
-          .map((doc) => Contas.fromJson(doc.data() as Map<String, dynamic>))
+
+      final List<Map<String, dynamic>> jsonList = snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
           .toList();
+
+      //Isolates - usado para lidar com arquivos grandes
+      return await compute(contasFromJsonList, jsonList);
     } catch (e) {
       throw Exception('Erro ao buscar contas: $e');
     }
