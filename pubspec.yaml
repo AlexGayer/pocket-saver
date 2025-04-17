@@ -44,18 +44,18 @@ dependencies:
   intl:
   brasil_fields: 
   json_annotation:
-  firebase_core: ^3.4.0
-  firebase_auth: ^5.2.0
-  firebase_storage: ^12.2.0
-  cloud_firestore: ^5.3.0
-  google_sign_in: ^6.2.1
+  firebase_core: ^3.13.0 
+  firebase_auth: ^5.5.2
+  firebase_storage: ^12.4.5
+  cloud_firestore: ^5.6.6 
+  google_sign_in: 
   dropdown_button2:
   shimmer:
   fl_chart:
-  shared_preferences: ^2.3.2
-  flutter_launcher_icons: ^0.13.1
-  flutter_libphonenumber: ^2.3.3
-  dio: ^5.7.0
+  shared_preferences: 
+  flutter_launcher_icons: 
+  flutter_libphonenumber: 
+  dio: 
   country_code_picker:
   image_picker:
 

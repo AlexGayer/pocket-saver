@@ -1,0 +1,2 @@
+/Users/cgisoftware/desenvolvimento/pocket-saver/android/app/.cxx/RelWithDebInfo/3w3i4x16/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/cgisoftware/desenvolvimento/pocket-saver/android/app/.cxx/RelWithDebInfo/3w3i4x16/armeabi-v7a/CMakeFiles/rebuild_cache.dir

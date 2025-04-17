@@ -1,0 +1,2 @@
+/Users/cgisoftware/desenvolvimento/pocket-saver/android/app/.cxx/Debug/3j2m3l45/x86/CMakeFiles/edit_cache.dir
+/Users/cgisoftware/desenvolvimento/pocket-saver/android/app/.cxx/Debug/3j2m3l45/x86/CMakeFiles/rebuild_cache.dir
